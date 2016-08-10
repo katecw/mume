@@ -1,0 +1,1212 @@
+#savefile-version 1
+#host localhost 4242
+#delim normal
+#groupdelim @
+#setvar mem=10485760
+
+#( "This is designed to be a starter powwow/powtty config file for you to build on. Some stuff might not work!")
+
+
+#( "Don't save the config file every time" )
+#file =
+
+#( "Tell MUME we are local-editor capable" )
+#identify
+
+#( "If on Windows you shoud chance this to textpad or something" )
+#edit nano
+
+#("This resets MUME's colouring server-side. If you want to do server-side colouring, put it here. Some things are matched herein based partly on colour, so avoid fiddling if possible!")
+#alias coll={cha col all def; cha col say green; cha col look underline green}
+
+
+#($NORM = "\033[0m")
+#($BOLD = "\033[1m")
+#($DARK = "\033[2m")
+#($ULINE = "\033[4m")
+#($FLASH = "\033[5m")
+
+#($BLACK  = "\033[30m" )
+#($WHITE = "\033[37m")
+#($RED = "\033[31m")
+#($GREEN = "\033[32m")
+#($BLUE = "\033[34m")
+#($MAGENTA = "\033[35m")
+#($CYAN = "\033[36m")
+#($YELLOW = "\033[33m")
+
+#($BKBLACK = "\033[40m")
+#($BKWHITE = "\033[47m")
+#($BKBLUE = "\033[44m")
+#($BKCYAN = "\033[46m")
+#($BKGREEN = "\033[42m")
+#($BKMAGENTA = "\033[45m")
+#($BKRED = "\033[41m")
+#($BKYELLOW = "\033[43m")
+
+
+
+#alias ?autogroup={#print |#print ($GREEN+"TODO"+$NORM);#print }
+#alias ?report={#print ($BOLD+"-=REPORTS=-"+$NORM);#emu ($GREEN+"rep"+$NORM+ " - report hp/mana/moves");#print ($GREEN+"reptnl"+$NORM+ " - report XP and TP to reach next level.");#print ($GREEN+"xprep"+$NORM+ " - report XP and TP gained this session.");#print }
+
+#( "Some general purpose stuff, more as inspiration to create your own!")
+
+#alias C={rem ring;gb copper;wear copper;pb ring}
+#alias M={rem copper;gb ring;pb copper;wear ring}
+
+#alias wm={#send ("wield "+$cweap)}
+#alias z={gb bow; draw bow; #var $cweap=("bow") }
+#alias m={draw; pb bow; #var $cweap=($primary) }
+#alias c={gb reinforced;rem shield;wear reinforced shield;pb shield}
+#alias v={gb shield;rem reinforced;wear shield;pb reinforced}
+#alias xnone={#send ("rem "+$cweap)}
+#alias pipe={gb pipe;wield pipe;rest;smoke;stand;wm;pb pipe}
+
+#alias nodh=emote nods happily.
+
+
+#alias am={aba mine;aba mineb}
+
+#("Auto-warrior (deathkick+assist+bash) off/on")
+
+#alias awaroff={assoff;bashoff;dkoff}
+#alias awaron={asson;bashon;dkon}
+
+#alias assoff={#action -autoass1;#action -autoass2;#action -autoass3#print ("Auto-assist OFF!")}
+#alias asson={#action +autoass1;#action +autoass2;#action +autoass3;#print ("Auto-assist ON!")}
+
+#action >-cwhet very tired of mending={whet}
+#action >+dwhet You have successfully mended={#print;stand;rem whetstone;wear kit;ps whetstone;#action -cwhet}
+#alias awhet={gd1;gd whetstone;rem kit;wear whetstone;whet;#action +cwhet}
+
+#alias ban={bandage $1}
+#alias bc={gb knife;#if (*\$0) butcher $0.corpse;#else butcher corpse;pb knife}
+#alias bca={gb knife;butcher 1.corpse;butcher 2.corpse;butcher 3.corpse;butcher 4.corpse;butcher 5.corpse;pb knife}}
+
+#alias bashoff={#action -autorebash1;#action -autorebash2;#action -autorebash3;#print ("Auto-rebash OFF!")}
+#alias bashon={#action +autorebash1;#action +autorebash2;#action +autorebash3;#print ("Auto-rebash ON!")}
+
+#action >+server1 ^###=#print (        $BKBLUE+$YELLOW+"     ---+++$0 ###+++---"+$NORM)
+
+#action >+hungry1 ^You begin to feel hungry={#print ($RED+$DARK+"$0"+$NORM)}
+#action >+hungry2 ^You are hungry={#print ($RED+"You are "+$ULINE+"hungry"+$NORM+".")}
+#action >+thirsty1 ^You being to feel thirsty={#print ($RED+$DARK+"$0"+$NORM})
+#action >+thirsty2 ^You are thirsty={#print ($RED+"You are "+$ULINE+"thirsty"+$NORM+".")}
+#action >-autofeed ^You are hungry={#print;wa;gba meat;eat meat;eat meat;gt bannock;eat bannock;pt bannock;sle}
+#action >-autodrink ^You are thirsty={#print;wa;dw;ds;sle}
+#action >-void You have been idle, and are pulled into a void={wa;st;l;sle}
+#action >-autocure You bleed from open wounds={#print;wa;cc;sle}
+
+#alias ws={wake;stand}
+#alias wa=ws
+#alias bsle={lead;gs2;u1;us1;rem fur;rem cloak;rem mantle;gd blanket;wear blanket;i;sle;act wrapped up cozily in her blanket}
+#alias bwa={act;wake;stand;rem blanket;pd blanket;wear cloak;wear fur;wear mantle;s1;gm}
+#alias ason={cha linkdrop 120;#action -hungry2;#action -thirsty2;#action +autofeed;#action +autodrink;#action +void;autorebuffon;#action +autocure;#print Away-sleep auto spell/drink/water/void: ON}
+#alias asoff={ws;cha linkdrop 120;#action +hungry2;#action +thirsty2;#action -autofeed;#action -autodrink;#action -void;autorebuffoff;#action -autocure;sx;lza;#print Away-sleep auto spell/drink/water/void: OFF}
+#alias afkoff={asoff;#action -afk;#action +tell1;act;emote livens up a bit, smiles, and says 'Back!'}
+#alias afkon={ason;#action +afk;#action -tell1;act ::::::- A F K-::::::;emote suddenly stops moving and whispers harshly 'AFK'}
+
+#alias autorebuffoff={#action -ashield;#action -aarm;#action -ashroud;#action -abless;#action -asensel;#action -astr;#action -apfe;#action +dshield;#action +darm;#action +dshroud;#action +dbless;#action +dsensel;#action +dstr;#action +dpfe}
+#alias autorebuffon={#action +ashield;#action +aarm;#action +ashroud;#action +abless;#action +asensel;#action +astr;#action +apfe;#action -dshield;#action -darm;#action -dshroud;#action -dbless;#action -dsensel;#action -dstr;#action -dpfe}
+
+#action >+mestartcast1 You start to concentrate={#print ($DARK+"$0"+$NORM)}
+#action >+mestartcast2 You muster all of your concentration={#print ($DARK+"$0"+$NORM)}
+#action >+mebackfire ^Your spell backfired&1={#print ($RED+"Your spell "+$BKRED+$WHITE+"backfired"+$NORM+$RED+"$1"+$NORM)}
+
+#action >-aarm You feel less protected={#print;wa;ba;sle}
+#action >-ashield Your magical shield wears off={#print;wa;bz;sle}
+#action >-ashroud Your misty shroud dissolves={#print;wa;bh;sle}
+#action >-abless The light of Aman fades away from you={#print;wa;bb;sle}
+#action >-astr You feel weaker={#print;wa;bst;sle}
+#action >-apfe You feel less right={#print;wa;bpe;sle}
+#action >-asensel You feel less aware={#print;wa;bsl;sle}
+
+#var $SPELLUP_COL=($GREEN)
+#var $SPELLDOWN_COL=($BOLD+$RED)
+
+#action >+uarm A blue transparent wall slowly appears around you={#print ("$0 "+$DARK+" (armour "+$NORM+$SPELLUP_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $armour=1}
+#action >+ushield zzzzzzzzz={#print ("$0 "+$DARK+" (shield "+$NORM+$SPELLUP_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $shield=0}
+#action >+ushroud xxxxxxx={#print ("$0 "+$DARK+" (shroud "+$NORM+$SPELLUP_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $shroud=0}
+#action >+ubless You begin to feel the light of Aman shine upon you={#print ("$0 "+$DARK+"(bless "+$NORM+$SPELLUP_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $bless=1}
+#action >+ustr You feel stronger={#print ("$0 "+$DARK+" (strength "+$NORM+$SPELLUP_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $str=1}
+#action >+upfe You have a righteous feeling={#print ("$0 "+$DARK+" (prot from evil "+$NORM+$SPELLUP_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $pfe=1}
+#action >+usensel You feel your awareness improve={#print ("$0 "+$DARK+" (sense life "+$NORM+$SPELLUP_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $sensel=1}
+
+#action >+darm You feel less protected={#print ("$0 "+$DARK+" (armour "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM);#var $armour=0}
+#action >+dshield Your magical shield wears off={#print ("$0 "+$DARK+" (shield "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM);#var $shield=0}
+#action >+dshroud Your misty shroud dissolves={#print ("$0 "+$DARK+" (shroud "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM);#var $shroud=0}
+#action >+dbless The light of Aman fades away from you={#print ("$0 "+$DARK+" (bless "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM);#var $bless=0}
+#action >+dstr You feel weaker={#print ("$0 "+$DARK+" (strength "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM);#var $str=0}
+#action >+dpfe You feel less right={#print ("$0 "+$DARK+" (prot from evil "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM);#var $pfe=0}
+#action >+dsensel You feel less aware={#print ("$0 "+$DARK+" (sense life "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM);#var $sensel=0}
+#action >+dbob Your legs feel heavier={#print ("$0 "+$DARK+" (breath of briskness "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM);#var $sensel=0}
+
+#action >+qarm ^- armour={#print;#var $armour=1}
+#action >+qshield ^- shield={#print;#var $shield=1}
+#action >+qshroud ^- shroud={#print;#var $shroud=1}
+#action >+qbless ^- bless={#print;#var $bless=1}
+#action >+qstr ^- strength={#print;#var $str=1}
+#action >+qpfe ^- protection={#prin;#var $pfe=1}
+#action >+qsensel ^- sense={#print;#var $sensel=1}
+
+#alias ba={cast thorough 'armour' $0}
+#alias bb={cast 'bless' $0}
+#alias bpe={cast 'protection from evil' $0}
+#alias bs={cast care 'strength' $0}
+#alias bsc={cast care 'strength' $0}
+#alias bst={cast thoroughly 'strength' $1}
+#alias bsl={cast 'sense life' $0}
+#alias bx={cast 'sanctuary' $0}
+#alias bz={cast 'shield' $0}
+#alias bh={cast 'shroud' $0}
+#alias bld={cast 'block door' $0}
+#alias bldt={cast tho 'block door' $0}
+#alias bob={cast 'breath of briskness'}
+#alias brd={cast 'break door' $0}
+#alias brdc={cast care 'break door' $0}
+#alias brdt={cast tho 'break door' $0}
+
+#action >-callfam A &1 &2 suddenly appears.={#print;parry $2;#action +callfam}
+#alias cf={cast care 'call familiar';#action +callfam}
+#alias ch={cast 'charm' $0}
+#alias chc={cast carefully 'charm' $0}
+#alias cht={cast thoroughly 'charm' $0}
+
+#alias cb={cast 'cure blindness' $1}
+#alias cd={cast 'cure disease' $1}
+#alias cl={cast 'cure light' $1}
+#alias cs={cast 'cure serious' $1}
+#alias cc={cast 'cure critic' $1}
+#alias ccc={cast care 'cure critic' $1}
+#alias cct={cast thoro 'cure critic' $1}
+#alias csl={cast 'cure serious' leader}
+#alias crp={cast 'remove poison' $0}
+#alias h={cast 'heal' $0}
+#alias hc={cast care 'heal' $0}
+#alias ht={cast thoro 'heal' $0}
+
+#alias ascaster={#if ($bless=="0") bb;#if ($armour=="0") #send ("ba") ;#if ($shield=="0") #send ("cast 'shield'");#if ($shroud=="0") #send ("cast 'shroud'") ;#if ($str=="0") #send ("cast tho 'strength'") ;#if ($pfe=="0") #send ("cast care 'protection from evil'") ;#if ($sensel=="0") #send ("cast 'sense life'")}
+
+#alias as={#if ($bless=="0") bb ;#if ($str=="0") bs ;#if ($pfe=="0") bpe ;#if ($sensel=="0") bsl}
+
+#alias checkdate={#if ($checkmonth == "Foreyule") {#var @dawn=7;#var @night=7};#if ($checkmonth == "Astron") {#var @dawn=7;#var @night=7};#if ($checkmonth == "Thrimidge") {#var @dawn=7;#var @night=8};#if ($checkmonth == "Forelithe") {#var @dawn=6;#var @night=8};#if ($checkmonth == "Afterlithe") {#var @dawn=5;#var @night=9};#if ($checkmonth == "Wedmath") {#var @dawn=4;#var @night=10};#if ($checkmonth == "Halimath") {#var @dawn=5;#var @night=9};#if ($checkmonth == "Winterfilth") {#var @dawn=6;#var @night=8};#if ($checkmonth == "Blotmath") {#var @dawn=7;#var @night=8};#if ($checkmonth == "Afteryule") {#var @dawn=8;#var @night=6};#if ($checkmonth == "Solmath") {#var @dawn=9;#var @night=5};#if ($checkmonth == "Rethe") {#var @dawn=8;#var @night=6};printdate}
+
+#alias cma={cha moo agg}
+#alias cmb={cha moo brave}
+#alias cmn={cha moo normal}
+#alias cmp={cha moo prudent}
+#alias cmw={cha moo wimpy}
+
+
+#alias cup={gb green;quaff cup;pb cup}
+#alias qf={quaff $1;hide $1}
+#alias pws={pour water skin}
+#alias ds={drink skin}
+#alias dw={drink water}
+
+#alias port={#send ("cast 'portal' $1 "+$lkey_${2})}
+#alias cw={cast 'control weather' $0}
+#alias cwt={cast tho 'control weather' $0}
+
+#alias da={drop all.$1}
+#alias dam={eat meat;eat meat;drop all.meat}
+#alias dc={gba goblet;drink goblet;pba goblet}
+#alias de={cast 'detect evil' $1}
+
+#alias dkoff={#action -dk1;#action -dk2;#action -dk3;#print ("Auto-death-kick OFF!")}
+#alias dkon={#action +dk1;#action +dk2;#action +dk3;#print ("Auto-death-kick ON!")}
+
+#alias ghec={e;s;e;e;s;e;e;e;s;e;e;e;s;e;e;s;e;e;e;e;n;e;n;e;e;e;s;e;e;s;e;e;e;s;e;e;s;s;e;e;e;e;s;e;e;e;s;e;e;e}
+#alias ecmd={s;e;e;e;e;e;s;e;e;e;s;e;e;e;e;e;s;e;e;e;e;e;e;e;n;e;e;e;e;e;n;e;e;e;e;e;n;e;e;e;e;e}
+#alias mdsh={e;e;e;e;n;e;e;e;e;e;e;e;e;e;n;e;e;e;n;e;e;e;e;e;n;e;n;e;e;e;n;e;n;e;n;e;e;e;n}
+#alias shbr={e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;n;e;n;e;e;e;e;n;e;e;e;e;e;s;e;e;e;e;e;e;s;e;e;s;e;e;e;e;e;e;e;e;n;e;e}
+
+#alias brsh={w;w;w;n;w;w;n;w;w;w;w;w;w;n;w;w;w;w;w;s;w;w;w;w;s;w;s;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w}
+#alias shmd={s;w;w;w;s;w;s;w;s;w;w;w;s;w;s;w;w;w;w;w;s;w;w;w;s;w;w;;w;w;w;w;w;w;s;w;w;w;w;w}
+#alias mdec={w;w;w;w;w;w;s;w;w;w;w;w;s;w;w;w;w;w;s;w;w;w;w;w;w;n;w;w;w;w;w;n;w;w;w;n;w;w;w;w;w;n}
+#alias ecgh={w;w;w;n;w;w;w;n;w;w;w;w;n;n;w;w;n;w;w;w;n;w;w;n;w;w;w;s;w;s;w;w;w;w;n;w;w;n;w;w;w;n;w;w;w;n;w;w;n;w}
+
+#alias brfo={n;n;n;n;n;n;n;n;e;e;e;n;n;e;n;n;n;n;n;n;n;e;n;n;n;w;n;n;n;n;n;n;n;n;n;n;n;n;e;n;n;n;n;n;n;n;n;e;n;n;n;n;n;n;n;n;n;n;e;n;n}
+
+#alias fobr={s;s;w;s;s;s;s;s;s;s;s;s;s;w;s;s;s;s;s;s;s;s;w;s;s;s;s;s;s;s;s;s;s;s;s;e;s;s;s;w;s;s;s;s;s;s;s;w;s;s;w;w;w;s;s;s;s;s;s;s;s}
+
+#action >+ACK! &1 didn't follow you, you lost &2.=#print ($BOLD+$ULINE+"ACK! "+$MAGENTA+"$1"+$NORM+$BOLD+$ULINE+" didn't follow you, you lost $2."+$NORM)
+
+#( "Standing / mount / riding / storage" )
+#action >+auto-remount ZBLAM! A $1={#print ($RED+"$0"+$NORM);sr}
+#action >+auto-unrest You feel too relaxed={#print;stand}
+#action >+auto-stand1 Maybe you should get on your feet first={#print;stand}
+#action >+auto-stand2 You can't do this sitting={#print;stand}
+
+
+#( "Storage aliases - minimalist set" )
+
+#alias lb={look in backpack}
+#alias gb={get $1 backpack} 
+#alias gba={get all.$1 backpack} 
+#alias pb={put $1 backpack} 
+#alias pba={put all.$1 backpack} 
+
+#alias grp={#var $grp_1=$1;#var $grp_2=$2;#var $grp_3=$3;#var $grp_4=$4;#var $grp_5=$5;#print (" ");#print  ++ GROUP: $1 - $2 - $3 - $4 - $5 ++;#print (" ");}
+
+#alias getwalking={gp marjoram;gp clover;gp cloves;gp juniper;lk}
+#alias mixantidote={put blackberries kit;put blackberries kit;put lily kit;put figwort kit;put athelas kit;lk}
+#alias mixbaker={put honey-wax kit;put egg kit;put egg kit;put egg kit;put flour kit;lk}
+#alias mixclear={put juniper kit;put mauve kit;put sage kit;put thyme kit;look in kit}
+#alias mixscaly={put mass kit;put valerian kit;put poppy kit;put hemlock kit;put red kit;put white kit;look in kit}
+#alias mixseeing={put cinnamon kit;put rosemary kit;put moss kit;look in kit}
+#alias mixshadows={put cinnamon kit;put rosemary kit;put rib-bone kit;look in kit}
+#alias mixsoothing={put honey kit;put sage kit;put thyme kit;put blackcurrant kit;put lily kit;look in kit}
+#alias mixwalking={put marjoram kit;put cloves kit;put clover kit;put juniper kit;look in kit}
+#alias mk={mix kit}
+
+#alias kadd={#($-10=\$-10+" "+\$1);#print ("%% " + attr "yellow" + "New portlocation: " +attr "bold red" + "$1" +noattr);#var $key_$1=${latestkey}}
+#alias kadd0={#(@-10=0);#($-11=\$1);kremsub1;#if (\@-10!=0) {#print ("%% " + attr "yellow"+"Location " +attr "bold red"+\$-11+ noattr+attr "yellow"+" exist. Replacing it" +noattr);krem $1;kadd $1}; #else kadd $1}
+#alias kclean={#($-10="");#print ("%% " +attr "yellow" + "Portlist cleaned. No destiations now." +noattr)}
+#alias key={#print ("Key $1 = "+$lkey_${1})}
+#alias kremsub1={#for (\@1=1; \@1<=(:?$-10); \@1++) #if (\$-10:\@1==\$-11) #(@-10=\@1)}
+#alias kremsub2={#($-12="");#for (\@1=1; \@1<=(:?$-10); \@1++) #if (\$-10:\@1!=\$-11) #($-12=\$-12+" "+(\$-10:\@1))}
+#alias leadoff={#action -lead;#print autolead: OFF}
+#alias leadon={#action +lead;#print autolead: ON}
+#alias lk=#if (*\$0) look in $0.kit;#else look in kit
+#alias lm={lead mine;lead mineb}
+
+#alias loc={#action +catchloc;cast 'locate life' $1}
+#alias loct={#action +catchloc;cast tho 'locate life' $1}
+#alias loe={close exit;lock exit}
+
+#alias log={#if ("$0" != ""){#capture $0;#emu #Beginning Capture("$1")};#if ("$0" == ""){#emu #Ending Capture;#capture}}
+#alias lootoff={#action -loot;#print cashloot: OFF}
+#alias looton={#action +loot;#print cashloot: ON}
+#alias mapoff={#bind KP8=n;#bind KP6=e;#bind KP4=w;#bind KP2=s;#bind KP9=u;#bind KP3=d}
+#alias mapon={#bind KP8=_mapnorth;#bind KP6=_mapeast;#bind KP4=_mapwest;#bind KP2=_mapsouth;#bind KP9=_mapup;#bind KP3=_mapdown}
+
+#alias mf={cast 'create food'}
+#alias mm={eat mushroom}
+#alias mw={cast 'create water' $1}
+
+#("Aliases for killing and charmies")
+
+#alias sh={#if ("$1"!="") shoot $1; #else #send ("shoot "+$target)}
+#alias ka={kill $0;ofa}
+#alias kat={#send ("kill "+$nummer+"."+$target);ofa}
+#alias r={rescue $1}
+#alias p={protect $1}
+
+#alias basdfasf={#if ("$1"!="") bash $1; #else #send ("bash "+$target)}
+
+#alias of={order followers $0}
+#alias off={order followers flee}
+#alias ff={off;flee}
+#alias ofa={order followers assist}
+#alias ofb={order followers bash}
+#alias otk={order tank kill $1}
+#alias ofk={order followers kill $1}
+#alias oka={order tank kill $1;aa}
+#alias roka={rev $1;oka $1;ofa}
+#alias ofsl={of sleep;#send ("order followers act waiting for "+$name)}
+#alias ofwa={of wake;of stand}
+#alias aa={assist;ofa}
+#alias swapt={label tank tankx;label parry tank;label tankx parry}
+#alias ot={order tank $0}
+#alias ota={order tank assist $0}
+#alias otr={order tank resc $0}
+
+#alias parry={#var $parry=$1;#send ("label $1 parry");gr parry;#print $1 is now the parry split...}
+#alias parryb={#var $parryb=$1;#send ("label $1 parryb");gr parryb;#print $1 is now the second parry split...}
+#alias tank={#var $tank=$1;#send ("label $1 tank");gr tank;#print $1 is now the tank...}
+
+#alias ta={#var $target=$1;#print ("tar=  -->"+$nummer+"."+$target);#send ("label "+$nummer+"."+$target+" TARGET");#send look}
+
+
+#("NOT WORKING - on Mac at least...")
+
+#bind KP7 ^[Ow={#send ("hit "+$nummer+"."+$target)}
+#bind f1 ^[[11~={#print ("tar= --> 1."+$target);#var $nummer=1;#send ("label 1."+$target+" TARGET");#send look}
+#bind f2 ^[[12~={#print ("tar= --> 2."+$target);#var $nummer=2;#send ("label 2."+$target+" TARGET");#send look}
+#bind f3 ^[[13~={#print ("tar= --> 3."+$target);#var $nummer=3;#send ("label 3."+$target+" TARGET");#send look}
+#bind f4 ^[[14~={#print ("tar= --> 4."+$target);#var $nummer=4;#send ("label 4."+$target+" TARGET");#send look}
+#bind f5 ^[[15~={#print ("tar= --> 5."+$target);#var $nummer=5;#send ("label 5."+$target+" TARGET");#send look}
+#bind f6 ^[[17~={#print ("tar= --> 6."+$target);#var $nummer=6;#send ("label 6."+$target+" TARGET");#send look}
+#alias tb={#print ("tar=   -->"+$nummer+".*BEAR*");#var $target=*BEAR*}
+#alias td={#print ("tar=   -->"+$nummer+".*DWARF*");#var $target=*DWARF*}
+#alias te={#print ("tar=   -->"+$nummer+".*ELF*");#var $target=*ELF*}
+#alias th={#print ("tar=   -->"+$nummer+".*HOBBIT*");#var $target=*HOBBIT*}
+#alias tm={#print ("tar=   -->"+$nummer+".*MAN*");#var $target=*man*}
+#alias to={#print ("tar=   -->"+$nummer+".*ORC*");#var $target=*orc*}
+#alias tt={#print ("tar=   -->"+$nummer+".*TROLL*");#var $target=*troll*}
+#alias km={of kill man;of bash;vq man}
+#alias ko={of kill orc;of bash;vq orc}
+#alias kt={of kill troll;of bash;vq troll}
+#alias xt={#send ("exa "+$nummer+"."+$target)}
+
+#alias merc={give 10 celeb mercenary;label mercenary merc;gr merc}
+#alias pm={give 10 celeb merc}
+#alias oma={ask merc assist}
+
+
+#alias op={order parry $0}
+#alias opa={order parry assist $0}
+#alias opr={order parry resc}
+#alias ork={gb flask;qd flask}
+
+#alias pbs=use pale $0
+
+#alias picks={#emu A couple lockpicks have a small bump near the tip.;#emu Two of the lockpicks have shallow notches on them.;#emu The lockpicks are extremely well tempered.;#emu Several of the picks have long, smooth grooves along their length.;#emu There is a strange lockpick, with a sharp protrusion on one side, in the set.;#emu The lockpicks feel oddly light in your hand.;#emu The edges of most picks have been carefully sharpened.;#send ("")}
+
+
+#alias printdate={#print ("");#if (@checktime < @dawn) {#print ("It is currently \033[34mNIGHT\033[0m, "+$realtime+"    ["+$checkmonth+", Dawn: "+%(@dawn)+"am, Night: "+%(@night)+"pm]");#var @timeleft=(@dawn-@checktime);#var $timeofday=DAWN;#print ("Time left until "+$timeofday+" is "+%(@timeleft)+" tick\(s\)")};#if (@checktime >= (@night + 12)) {#print ("It is currently \033[34mNIGHT\033[0m, "+$realtime+"    ["+$checkmonth+", Dawn: "+%(@dawn)+"am, Night: "+%(@night)+"pm]");#var @timeleft=(24 + @dawn - @checktime);#var $timeofday=DAWN;#print ("Time left until "+$timeofday+" is "+%(@timeleft)+" tick\(s\)")};#if (@checktime == @dawn) {#print ("It is currently \033[31mDAWN\033[0m, "+$realtime+"    ["+$checkmonth+", Dawn: "+%(@dawn)+"am, Night: "+%(@night)+"pm]");#var @timeleft=1;#var $timeofday=DAY;#print ("Time left until "+$timeofday+" is "+%(@timeleft)+" tick\(s\)")};#if (@checktime > @dawn && @checktime < (@night + 12) && @checktime >= 12 ) {#print ("It is currently \033[33mDAY\033[0m, "+$realtime+"      ["+$checkmonth+", Dawn: "+%(@dawn)+"am, Night: "+%(@night)+"pm]");#var @timeleft=(@night+12-@checktime);#var $timeofday=NIGHT;#print ("Time left until "+$timeofday+" is "+%(@timeleft)+" tick\(s\)")};#if (@checktime > @dawn && @checktime < (@night + 12) && @checktime < 12 ) {#print ("It is currently \033[33mDAY\033[0m, "+$realtime+"      ["+$checkmonth+", Dawn: "+%(@dawn)+"am, Night: "+%(@night)+"pm]");#var @timeleft=(@night+12-@checktime);#var $timeofday=NIGHT;#print ("Time left until "+$timeofday+" is "+%(@timeleft)+" tick\(s\)")};#print ("")}
+
+#alias qt=tell Daum $0
+
+#alias rideoff={#action -ride;#print autoride: OFF}
+#alias rideon={#action +ride;#print autoride: ON}
+
+#alias rq={reveal q}
+#alias rr={reveal root}
+#alias sa={sell all.$1}
+#alias sd={seek rivendell}
+
+#alias skey={#var $lkey_${1}=($latest_key)}
+
+#alias sl={snuff lantern}
+#alias ll={light lantern}
+
+#alias so={say open}
+#alias sq={search q}
+
+
+#alias stc={cast 'store' charm}
+#alias store={cast 'store' $0}
+#alias stq={cast 'store' earthquake}
+#alias sx={#var $armour=0;#var $shield=0;#var $shroud=0;#var $bless=0;#var $str=0;#var $pfe=0;#var $sensel=0;stat}
+
+#alias trent={train all;rent}
+#alias trt={#send ("track "+$target)}
+#alias ttoff=#action -tell
+#alias tton=#action +tell
+#alias ub={#action +autodoor;#action +autodoor2;#action +autodoor3;#print Exitchange started!}
+#alias uk={rem kit;pd kit;gb whip;wear whip}
+
+
+#action >+autodoor1 The &1 is closed={#print;#var $autodoor=$1}
+#action >+autodoor2 The &1 is open={#print;#var $autodoor=$1}
+#action >+autodoor3 The &1 seems to be closed={#print;#var $autodoor=$1}
+
+#alias os={open exit south}
+#alias oe={open exit east}
+#alias ow={open exit west}
+#alias ou={open exit up}
+#alias od={open exit down}
+
+#action >+70 You manage to enable the lock=#print You manage to \033[32m\033[1m ENABLE \033[0m the lock.
+#action >+71 The lock finally yields to your skill=#print The lock finally \033[32m\033[1m YIELDS \033[0m to your skill.
+
+#alias lo={close $1;lock $1}
+#alias lod={close exit d;lock exit d}
+#alias loe={close exit e;lock exit e}
+#alias lon={close exit n;lock exit n}
+#alias los={close exit s;lock exit s}
+#alias lou={close exit u;lock exit u}
+#alias low={close exit w;lock exit w}
+
+#alias ul={unlock $1;open $1}
+#alias uln={unlock exit n;open exit n}
+#alias uls={unlock exit s;open exit s}
+#alias ule={unlock exit e;open exit e}
+#alias ulw={unlock exit w;open exit w}
+#alias ulu={unlock exit u;open exit u}
+#alias uld={unlock exit d;open exit d}
+
+
+#alias vb={#if ("$1"!="") cast 'blindness' $1; #else #send ("cast 'blindness' "+$target) }
+#alias vbc={#if ("$1"!="") cast care 'blindness' $1; #else #send ("cast care 'blindness' "+$target) }
+#alias vbt={#if ("$1"!="") cast thoro 'blindness' $1; #else #send ("cast thoro 'blindness' "+$target) }
+#alias vf={cast 'fear'}
+#alias vfc={cast 'fear'}
+#alias vlc={cast carefully 'lightning bolt' $1}
+#alias vd={#if ("$1"!="") cast 'dispel evil' $1; #else #send ("cast 'dispel evil' "+$target) }
+#alias ve={cast 'earthquake' $1}
+#alias veq={cast quick 'earthquake' $1}
+#alias vet={cast thoroughly 'earthquake' $1}
+#alias vh={cast 'burning hands' $1}
+#alias voidoff=#action +void
+#alias voidon=#action -void
+#alias w0={cha wimp 0}
+#alias w1={cha wimp 10}
+#alias w10={cha wimp 100}
+#alias w15={cha wimp 150}
+#alias w2={cha wimp 20}
+#alias w20={cha wimp 200}
+#alias w3={cha wimp 30}
+#alias w5={cha wimp 50}
+#alias w8={cha wimp 80
+#alias w9={cha wimp 90}
+#alias wl={weather local}
+#alias wor={cast 'word of recall'}
+#alias x={exa $1}
+#alias xc=#if (*\$0) exam $0.corpse;#else exam corpse
+#alias xo={cha xml on}
+#alias xp=info XPCOUNTER: %x %t %X %T.
+#alias xpcalc={#var $gainxp=($1-@oldxp);#var $gaintp=($2-@oldtp);#if (@oldxp==0) {#var $gainxp=0;#var $sessxp=0};#if (@oldtp==0) {#var $gaintp=0;#var $sesstp=0};#var $sessxp=((%($sessxp))+(%($gainxp)));#var $sesstp=((%($sesstp))+(%($gaintp)));#var @oldxp=$1;#var @oldtp=$2}
+#alias xpprint={#print ("\015\012"+$bgr+"-->"+$noattr+" \033[1m\033[36m Gained \033[0m  xp: "+$bwh+($gainxp)+$noattr+"\015\011\011\011\011tp: "+$bwh+($gaintp)+$noattr)\;#print ($bgr+"-->"+$noattr+" \033[1m\033[36m Trip \033[0m    xp: "+($sessxp)+"\015\011\011\011\011tp: "+($sesstp))\;#print ($bgr+"-->"+$noattr+" \033[1m\033[36m Needed \033[0m  xp: $3\015\011\011\011\011tp: $4")}
+#alias xprep={#send ("say This Session:  " + $sessxp + " XP   " + $sesstp + " TP");#send  ("This Session:  " + $sessxp + " XP   " + $sesstp + " TP")}
+#alias xpreset={#var $sessxp=0;#var @oldxp=0}
+#alias zc={cha spell c}
+#alias zn={cha spell n}
+#alias zq={cha spell q}
+#alias zt={cha spell t}
+
+
+#action >+nomixed A fragrant-smelling bag contains nothing={#print ("$0 ("+$CYAN+"EMPTY"+$NORM+")")}
+#action >+mixedwalk A fragrant-smelling bag contains a cluster of hard, round, black berries, a handful of clover, several cloves and a pinch of pale-green, crushed leaves={#print ("Herb-kit contains pale-green leaves, clover, cloves and hard, round, black berries ("+$BOLD+$CYAN+"Walking"+$NORM+")")}
+#action >+mixedsooth A fragrant-smelling bag contains a handful of blackcurrant berries, a mashed honey-wax mixture, some grey-green leaves, some scented crushed leaves and some white petals={#print ("$0 ("+$BOLD+$CYAN+"Soothing-draught"+$NORM+")")}
+#action >+mixedshad A fragrant-smelling bag contains a bag of cinnamon, several needlelike leaves and a rib-bone of a skeleton={#print ("$0 ("+$BOLD+$CYAN+"Shadows"+$NORM+").")}
+#action >+mixedanti A fragrant-smelling bag contains two parts of blackberries, leaves, petals and petals={#print ("$0 ("+$BOLD+$CYAN+"Antidote"+$NORM+").")}
+#action >+mixedseeing A fragrant-smelling bag contains a bag of cinnamon, a patch of phosphorescent moss and several needlelike leaves={#print ("$0 ("+$BOLD+$CYAN+"Seeing"+$NORM+").")}
+#action >+mixedclear A fragrant-smelling bag contains petals, leaves, leaves and berries={#print ("$0 ("+$BOLD+$CYAN+"Cleat-thoughts"+$NORM+").")}
+#action >+mixedscaly A fragrant-smelling bag contains mushroom, hemlock, mass, root, flowers and berries={#print ("$0 ("+$BOLD+$CYAN+"Drake-slumber"+$NORM+").")}
+#action >+mixedbaker A fragrant-smelling bag contains three eggs, a mashed honey-wax mixture and a sack of flour={#print ("$0 ("+$BOLD+$CYAN+"Baker/bannock"+$NORM+").")}
+
+#action >+bell2 &1violet berries&2=#print ("$1violet berries ("+$BOLD+$CYAN+"Belladonna"+$NORM+")$2")}
+#action >+bella1 &1large shrub covered with dark violet berries&2=#print ("$1large shrub covered with dark violet berries ("+$BOLD+$CYAN+"Belladonna"+$NORM+")$2")
+#action >+blackc1 &1shrub with maple-like leaves&2=#print ("$1shrub with maple-like leaves ("+$BOLD+$CYAN+"Blackcurrant"+$NORM+")$2")
+#action >+blackc2 &1blackcurrant berries&2=#print ("$1blackcurrant berries ("+$BOLD+$CYAN+"Blackcurrant"+$NORM+")$2")
+#action >+cherries &1branches loosely spreading&2=#print ("$1branches loosely spreading ("+$BOLD+$CYAN+"Cherries"+$NORM+")$2")
+#action >+foxtail1 &1bushy plant grows here, with tall clusters of yellow flowers&2=#print ("$1bushy plant grows here, with tall clusters of yellow flowers ("+$BOLD+$CYAN+"Foxtail"+$NORM+")$2")
+#action >+foxtail2 &1 yellow petals&2=#print ("$1 yellow petals ("+$BOLD+$CYAN+"Foxtail"+$NORM+")$2")
+#action >+ginseng &1man-like root&2=#print ("$1man-like root ("+$BOLD+$CYAN+"Ginseng"+$NORM+")$2")
+#action >+ginseng2 &1single cluster of flowers atop its narrow stem&2=#print ("$1single cluster of flowers atop its narrow stem ("+$BOLD+$CYAN+"Ginseng"+$NORM+")$2")
+#action >+hem1 &1tall plant with a perfectly smooth stem&2=#print ("A tall plant with a perfectly smooth stem ("+$BOLD+$CYAN+"Hemlock"+$NORM+")$2")
+#action >+hem2 &1hemlock plant&2=#print ("$1hemlock plant ("+$BOLD+$CYAN+"Hemlock"+$NORM+")$2")
+#action >+herb1 &1grey-green plant&2=#print ("$1grey-green plant ("+$BOLD+$CYAN+"Figwort"+$NORM+")$2")
+#action >+lily1 &1 white petals&2=#print ("$1 white petals ("+$BOLD+$CYAN+"Water Lily"+$NORM+")$2")
+#action >+lily2 &1water&2lily&3=#print ("$1water$2lily ("+$BOLD+$CYAN+"Water Lily"+$NORM+")$3")
+#action >+herb15 &1woody stemmed plant&2=#print ("1 woody stemmed plants ("+$BOLD+$CYAN+"Tarragon"+$NORM+")$2")
+#action >+herb16 &1many-branched shrub&2=#print ("$1many-branched shrub ("+$BOLD+$CYAN+"Thyme"+$NORM+")$2")
+#action >+herb17 &1large thorny branched shrub&2=#print ("$1large thorny branched shrub ("+$BOLD+$CYAN+"Blackberries"+$NORM+")$2")
+#action >+herb18 &1low shrub with bright green, oblong leaves&2=#print ("$1low shrub with bright green, oblong leaves ("+$BOLD+$CYAN+"Blueberries"+$NORM+")$2")
+#action >+herb19 &1woody evergreen plant grows here, with many stems reaching upward&2=#print ("$1woody evergreen plant grows here, with many stems reaching upward ("+$BOLD+$CYAN+"Rosemary"+$NORM+")$2")
+#action >+herb1a &1grey-green leaves and grey flowers&2=#print ("$1grey-green leaves and grey flowers ("+$BOLD+$CYAN+"Figwort"+$NORM+")$2")
+#action >+herb2 &1grey petals&2=#print ("$1some grey petals ("+$BOLD+$CYAN+"Figwort"+$NORM+")$2")
+#action >+herb20 &1a woody, many-stemmed plant&2={#print ("$1a woody, many-stemmed plant ("+$BOLD+$CYAN+"Rosemary"+$NORM+")$2")}
+#action >+herb21 &1needlelike leaves&2={#print ("$1needlelike leaves ("+$BOLD+$CYAN+"Rosemary"+$NORM+")$2")}
+#action >+sage1 &1waist-high evergreen shrub grows here, with thick, reaching&2=#print ("$1waist-high evergreen shrub grows here, with thick, reaching$2 ("+$BOLD+$CYAN+"Sage"+$NORM+")")
+#action >+sage2 &1grey-green leaves&2=#print ("$1grey-green leaves ("+$BOLD+$CYAN+"Sage"+$NORM+")$2")
+#action >+herb3 &1small evergreen plant grows here, its woody stems reaching two feet&2=#print ("$1small evergreen plant grows here, its woody stems reaching two feet ("+$BOLD+$CYAN+"Tarragon"+$NORM+")$2")
+#action >+herb30 &1short evergreen plant, with slightly bluish needles&2=#print ("$1short evergreen plant, with slightly bluish needles ("+$BOLD+$CYAN+"Juniper"+$NORM+")$2")
+#action >+herb31 &1of hard, round, black berries&2=#print ("$1of hard, round, black berries ("+$BOLD+$CYAN+"Juniper"+$NORM+")$2")
+#action >+herb4 &1grey petals have been scattered about&2=#print ("$1grey petals have been scattered about ("+$BOLD+$CYAN+"Figwort"+$NORM+")$2")
+#action >+herb5 &1of narrow, fragrant leaves&2=#print ("$1of narrow, fragrant leaves ("+$BOLD+$CYAN+"Tarragon"+$NORM+")$2")
+#action >+herb6 &1woody, stemmed plant&2={#print ("$1woody, stemmed plant ("+$BOLD+$CYAN+"Tarragon"+$NORM+")$2")}
+#action >+Milkweed &1slender plant grows here, with clusters of tiny pink flowers&2=#print ("$1slender plant grows here, with clusters of tiny pink flowers ("+$BOLD+$CYAN+"Milkweed"+$NORM+")$2")
+#action >+herb8 &1sticky mass&2=#print ("$1sticky mass ("+$BOLD+$CYAN+"Milkweed"+$NORM+")$2")
+#action >+herbar1 &1grey fluid-sack&2=#print ("$1grey-fluid ("+$BOLD+$CYAN+"Arachnia"+$NORM+")$2")
+#action >+herbath &1long, pointed leaves and flowers at its top&2=#print ("$1long, pointed leaves and flowers at its top ("+$BOLD+$CYAN+"Athelas"+$NORM+")$2")
+#action >+herbath1 &1long, slender green leaves&2=#print ("$1long, slender green leaves ("+$BOLD+$CYAN+"Athelas"+$NORM+")$2")
+#action >+herbath2 &1small plant&2, with long leaves&3=#print ("$1small plant$2, with long leaves ("+$BOLD+$CYAN+"Athelas"+$NORM+")$3")
+#action >+herbbb &1a number of blackberries&2=#print ("$1blackberries ("+$BOLD+$CYAN+"Blackberries"+$NORM+")$2")
+#action >+herbbf1 &1short, black fur&2=#print ("$1short, black fur ("+$BOLD+$CYAN+"Bat Fur"+$NORM+")$2")
+#action >+card1 &1purple bloom and wide leaves&2=#print ("$purple bloom and wide leaves ("+$BOLD+$CYAN+"Cardamon"+$NORM+")$2")
+#action >+card2 &1short flowe&2, with&3purple bloom&4=#print ("$1short flowe$2, with$3purple bloom$4 ("+$BOLD+$CYAN+"Cardamon"+$NORM+")")
+#action >+card3 &1grey-brown powder&2=#print ("$1grey-brown powder ("+$BOLD+$CYAN+"Cardamon"+$NORM+")$2")
+#action >+herbsal1 &1short, moist tail&2=#print ("$1short, moist tail ("+$BOLD+$CYAN+"Salamander"+$NORM+")$2")
+#action >+herbthi &1white-stemmed plants, with blue flower heads grow&2=#print ("$1white-stemmed plants, with blue flower heads grow ("+$BOLD+$CYAN+"Thistle"+$NORM+")$2")
+#action >+herbve1 &1small fluid-sack&2=#print ("$1small fluid-sack ("+$BOLD+$CYAN+"Venom"+$NORM+")$2")
+#action >+honeysuckle &1 fragile flowers&2={#print ("$1 fragile flowers ("+$BOLD+$CYAN+"Honeysuckle"+$NORM+")$2")}
+#action >+honeysuckle1 &1shrub grows here, filling the air with a heavy scent&2={#print ("$1shrub grows here, filling the air with a heavy scent ("+$BOLD+$CYAN+"Honeysuckle"+$NORM+")$2")}
+#action >+ink1 &1holly bush with dark green leaves&2=#print ("$1holly bush with dark green leaves ("+$BOLD+$CYAN+"Inkberries"+$NORM+")$2")
+#action >+tarra7 &1of narrow leaves&2=#print ("$1of narrow leaves ("+$BOLD+$CYAN+"Tarragon"+$NORM+")$2")
+#action >+thyme3 &1scented crushed leaves&2=#print ("$1scented crushed leaves ("+$BOLD+$CYAN+"Thyme"+$NORM+")$2")
+#action >+vani3 &1brown bean&2=#print ("$1brown bean ("+$BOLD+$CYAN+"Vanilla"+$NORM+")$2")
+#action >+valerian1 &1foul-smelling root&2=#print ("$1foul-smelling root ("+$BOLD+$CYAN+"Valerian"+$NORM+")$2")
+#action >+marjoram1 &1thin, hairy plant&2=#print ("$1thin, hairy plant ("+$BOLD+$CYAN+"Marjoram"+$NORM+")$2")
+#action >+marjoram2 &1 pale-green, crushed leaves&2=#print ("$1 pale-green, crushed leaves ("+$BOLD+$CYAN+"Marjoram"+$NORM+")$2")
+#action >+poppy1 &1orange-red flowers&2=#print ("$1orange-red flowers ("+$BOLD+$CYAN+"Poppy"+$NORM+")$2")
+#action >+poppy2 &1orange-red blossoms&2=#print ("$1orange-red flowers ("+$BOLD+$CYAN+"Poppy"+$NORM+")$2")
+#action >+seeing1 &1phosphorescent moss&2=#print ("$1phosphorescent moss ("+$BOLD+$CYAN+"Seeing Moss"+$NORM+")$2")
+#action >+seeing2 &1patch of moss&2=#print ("$1patch of moss ("+$BOLD+$CYAN+"Seeing Moss"+$NORM+")$2")
+#action >+pipeweed &1pipe-weed&2=#print ("$1pipe-weed ("+$BOLD+$CYAN+"Pipe-weed"+$NORM+")$2")
+#action >+slenderflow1 &1slender flowering plant&2=#print ("$1slender flowering plant ("+$BOLD+$CYAN+"Milkweed"+$NORM+")$2")
+#action >+corriander1 &1 man's-waist high evergreen shrub grows here, with bright green &2={#print ("$1 man's-waist high evergreen shrub grows here, with bright green $2 ("+$BOLD+$CYAN+"Corriander"+$NORM+")")}
+#action >+clover1 &1clover grows&2={#print ("$1clover grows$2 ("+$BOLD+$CYAN+"Clover"+$NORM+")")}
+#action >+clover2 &1handful&2of clover&3={#print ("$1handful$2"+"of clover ("+$BOLD+$CYAN+"Clover"+$NORM+")$3")}
+#action >+cloves1 &1small cloves&2={#print ("$1small cloves$2 ("+$BOLD+$CYAN+"Cloves"+$NORM+")")}
+#action >+cloves2 &1several cloves&2={#print ("$1several cloves$2 ("+$BOLD+$CYAN+"Cloves"+$NORM+")")}
+#action >+cloves3 &1piles of cloves&2={#print ("$1piles of cloves$2 ("+$BOLD+$CYAN+"Cloves"+$NORM+")")}
+#action >+cinnamon1 &1bag&2of cinnamon&3={#print ("$1bag$2of cinnamon$3 ("+$BOLD+$CYAN+"Cinnamon"+$NORM+")")}
+#action >+splayed1 &1splayed leaves&2=#print ("$1splayed leaves ("+$BOLD+$CYAN+"Corriander"+$NORM+")$2")
+#action >+slendwhite1 &1slender plant&2=#print ("$1slender plant ("+$BOLD+$CYAN+"Cash crop1"+$NORM+")$2")
+#action >+bluishwhite1 &1bluish-white petals&2=#print ("$1bluish-white petals ("+$BOLD+$CYAN+"Cash crop 1"+$NORM+")$2")
+#action >+misty1 &1misty plant&2=#print ("$1misty plant ("+$BOLD+$CYAN+"Hithlain"+$NORM+")$2")
+#action >+misty2 &1tall silvery plant&2mist&3=#print ("$1tall silvery plant$2mist$3 ("+$BOLD+$CYAN+"Hithlain"+$NORM+")")
+#action >+bushy1 &1bushy flowering&2=#print ("$1bushy flowering ("+$BOLD+$CYAN+"Foxtail"+$NORM+")$2")
+#action >+bulbous1 &1bulbous roots&2=#print ("$1bulbous roots ("+$BOLD+$CYAN+"Cash crop 2"+$NORM+")$2")
+#action >+goose1 &1tough green weed&2=#print ("$1tough green weed ("+$BOLD+$CYAN+"Goosegrass"+$NORM+")$2")
+#action >+goose2 &1small and tough weed&2=#print ("$1small and tough weed ("+$BOLD+$CYAN+"Goosegrass"+$NORM+")$2")
+#action >+bane1 &1white, egg-shaped berries&2=#print ("$1white, egg-shaped berries ("+$BOLD+$CYAN+"Baneberries"+$NORM+")$2")
+#action >+mint1 &1fresh-scented leaves&2=#print ("$1fresh-scented leaves ("+$BOLD+$CYAN+"Mint"+$NORM+")$2")
+#action >+mint2 &1clean fragrance drifts up from a thick clump of leaves&2=#print ("$1clean fragrance drifts up from a thick clump of leaves ("+$BOLD+$CYAN+"Mint"+$NORM+")$2")
+#action >+mauve1 &1mauve petals&2=#print ("$1mauve petals ("+$BOLD+$CYAN+"Mauve"+$NORM+")$2")
+
+#action >+salt1 &1chunk&2of salt&3=#print ("$1chunk$2of salt ("+$BOLD+$CYAN+"Salt"+$NORM+") $3")
+#action >+pepper1 &1sack&2of pepper&3=#print ("$1sack$2of pepper ("+$BOLD+$CYAN+"Pepper"+$NORM+") $3")
+
+#action >+hive1 There is a &1beehive here&2=#print ("There is a "+$BOLD+$CYAN+"$1beehive"+$NORM+" here$2")
+
+#action >+orchid1 &1orchid of light violet petals&2=#print ("$1orchid of light violet petals ("+$BOLD+$DARK+$CYAN+"Orchid"+$NORM+")$2")
+#action >+orchid2 &1violet orchid&2=#print ("$1violet orchid ("+$BOLD+$DARK+$CYAN+"Violet Orchid"+$NORM+")$2")
+#action >+coneflower1 &1short plant, with lance-shaped leaves&2=#print ("$1short plant, with lance-shaped leaves ("+$BOLD+$DARK+$CYAN+"Coneflower"+$NORM+")$2")
+#action >+coneflower2 &1purple flower with a fluffy red center&2=#print ("$1purple flower with a fluffy red center ("+$BOLD+$DARK+$CYAN+"Coneflower"+$NORM+")$2")
+#action >+coneflower3 &1purple-red flower&2=#print ("$1purple-red flower$2 ("+$BOLD+$DARK+$CYAN+"Coneflower"+$NORM+")")
+
+
+#action >+greatgates greatgates seem to be closed={#print;knock greatgates}
+
+#alias ferry={#action +boardferry;#print ("Waiting to auto-board ferry")}
+#action >-boardferry ^The ferry has arrived={#print;st;board;rest;#action -boardferry;#action +leaveferry;exam}
+#action >-leaveferry ^The ferry pulls slowly into the dock={#print;st;leave;#action -leaveferry}
+#action >-rideeagle swoops down from the sky and lands={dism;st;ride eagle;#print;#send ("whisper eagle " + $eagledest);#action -rideeagle}
+#action >+lead &1 (leader) dismounts from&2 stops riding={#send ("lead mine")}
+#action >+ride &1 (leader) picks up &2 reins&3 starts riding={#send ("ride mine")}
+
+#action >+tellfix1 inner voice={#print}
+#action >+shoptell1 m&1 shopkeeper tells you &2={#print ($MAGENTA + " $1 shopkeeper"+$NORM+" tells you " + $GREEN+"$2" + $NORM)}
+#action >+shoptell2 m&1 herbalist tells you &2={#print ($MAGENTA + " $1 herbalist"+$NORM+" tells you " + $GREEN+"$2" + $NORM)}
+#action >+shoptell3 m&1 grocer tells you &2={#print ($MAGENTA + " $1 grocer"+$NORM+" tells you " + $GREEN+"$2" + $NORM)}
+#action >+shoptell4 m&1 tailor tells you &2={#print ($MAGENTA + " $1 tailor"+$NORM+" tells you " + $GREEN+"$2" + $NORM)}
+#action >+shoptell5 m&1 baker tells you &2={#print ($MAGENTA + " $1 baker"+$NORM+" tells you " + $GREEN+"$2" + $NORM)}
+#action >+shoptell6 m&1 innkeeper tells you &2={#print ($MAGENTA + " $1 innkeeper"+$NORM+" tells you " + $GREEN+"$2" + $NORM)}
+#action >+shoptell7 m&1 bartender tells you &2={#print ($MAGENTA + " $1 bartender"+$NORM+" tells you " + $GREEN+"$2" + $NORM)}
+#action >+shoptell8 m&1 blacksmith tells you &2={#print ($MAGENTA + " $1 blacksmith"+$NORM+" tells you " + $GREEN+"$2" + $NORM)}
+#action >+shoptell9 m&1 trapper tells you &2={#print ($MAGENTA + " $1 trapper"+$NORM+" tells you " + $GREEN+"$2" + $NORM)}
+#action >+shoptell10 m&1 Captain tells you &2={#print ($MAGENTA + " $1 Captain"+$NORM+" tells you " + $GREEN+"$2" + $NORM)}
+#action >+shoptell11 m&1 smith tells you &2={#print ($MAGENTA + " $1 smith"+$NORM+" tells you " + $GREEN+"$2" + $NORM)}
+#action >+shoptellA Angdil tells you &2={#print ($MAGENTA + " Angdil "+$NORM+"tells you " + $GREEN+"$2" + $NORM)}
+#action >+shoptellK Kevlar the Armourer tells you &2={#print ($MAGENTA + " Kevlar the Armourer "+$NORM+"tells you " + $GREEN+"$2" + $NORM)}
+#action >+shoptellK Faldor the weaponsmith tells you &2={#print ($MAGENTA + " Faldor the weaponsmith "+$NORM+"tells you " + $GREEN+"$2" + $NORM)}
+#action >+shoptellE Ecthelion tells you &2={#print ($MAGENTA + " Ecthelion "+$NORM+"tells you " + $GREEN+"$2" + $NORM)}
+#action >+shoptellS Sarion tells you &2={#print ($MAGENTA + " Sarion "+$NORM+"tells you " + $GREEN+"$2" + $NORM)}
+#action >+specialtellC1 Ciryariel tells you &2={#print ($MAGENTA + " Ciryariel "+$NORM+"tells you " + $GREEN+"$2" + $NORM)}
+#action >+specialtellG1 Galadriel tells you &2={#print ($MAGENTA + " Galadriel "+$NORM+"tells you " + $GREEN+"$2" + $NORM)}
+#action >+guildtell1 m&1 priest tells you &2={#print ($MAGENTA + " $1 priest"+$NORM+" tells you " + $GREEN+"$2" + $NORM)}
+#action >+guildtell2 m&1 mage tells you &2={#print ($MAGENTA + " $1 mage"+$NORM+" tells you " + $GREEN+"$2" + $NORM)}
+#action >+guildtell3 m&1 ranger tells you &2={#print ($MAGENTA + " $1 ranger"+$NORM+" tells you " + $GREEN+"$2" + $NORM)}
+#action >+guildtell4 m&1 knight tells you &2={#print ($MAGENTA + " $1 knight"+$NORM+" tells you " + $GREEN+"$2" + $NORM)}
+#action >+guildtell5 m&1 hunter tells you &2={#print ($MAGENTA + " $1 hunter"+$NORM+" tells you " + $GREEN+"$2" + $NORM)}
+#action >+guildtell6 m&1 thief tells you &2={#print ($MAGENTA + " $1 thief"+$NORM+" tells you " + $GREEN+"$2" + $NORM)}
+#action >+tell1 m&1 tells you &2={#print ($BLUE+" $1"+$NORM+" tells you "+$BOLD+$GREEN+"$2"+$NORM);#alias qt=tell $1 \$0}
+#action >-afk &1 tells you={#print;tell $1 I'm currently away from the keyboard...}
+
+
+#action >+autogroup $1 raises his hand={#print;gr $1}
+
+#action >+unbashed1 Your head stops stinging={#print \033[34mYou have recovered from being bashed!\033[0m}
+#action >+bashed &1 sends you sprawling with a powerful bash={#print \033[31m$1 sends you\033[0m \033[1m\033[31mSPRAWLING!\033[0m}
+#action >+bashed1 Your bash at &1 sends $2 sprawling={#print \033[34mYour bash at $1 \033[34msends $2\033[0m \033[1m\033[34mSPRAWLING!\033[0m}
+#action >+bashed2 Your XXbash at &1 (TARGET) sends $2 sprawling={#print \033[34mYour bash at $1 (TARGET) \033[34msends $2\033[0m \033[1m\033[34mSPRAWLING!\033[0m}
+#action >+shatter ^&1 shatter &2={#print ("" + \$1 + $BOLD + " SHATTER " + \$2 + $NORM + "")}
+#action >+shatters ^&1 shatters &2={#print ("" + \$1 + $BOLD + " SHATTERS " + \$2 + $NORM + "")}
+#action >+loot is dead!={#print;get all.coins all.corpse}
+
+#action >+fcont1 You failed to control&1={#print ("You "+$ULINE+$BOLD+$MAGENTA+"failed to control"+$NORM+"$1")}
+#action >+Pos4a ^&1 is sitting &2=#print ($MAGENTA+"$1"+$NORM+" is "+$YELLOW+"SITTING"+$NORM+" $2")
+#action >+Pos5 ^&1 is resting &2=#print ($MAGENTA+"$1"+$NORM+" is "+$YELLOW+"RESTING"+$NORM+" $2")
+#action >+Pos6 ^&1 is sleeping &2=#print ("$1" + " is " + $YELLOW + "SLEEPING" + $NORM+" $2" )
+#action >+Pos7 ^&1 is lying here, stunned&2=#print ("$1 is lying here, " + $BOLD+$YELLOW + "STUNNED" + "$2" + $NORM)
+#action >+Pos8 ^&1 is lying here, incapacitated&2=#print ("$1 is lying here, " + $BOLD+$YELLOW + "INCAPACITATED" + noattr + "$2" + $NORM)
+#action >+Pos9 ^&1 is lying here, mortally wounded&2=#print ("$1 is lying here, " + $BOLD+$YELLOW + "MORTALLY WOUNDED" + noattr + "$2" + $NORM)
+#action >+repp ^reports:=emote $0'
+#action >+xp0 Welcome to the land of Middle Earth={#print;xpreset;tpreset;xp;#var $xpcal=1}
+#action >+xp1 XPCOUNTER: &1 &2 &3 &4={#if ($xpcal=="1") {xpcalc $1 $2\;#var $xpcal=0}\;xpprint $1 $2 $3 $4}
+#action >+xp2 ^You receive your share of experience={#print;xp;#var $xpcal=1}
+#action >+xp3 ^You feel more experienced={#print;xp;#var $xpcal=1}
+#action >+fill1 clear spring babbles={#print;drink water}
+#action >+fill2 ^A &1fountain={#print;drink water}
+#action >+fill3 inviting you to take a refreshing={#print;drink water}
+#action >+fill4 sparkling clear water={#print;drink water}
+#action >+fill5 ^A &1stone well={#print;drink water}
+#action >+72 You have been blinded!=#print $1 \033[32m \033[1m You have been B L I N D E D!\033[0m
+
+#( "There is an option for this (cha col exits) but it didn't seem to do anything" )
+#action >+exits_highlight1 ^Exits: &1=#print ("Exits: "+$BLUE+"$1"+$NORM)
+#action >+exits_highlight2 ^Exits/emulated: &1=#print ("Exits/emulated: "+$BLUE+"$1"+$NORM)
+
+#( "What / who is here and weather" )
+
+#("Whoosh! Whoosh! You hear the waves lap against the sides of the ferry.")
+#("You hear a crackle of thunder in the distance from the south.")
+
+#var $ITEMCOL=($CYAN)
+#action >+weatherhere1 &1 snow on the ground.=#print ($DARK+$BOLD+$ITEMCOL+"$0"+$NORM)
+#action >+whathere_b1 &1 bulletin board, entitled "&2", is &3 here.=#print
+##print ("$1bulletin board, entitled "+$DARK+$BOLD+$ITEMCOL+$2+$NORM+", is $3 here.")
+
+#action >+whathere1 ^&1 &2 is lying here&3=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" is lying here$3")
+#action >+whathere2 ^&1 &2 are lying here&3=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" are lying here$3")
+#action >+whathere4 ^&1 &2 is on the ground&3=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" is on the ground$3")
+#action >+whathere3 ^&1 &2 are on the ground&3=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" are on the ground$3")
+#action >+whathere5 ^&1 &2 lies in the dust&3=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" lies in the dust$3")
+#action >+whathere6 ^&1 &2 lies here&3=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" lies here$3")
+#action >+whathere9 ^&1 &2 lies on the &3=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" lies on the ground$2")
+#action >+whathere10 ^&1 &2 has been&3left here&4=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" has been left$3here$4")
+#action >+whathere11a ^A &1 has been&2placed here&3=#print ("A "+$ITEMCOL+"$1"+$NORM+" has been placed$2here$3")
+#action >+whathere11d ^An &1 has been&2placed here&3=#print ("An "+$ITEMCOL+"$1"+$NORM+" has been placed$2here$3")
+#action >+whathere11c ^The &1 has been&2placed here&3=#print ("The "+$ITEMCOL+"$1"+$NORM+" has been placed$2here$3")
+#action >+whathere14 ^&1 &2 has been&3abandoned here&4=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" has been abandoned$3here$4")
+#action >+whathere12 ^There is &1 &2 lying on the ground&3=#print ("There is $1 "+$ITEMCOL+"$2"+$NORM+" on the ground$3")
+#action >+whathere13 ^&1 &2 has been left &3the ground.=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" has been left $3the ground.")
+#action >+whathere15 ^&1 are lying on the ground&3=#print ($ITEMCOL+"$1"+$NORM+" are lying on the ground$3")
+#action >+whathere16 ^&1 &2 has been set on the ground&3=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" has been set on the ground$3")
+
+#action >+whathere_v1 &1 &2 grows here.=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" grows here.")
+#action >+whathere_v2 &1 &2 is growing here.=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" is growing here.")
+#action >+whathere_v3 &1 are growing here.=#print ($ITEMCOL+"$1"+$NORM+" are growing here.")
+#action >+whathere_v4 &1 &2 grows nearby.=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" grows nearby.")
+#action >+whathere_vo A &2 onion&3=#print ("A "+$ITEMCOL+"$2 onion"+$NORM+"$3")
+#action >+whathere_vc A &2 cabbage&3=#print ("A "+$ITEMCOL+"$2 cabbage"+$NORM+"$3")
+#action >+whathere_vg A &2 garlic&3=#print ("A "+$ITEMCOL+"$2 garlic"+$NORM+"$3")
+#action >+whathere_vt A &2 turnip&3=#print ("A "+$ITEMCOL+"$2 turnip"+$NORM+"$3")
+
+#action >+whathere_peg ^On the peg, there &1 &2.=#print ("On the peg, there $1 "+$ITEMCOL+"$2"+$NORM+".")
+#action >+whathere_rack ^In the rack &1 &2.=#print ("In the rack is $1 "+$ITEMCOL+"$2"+$NORM+".")
+#action >+whathere_table ^On the table, there &1 &2.=#print ("On the table, there $1 "+$ITEMCOL+"$2"+$NORM+".")
+#action >+whathere_tree1 ^On &1 branches&2 is &3.=#print ("On $1 branches$2 are "+$ITEMCOL+"$3"+$NORM+".")
+#action >+whathere_tree1 ^On &1 branches&2 are &3.=#print ("On $1 branches$2 are "+$ITEMCOL+"$3"+$NORM+".")
+#action >+whathere_rose1 ^A &1rose bush is blooming=#print
+#action >+whathere_rose2 ^&1inside the bush, there &2 &3.=#print ("$1inside the bush, there $2 "+$ITEMCOL+"$3"+$NORM+".")
+#action >+whathere_book1 ^&1bookshelf, there &2 &3.=#print ("$1bookshelf, there $2 "+$ITEMCOL+"$3"+$NORM+".")
+#action >+whathere_rack1 ^Standing in the rack &1 &2.=#print ("Standing in the rack $1 "+$ITEMCOL+"$2"+$NORM+".")
+
+#action >+whathere_whofix1 &1 bench is here.=#print
+
+#action >+chrest &1(&2) sits down and rests.=#print ($BOLD+"$1"+$DARK+$GREEN+"("+"$2) "+$NORM+$MAGENTA+$ULINE+"sits down and rests"+$NORM+".")
+#action >+mine1 &1(min&2) &3=#print ("$1"+$DARK+$BOLD+$GREEN+"(min"+"$2)"+$NORM+" $3")
+#action >+tankf &1(tank) is here, fighting &2.=#print ("$1"+$DARK+$BOLD+$GREEN+"(tank)"+$NORM+" is here, "+$RED+"fighting "+$MAGENTA+"$2 "+$NORM+".")
+#action >+tank2 &1(tank) &2=#print ("$1"+$DARK+$BOLD+$GREEN+"(tank)"+$NORM+" $2")
+#action >+parryf &1(parr&2) is here, fighting &3 &4.=#print ("$1"+$DARK+$BOLD+$GREEN+"(parr"+"$2)"+$NORM+" is here, "+$RED+"fighting"+$NORM+" $3 "+$MAGENTA+"$4"+$NORM+".")
+#action >+parry2 &1(parr&2) &3=#print ("$1"+$DARK+$BOLD+$GREEN+"(parr"+"$2)"+$NORM+" $3")
+#action >+famil1 Your familiar goes back from whence it once came=#print ($MAGENTA+$ULINE+"$0"+$NORM+".")
+
+#action >+mercf &1(mer&2) is&3here, fighting &4.=#print ("$1"+$DARK+$BOLD+$GREEN+"(mer"+"$2)"+$NORM+" is$3here, "+$RED+"fighting "+$MAGENTA+"$4 "+$NORM)
+#action >+merc1 &1(mer&2) &3=#print ("$1"+$DARK+$BOLD+$GREEN+"(mer"+"$2)"+$NORM+" $3")
+
+#action >+you1 A &1 is here, fighting&2YOU&3=#print ("A "+$BOLD+$MAGENTA+"$1"+$NORM+" is here, "+$BOLD+$RED+"FIGHTING "+$BKCYAN+$ULINE+"YOU"+$NORM+".")
+#action >-you2 &1 fighting&2YOU&3=#print ("$1" + $BOLD+$RED + " FIGHTING " + $BKCYAN+$ULINE+$BOLD+$RED+"YOU"+$NORM+". -- old action!")
+#action >+fgt1 &1 fighting &2={#print ("$1" + $BOLD+$RED + "fighting " + "$2" + $NORM)}
+#action >+fgt2sit A &1 is sitting here, trying to fight&2YOU&3=#print ("A "+$BOLD+$MAGENTA+"$1"+$NORM+" is "+$YELLOW+"SITTING"+$NORM+" here,"+$BOLD+$RED+" trying to fight "+$BKCYAN+$ULINE+"YOU"+$NORM+".") 
+#action >+fgt3sit An &1 is sitting here, trying to fight&2YOU&3=#print ("A "+$BOLD+$MAGENTA+"$1"+$NORM+" is "+$YELLOW+"SITTING"+$NORM+" here,"+$BOLD+$RED+" trying to fight "+$BKCYAN+$ULINE+"YOU"+$NORM+".") 
+
+#action >+whohere_e1 ^*&1*&2 is here, riding &3.=#print ($BOLD+$RED+"*$1*"+$NORM+"$2 is here, riding "+$BOLD+$MAGENTA+"$3"+$NORM+".")
+#action >+whohere_e2 ^&1 &2 is&3here, ridden by *&4*.=#print ("$1 "+$BOLD+$MAGENTA+"$2"+$NORM+" is$3"+"here, ridden by "+$BOLD+$RED+"*$4*"+$NORM".")
+#action >+whohere_e3 ^*&1*&2 is here&3=#print ($BOLD+$RED+"*$1*"+$NORM+"$2 is here$3")
+
+#action >+whohere_n1 ^&1 the &2 is here.=#print ($BOLD+$MAGENTA+"$1"+$NORM+" the $2 is here.")
+#action >+whohere_n2 ^&1 the &2 is here&3.=#print ($BOLD+$MAGENTA+"$1"+$NORM+" the $2 is here$3.")
+#action >+whohere_n4 ^&1 the &2,&3, is here&4.=#print ($BOLD+$MAGENTA+"$1"+$NORM+" the $2,$3, is here$4.")
+#action >+whohere_n5 ^&1 the &2 stands here.=#print ($BOLD+$MAGENTA+"$1"+$NORM+" the $2 stands here.")
+
+
+#action >+whohere_s1 ^&1 &2snake&3 is lying here&4=#print ("$1 "+$MAGENTA+"$1"+$NORM+"$2snake$3 is lying here$4")
+#action >+whohere1a ^A &1 is here&2=#print ("A "+$MAGENTA+"$1"+$NORM+" is here$2")
+#action >+whohere1n ^An &1 is here&2=#print ("An "+$MAGENTA+"$1"+$NORM+" is here$2")
+#action >+whohere1t ^The &1 is here&2=#print ("The "+$MAGENTA+"$1"+$NORM+" is here$2")
+#action >+whohere1hw ^&1 &2 is working&3here&4=#print ("$1 "+$MAGENTA+"$2"+$NORM+" is working$3here$4")
+
+#action >+whohere2 ^&1 &2 pads&3here&4=#print ("$1 "+$MAGENTA+"$2"+$NORM+" pads$3"+"here$4")
+#action >+whohere2a ^&1 &2 pads restlessly&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" pads restlessly$3")
+#action >+whohere2b ^&1 &2 pads quietly&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" pads quietly$3")
+#action >+whohere3 ^&1 &2 lurks here&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" lurks here$3")
+#action >+whohere4 ^&1 &2 stands&3here&4=#print ("$1 "+$MAGENTA+"$2"+$NORM+" stands$3"+"here$4")
+#action >+whohere4a ^&1 &2 is standing&3here&4=#print ("$1 "+$MAGENTA+"$2"+$NORM+" is standing$3"+"here$4")
+#action >+whohere4b ^&1 &2 stands&3before you&4=#print ("$1 "+$MAGENTA+"$2"+$NORM+" stands$3"+"before you$4")
+#action >+whohere4c ^&1 &2 stands&3menacingly&4=#print ("$1 "+$MAGENTA+"$2"+$NORM+" stands$3"+"menacingly$4")
+#action >+whohere4d ^&1 stands here carrying&2=#print ($MAGENTA+"$1"+$NORM+" stands here carrying $2")
+#action >+whohere4e ^&1 stands here wielding&2=#print ($MAGENTA+"$1"+$NORM+" stands here wielding $2")
+#action >+whohere5 ^&1 &2 smothers the&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" smothers the$3")
+#action >+whohere6 ^&1 &2 looks&3at you&4=#print ("$1 "+$MAGENTA+"$2"+$NORM+" looks$3"+"at you$4")
+#action >+whohere7 ^&1 &2 stares&3at you&4=#print ("$1 "+$MAGENTA+"$2"+$NORM+" stares$3"+"at you$4")
+#action >+whohere7a ^&1 &2 glares&3at you&4=#print ("$1 "+$MAGENTA+"$2"+$NORM+" glares$3"+"at you$4")
+#action >+whohere7b ^&1 &2 gazes&3at you&4=#print ("$1 "+$MAGENTA+"$2"+$NORM+" glazes$3"+"at you$4")
+#action >+whohere8 ^&1 &2 is stamping&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" is stamping$3")
+#action >+whohere9a ^&1 &2 slithers&3.=#print ("$1 "+$MAGENTA+"$2"+$NORM+" slithers$3.")
+#action >+whohere9b ^&1 &2 is slithering&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" is slithering towards you$3")
+#action >+whohere9c ^&1 &2snake&3is coiled here&4=#print ("$1 "+$MAGENTA+"$2snake$3"+$NORM+"is coiled here$4")
+#action >+whohere9d ^&1 &2 lies wrapped around&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" lies wrapped around$3")
+#action >+whohere10 ^&1 &2 scuttling across the floor&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" scuttling across the floor$3")
+#action >+whohere11 ^&1 &2 watches you&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" watches you$3")
+#action >+whohere11a ^&1 &2 is watching &3here&4=#print ("$1 "+$MAGENTA+"$2"+$NORM+" is watching $3here$4")
+#action >+whohere12a ^&1 &2 soar&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" soar$3")
+#action >+whohere12b ^&1 &2 is circling above&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" is circling above$3")
+#action >+whohere12c ^&1 &2 flies in the sky&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" flies in the sky$3")
+#action >+whohere13a ^&1 &2 flies around here&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" flies around here$3")
+#action >+whohere14 ^Some &1 whip&2=#print ("Some "+$MAGENTA+"$1"+$NORM+" whip$2")
+#action >+whohere15a ^Some &1 lie here&2 ensnare&3=#print ("Some "+$MAGENTA+"$1"+$NORM+" lie here$2 ensnare$3")
+#action >+whohere15b ^&1 shift uneasily all around you.=#print ($MAGENTA+"$1"+$NORM+" shift uneasily all around you.")
+#action >+whohere16 ^&1 &2 is sizing up&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" sizing up$3")
+#action >+whohere17 ^&1 &2 eyes you&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" eyes you$3")
+#action >+whohere18 ^&1 &2 seems ready to charge&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" seems ready to charge$3")
+#action >+whohere19 ^&1 &2 is searching for fresh meat&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" is searching for fresh meat$3")
+#action >+whohere21 ^&1 &2 is looking for tracks&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" is looking for tracks$3")
+#action >+whohere22 ^&1 &2 is on sentry here&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" is on sentry here$3")
+#action >+whohere23 ^&1 &2 is hobbling around&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" is hobbling around$3")
+#action >+whohere24 ^&1 &2 is shuffles around here&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" shuffles around here$3")
+#action >+whohere25 ^&1 &2 swims here&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" swims here$3")
+#action >+whohere26 ^&1 &2 is walking around&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" is walking around$3")
+#action >+whohere27 ^&1 &2 advances towards you&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" advances towards you$3")
+#action >+whohere28 ^&1 &2 noses about hungrily&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" noses about hungrily$3")
+#action >+whohere29 ^Some &1 are buzzing around&2=#print ("Some "+$MAGENTA+"$1"+$NORM+" are buzzing around$2")
+#action >+whohere30 ^&1 &2 looks eager to fight&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" looks eager to fight$3")
+#action >+whohere31 ^&1 &2 is coming out of its nest&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" is coming out of its nest$3")
+#action >+whohere32 ^&1 &2 passes by&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" passes by$3")
+#action >+whohere33 ^&1 &2 watches the surroundings&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" watches the surroundings$3")
+#action >+whohere34 ^&1 &2 floats here&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" floats here$3")
+#action >+whohere34a ^&1 &2 floats towards you&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" floats towards you$3")
+#action >+whohere35 ^&1 &2 patters against you&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" patters against you$3")
+#action >+whohere36 ^&1 &2 scampers around here&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" scampers around here$3")
+#action >+whohere37 ^&1 &2 is grazing peacefully here&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" is grazing peacefully here$3")
+#action >+whohere37a ^&1 &2 is warily browsing &3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" is warily browsing$3")
+#action >+whohere38 ^&1 &2, looking at your nice purse&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+", looking at your nice purse$3")
+#action >+whohere39 ^&1 &2 is running around&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" is running around$3")
+#action >+whohere39 ^&1 &2 is running around&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" is running around$3")
+#action >+whohere40 ^&1 &2 runs swiftly from place to place&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" runs swiftly from place to place$3")
+#action >+whohere41 ^&1 &2 stalking the area&3=#print ("$1 "+$MAGENTA+"$2"+$NORM+" stalking the area$3")
+
+#action >+whohere_hidden ^You feel a hidden presence.=#print ("You feel a "+$RED+"hidden presence"+$NORM+".")
+#action >+whohere_found ^You have found &1.=#print ("You have found "+$MAGENTA+"$1"+$NORM+".")
+
+#($CAPDIR_north = "^^^ NORTH ^^^")
+#($CAPDIR_east = ">>> EAST >>>")
+#($CAPDIR_south = "vvv SOUTH vvv")
+#($CAPDIR_west = "<<< WEST <<<")
+#($CAPDIR_up = "ooo UP ooo")
+#($CAPDIR_down = "xxx DOWN xxx")
+#($CAPADIR_north = "vvv NORTH vvv")
+#($CAPADIR_east = "<<< EAST <<<")
+#($CAPADIR_south = "^^^ SOUTH ^^^")
+#($CAPADIR_west = ">>> WEST >>>")
+#($CAPADIR_above = "xxx ABOVE xxx")
+#($CAPADIR_below = "ooo BELOW ooo")
+#($GOBACK_down = "u")
+#($GOBACK_east = "w")
+#($GOBACK_north = "s")
+#($GOBACK_south = "n")
+#($GOBACK_up = "d")
+#($GOBACK_west = "e")
+
+#var $ARRIVESCOL=($YELLOW)
+#var $LEAVESCOL=($GREEN)
+
+#action >+leaves_hiding1 ^&1 &2 leaves &3 hiding place.=#print ("$1 "+$BOLD+$MAGENTA+"$2 "+$NORM+$ULINE+"leaves $3 hiding place."+$NORM)
+#action >+leaves_hiding2 ^&1 &2 suddenly leaves its place&3=#print ("$1 "+$BOLD+$MAGENTA+"$2 "+$NORM+$ULINE+"suddenly leaves its place$3"+$NORM)
+#action >+found_hiding1 ^You found &1 &2!=#print ($NORM+$ULINE+"You found $1 "+$BOLD+$MAGENTA+"$2"+$NORM+"!")
+#action >+leaves_fix1 &1 tree&2 leaves&3=#print
+#action >+leaves_fix2 &1 leaves&2valley=#print
+#action >+leaves_fix3 &1 silvery-green&2leaves&3=#print
+#action >+leaves_fix4 &1 rose &2 leaves&3=#print
+#action >+leaves_fix5 &1 green leaves&3=#print
+
+#action >+arr_riding_ff *&1*\033[0m &2 has arrived from the &3 riding &4.={#print ("*$1* "+$BOLD+$RED+"$2"+$NORM+" $2 has arrived from "+$ARRIVESCOL+$CAPADIR_$3+$NORM+" riding "+$BOLD+$MAGENTA+"$4"+$NORM)}
+#action >+earr2 *&1*\033[0m has arrived from the &2 riding &3.={#print ($BOLD+$RED+"*$1*"+$NORM+" has arrived from "+$ARRIVESCOL+$CAPADIR_$2+$NORM+" riding "+$BOLD+$MAGENTA+"$3"+$NORM)}
+#action >+arr_ff *&1*\033[0m &2 has arrived from the &3.={#print ("*$1* "+$BOLD+$RED+"$2"+$NORM+" $2 has arrived from "+$ARRIVESCOL+$CAPADIR_$3+$NORM)}
+#action >+earr1 *&1*\033[0m has arrived from the &2.={#print ($BOLD+$RED+"*$1*"+$NORM+" has arrived from "+$ARRIVESCOL+$CAPADIR_$2+$NORM)}
+
+#action >+eleaves1 *&1*\033[0m leaves &2.={#print ($BOLD+$RED+"*$1*"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$2)}
+#action >+eleaves_riding *&1*\033[0m leaves &2 riding &3.={#print ($BOLD+$RED+"*$1*"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$2+" riding "+$BOLD+"$3"+$NORM)}
+#action >+eleaves_sneaking *&1*\033[0m leaves &2 sneaking.={#print ($BOLD+$RED+"*$1*"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$2+" sneaking.")}
+#action >+eleaves_ff *&1*\033[0m &2 leaves &3.={#print ($BOLD+$RED+"*$1*"+$NORM+" "+"$2"+" leaves "+$LEAVESCOL+$CAPDIR_$3)}
+#action >+eleaves_riding_ff *&1*\033[0m &2 leaves &3 riding &4.={#print ($BOLD+$RED+"*$1*"+$NORM+" "+"$2"+" leaves  "+$""+$LEAVESCOL+$CAPDIR_$3+" riding "+"$4")}
+
+#action >+arr5 ^&1 the &2 has arrived from the &3.={#print ($BOLD+$MAGENTA+"$1 the $2"+$NORM+" has arrived from the "+$ARRIVESCOL+$CAPADIR_$3+$NORM)}
+#action >+arr7 ^&1 the &2 has arrived from the &3 riding &4.={#print ($BOLD+$MAGENTA+"$1 the $2"+$NORM+" has arrived from the "+$ARRIVESCOL+$CAPADIR_$3+$NORM+" riding "+$MAGENTA+"$4"+$NORM+".")}
+#action >+arr6 ^&1 the &2 has arrived from &3.={#print ($BOLD+$MAGENTA+"$1 the $2"+$NORM+" has arrived from "+$ARRIVESCOL+$CAPADIR_$3+$NORM)}
+#action >+arr8 ^&1 the &2 has arrived from &3 riding &4.={#print ($BOLD+$MAGENTA+"$1 the $2"+$NORM+" has arrived from "+$ARRIVESCOL+$CAPADIR_$3+$NORM+" riding "+$MAGENTA+"$4"+$NORM+".")}
+
+#action >+arr1 ^&1 &2 has arrived from the &3.={#print ("$1 "+$BOLD+$MAGENTA+"$2"+$NORM+" has arrived from the "+$ARRIVESCOL+$CAPADIR_$3+$NORM)}
+#action >+arr3 ^&1 &2 has arrived from the &3 riding &4.={#print ("$1 "+$BOLD+$MAGENTA+"$2"+$NORM+" has arrived from the "+$ARRIVESCOL+$CAPADIR_$3+$NORM+" riding "+$MAGENTA+"$4"+$NORM+".")}
+#action >+arr2 ^&1 &2 has arrived from &3.={#print ("$1 "+$BOLD+$MAGENTA+"$2"+$NORM+" has arrived from "+$ARRIVESCOL+$CAPADIR_$3+$NORM)}
+#action >+arr4 ^&1 &2 has arrived from &3 riding &4.={#print ("$1 "+$BOLD+$MAGENTA+"$2"+$NORM+" has arrived from "+$ARRIVESCOL+$CAPADIR_$3+$NORM+" riding "+$MAGENTA+"$4"+$NORM+".")}
+
+#action >+leaves3 ^&1 &2 leaves &3 sneaking.={#print ("$1 "+$MAGENTA+"$2"+$YELLOW+" sneaks "+$LEAVESCOL+$CAPDIR_$3+$NORM)}
+#action >+leaves2 ^&1 &2 leaves &3 riding &4.={#print ("$1 "+$MAGENTA+"$2"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$3+$NORM+" riding "+$MAGENTA+"$4"+$NORM+".")}
+#action >+leaves1 ^&1 &2 leaves &3.={#print ("$1 "+$MAGENTA+"$2"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$3+$NORM)}
+
+#action >+FleeGag You flee head over heels={}
+#action >+flee1 ^You flee &1.={#print ("");#print ($BOLD+"         You fled "+ $CYAN+$CAPDIR_$1+$NORM);#alias goback=#send ($GOBACK_$1)}
+
+
+
+#action >+13 You see some tracks of a &1 leading [33m<<<   W E S T   <<<[0m =#print $1 went \033[33m<<<   W E S T   <<<\033[0m
+#action >+14 You see some tracks of a &1 leading [33m>>>   E A S T   >>>[0m,=#print $1 went \033[33m>>>   E A S T   >>>\033[0m,
+#action >+15 You see some tracks of a &1 leading [33mV V V   S O U T H   V V V[0m,=#print $1 went \033[33mV V V   S O U T H   V V V\033[0m,
+#action >+16 You see some tracks of a &1 leading [33m^ ^ ^   N O R T H   ^ ^ ^[0m,=#print $1 went \033[33m^ ^ ^   N O R T H   ^ ^ ^\033[0m,
+#action >+17 You see some tracks of a &1 leading [33mvv   D O W N   vv[0m,=#print $1 went \033[33mvv   D O W N   vv\033[0m,
+#action >+18 You see some tracks of a &1 leading [33m^^   U P   ^^[0m, =#print $1 went \033[33m^^   U P   ^^\033[0m,
+#action >+19 You see some tracks of &1 leading west=#print $1 went \033[33m<<< W E S T <<<.
+#action >+20 You see some tracks of &1 leading east=#print $1 went \033[33m>>> E A S T >>>.
+#action >+21 You see some tracks of &1 leading south=#print $1 went \033[33mV V V   S O U T H   V V V.
+#action >+22 You see some tracks of &1 leading north=#print $1 went \033[33m^ ^ ^   N O R T H   ^ ^ ^\.
+#action >+23 You see some tracks of &1 leading down=#print $1 went \033[33mvv   D O W N   vv.
+#action >+69 You see some tracks of &1 leading down=#print $1 went \033[33m^^   U P   ^^.
+
+#action >+night1 The night has begun={#print ("The "+$BOLD+$BLUE+"Night"+$NORM+" has begun!")}
+#action >+day1 The day has begun={#print ("The "+$BOLD+$YELLOW+"Day"+$NORM+" has begun!")}
+#action >+dark1 It is pitch black...={#print;ll}
+#action >+panic PANIC! You can't quit the fight!=#print ($BOLD+"         PANIC! You couldn't escape!"+$NORM)
+
+#action >+29 &1 panics, and attempts to flee=#print $1 IS TRYING TO ESCAPE!
+#action >+tracking &1 is standing here searching for tracks=#print $1 is STANDING here --> T R A C K I N G <--.
+#action >+track &1 carefully examines the ground around him, looking for tracks.=#print $1 starts to --> T R A C K <--.
+#action >+loli Key: '$1'={#print;#var $tp=$1}
+
+#action >+repo \033[32m&1\033[0m/\033[32m&2\033[0m hits, \033[32m&3\033[0m/\033[32m&4\033[0m mana, and \033[32m&5\033[0m/\033[32m&6\033[0m moves={#print;#alias rep=emote reports:  $1/$2 hits    $3/$4 mana   $5/$6 moves}
+#action >-repo-mana ^$1/$4 hits, &2 mana, and &3 moves={#send ;#if ($repo=="1") #send ("emote reports HP: $1/$4  MANA: $2  MOVES: $3");#var $repo=0;#var @maxhp=$4}
+#action >-repo-no-mana ^$1/$4 hits and &2 moves={#print;#if ($repo=="1") #send ("emote reports HP: $1/$4  MOVES: $2");#var $repo=0;#var @maxhp=$4}
+#alias reptnl=info REPTNL: %X %T %l.
+#action >-reptnl REPTNL: $1 $2 $3={#var $nextlvl=($3+1);#send ("emote has $1 Exp and $2 TP to reach level " + ($nextlvl));#print ("You need $1 Exp and $2 TP to reach level " +($nextlvl))}
+#alias tnl=emote needs ???? xp and ?? tp to next level.
+#action >+tnl ^Needed: \033[32m&1\033[0m xp, \033[32m&2\033[0m tp={#print;#alias tnl=emote needs $1 xp and $2 tp to next level.}
+
+#action >+39 The exit &1 blurs for a while={#print The exit -- $1 -- \033[1m\033[32m POPPED! \033[0m}
+#action >+52 The exit &1 seems to blur for a while={#print The exit -- $1 -- was \033[1m\033[32m BLOCKED! \033[0m}
+#action >+53 The &1 seems to blur for a while={#print The block on the -- $1 -- was \033[1m\033[32m BROKEN! \033[0m}
+#action >+blind &1 seems to be blinded!={#print $1 seems to be \033[1m\033[32mBLINDED!\033[0m}
+#action >+hhdoor &1 puts all &2 weight against the &3, trying to close it.={#print $1 puts all $2 weight against the $3, trying to CLOSE it.;#add $3;#alias hc={close $3}}
+#action >+ddoor &1 opens the $2={#print (" $1 OPENS the $2.");#add $2}
+#action >+dddoor &1 closes the &2={#print (" $1 CLOSES the $2.");#add $2}
+#action >+bladoor The &1 is opened from the other side={#print the $1 is OPENED from the other side!}
+#action >+blaadoor The &1 closes quietly={#print The $1 was CLOSED from the other side!}
+#action >+30 WARNING: inactivity timeout in 5 seconds={#print;score}
+#action >+key1 an ancient dwarven key=#print an ancient dwarven key. (Flagstone, Circlet chest. [Moria])
+#action >+key2 an ancient key=#print an ancient key. (Stoneslab, lww smugglers.)
+#action >+key3 an ancient silver key=#print an ancient silver key. (Book, OiE.)
+#action >+key4 a bent bone key =#print a bent bone key. (Stonedoor, silver bracer. [Moria])
+#action >+key5 a big metal key=#print a big metal key. (Oakendoor, Rohir Tower.)
+#action >+key6 a big stonekey=#print a big stonekey. (Stonedoor, BBT.)
+#action >+key7 a black and silver key=#print a black and silver key. (Slab, Old Wight.)
+#action >+key8 a black bone key=#print a black bone key. (door, Nagroth.)
+#action >+key9 a black key=#print a black key. (Portcullis, LB-fort.)
+#action >+key10 a black metal key=#print a black metal key. (Towerdoor, ABR-tower.)
+#action >+key11 a black stone key=#print a black stone key. (Panels at great wheels. [Moria])
+#action >+key12 a blood-stained key=#print a blood-stained key. (Rack, OOC.)
+#action >+key13 a bloody key=#print a bloody key. (door/gorydoor, Megazor. [Moria])
+#action >+key14 a blue steel-key=#print a blue steel-key. (Minedoor, Dunland mines)
+#action >+key15 a brass key=#print a brass key. (Metaldoor, Bandit Leader.)
+#action >+key16 a bright steel key=#print a bright steel key. (Grille behind panels. [Moria])
+#action >+key17 a castle key=#print a castle key. (Irondoor, Malardil`s castle.)
+#action >+key18 a chained silver key=#print a chained silver key. (Joist, AM treasury) 
+#action >+key19 a City Key=#print a City Key. (Tharbad gates.)
+#action >+key20 a copper key=#print a copper key. (Grate, pipeweed-smugglers.)
+#action >+key21 a crude metal key=#print a crude metal key. (Metaldoor, Filthy.)
+#action >+key22 a decayed ironkey=#print a decayed ironkey. (Scone, BW treasury.)
+#action >+key23 a dirty key=#print a dirty key. (Trapdoor, Bandit Leader.)
+#action >+key24 a dirty stone key=#print a dirty stone key. (Floor/ceiling, Eregion.)
+#action >+key25 an ebony key=#print an ebony key. (1 of 2 doors up from Knight in Rdell.)
+#action >+key26 an engraved silver ring=#print an engraved silver ring. (Crypt, near WC.)
+#action >+key27 an engraved stone key=#print an engraved stone key. (Irondoor, to overseer.)
+#action >+key28 a fragile stone key=#print a fragile stone key. (Stonedoor, Unqalome.)
+#action >+key29 a glass key=#print a glass key. (Flagstone, Death Knight.)
+#action >+key30 a great bone key=#print a great bone key. (Trapdoor, Barlog`s ringer.)
+#action >+key31 a great bone key=#print  a green iron key. (Prisondoor, NOC vellum place.)
+#action >+Key001A ^&1an old iron key&2={#print ("$1an old iron key (GC: rockdoor)$2")}
+#action >+Key001B ^&1An ancient key, wrought from iron, is barely seen here.&2={#print ("$1An ancient key, wrought from iron, is barely seen here. (GC: rockdoor)$2")}
+#action >+Key002A ^&1a silvery key&2={#print ("$1a silvery key (GC: door)$2")}
+#action >+Key002B ^&1A key, made of perhaps tarnished silver, glints here.&2={#print ("$1A key, made of perhaps tarnished silver, glints here. (GC: door)$2")}
+#action >+Key003A ^&1a twisted iron key&2={#print ("$1a twisted iron key (BW: irondoor)$2")}
+#action >+Key003B ^&1An iron key, strangely wrought, lies here.&2={#print ("$1An iron key, strangely wrought, lies here. (BW: irondoor)$2")}
+#action >+Key004A ^&1a decayed ironkey&2={#print ("$1a decayed ironkey (BW: sconce)$2")}
+#action >+Key004B ^&1A very battered ironkey has been dropped here.&2={#print ("$1A very battered ironkey has been dropped here. (BW: sconce)$2")}
+#action >+Key005A ^&1a polished copper key&2={#print ("$1a polished copper key (DT: door+irondoor)$2")}
+#action >+Key005B ^&1A polished copper key is here.&2={#print ("$1A polished copper key is here. (DT: door+irondoor)$2")}
+#action >+Key006A ^&1a small silver key&2={#print ("$1a small silver key (MA: quest+chest/OOC: blackdoor)$2")}
+#action >+Key006B ^&1A small key made of silver is lying here.&2={#print ("$1A small key made of silver is lying here. (MA: quest+chest)$2")}
+#action >+Key007A ^&1a small silver key&2={#print ("$1a small silver key (MA: quest+chest/OOC: blackdoor)$2")}
+#action >+Key007B ^&1A small silver key is glittering in the dirt.&2={#print ("$1A small silver key is glittering in the dirt. (OOC: blackdoor)$2")}
+#action >+Key008A ^&1a crude bronze key&2={#print ("$1a crude bronze key (Filthy: metaldoor)$2")}
+#action >+Key008B ^&1A crudely wrought bronze key has been carelessly left here.&2={#print ("$1A crudely wrought bronze key has been carelessly left here. (Filthy: metaldoor)$2")}
+#action >+Key009A ^&1a crude metal key&2={#print ("$1a crude metal key (Brolg: towerdoor+crevice)$2")}
+#action >+Key009B ^&1A crude key made out of metal is discarded here.&2={#print ("$1A crude key made out of metal is discarded here. (Brolg: towerdoor+crevice)$2")}
+#action >+Key010A ^&1a small copper key&2={#print ("$1a small copper key (Unqalome: granite)$2")}
+#action >+Key010B ^&1A small copper key lies here.&2={#print ("$1A small copper key lies here. (Unqalome: granite)$2")}
+#action >+Key011A ^&1a small steel key&2={#print ("$1a small steel key (Unqalome: slab)$2")}
+#action >+Key011B ^&1A small steel key lies here.&2={#print ("$1A small steel key lies here. (Unqalome: slab)$2")}
+#action >+Key012A ^&1a fragile stone key&2={#print ("$1a fragile stone key (Unqalome: stonedoor)$2")}
+#action >+Key012B ^&1A fragile-looking stone key lies here.&2={#print ("$1A fragile-looking stone key lies here. (Unqalome: stonedoor)$2")}
+#action >+Key013A ^&1a green iron key&2={#print ("$1a green iron key (NOC vellum: prisondoor)$2")}
+#action >+Key013B ^&1An iron key with a green surface has been left here.&2={#print ("$1An iron key with a green surface has been left here. (NOC vellum: prisondoor)$2")}
+#action >+Key014A ^&1a tiny stone key&2={#print ("$1a tiny stone key (Barbaras: stonedoor)$2")}
+#action >+Key014B ^&1You barely notice a tiny stone key on the floor.&2={#print ("$1You barely notice a tiny stone key on the floor. (Barbaras: stonedoor)$2")}
+#action >+Key015A ^&1a small key of elven make&2={#print ("$1a small key of elven make (ElvenHideout: hillside)$2")}
+#action >+Key015B ^&1A small key of elven make has been dropped here.&2={#print ("$1A small key of elven make has been dropped here. (ElvenHideout: hillside)$2")}
+#action >+Key016A ^&1an ancient silver key&2={#print ("$1an ancient silver key (Ost-In-Edhil)$2")}
+#action >+Key016B ^&1An ancient silver key lies here, giving off a faint glimmer.&2={#print ("$1An ancient silver key lies here, giving off a faint glimmer. (Ost-In-Edhil)$2")}
+#action >+Key017A ^&1a slimy iron key&2={#print ("$1a slimy iron key (Icedoor: vaultdoor)$2")}
+#action >+Key017B ^&1A key made of iron lies on the ground.&2={#print ("$1A key made of iron lies on the ground. (Icedoor: vaultdoor)$2")}
+#action >+Key018A ^&1a tarnished metal key&2={#print ("$1a tarnished metal key (VT-doors)$2")}
+#action >+Key018B ^&1A slightly tarnished metal key lies abandoned here.&2={#print ("$1A slightly tarnished metal key lies abandoned here. (VT-doors)$2")}
+#action >+Key019A ^&1a black key&2={#print ("$1a black key (LB fort)$2")}
+#action >+Key019B ^&1A black key has been left on the floor.&2={#print ("$1A black key has been left on the floor. (LB fort)$2")}
+#action >+Key020A ^&1a tiny bronze key&2={#print ("$1a tiny bronze key (Outcast: marbledoor)$2")}
+#action >+Key020B ^&1A small key made of bronze lies here.&2={#print ("$1A small key made of bronze lies here. (Outcast: marbledoor)$2")}
+#action >+Key021A ^&1a black metal key&2={#print ("$1a black metal key (ABR-tower + Hiddenoutpost)$2")}
+#action >+Key021B ^&1A black key made of metal lies here.&2={#print ("$1A black key made of metal lies here. (ABR-tower + Hiddenoutpost)$2")}
+#action >+Key022A ^&1a metal key&2={#print ("$1a metal key (Necromancer: oakendoor/grating;ChiefofTharbad: door)$2")}
+#action >+Key022B ^&1A small metal key has been dropped here.&2={#print ("$1A small metal key has been dropped here. (Necromancer: oakendoor/grating)$2")}
+#action >+Key023A ^&1a small key carved from ebony&2={#print ("$1a small key carved from ebony (Necromancer: board)$2")}
+#action >+Key023B ^&1A black key lies here.&2={#print ("$1A black key lies here. (Necromancer: board)$2")}
+#action >+Key024A ^&1a metal and stone key&2={#print ("$1a metal and stone key (Woodhall: cinderblock)$2")}
+#action >+Key024B ^&1An old looking key made of metal and stone has been left here.&2={#print ("$1An old looking key made of metal and stone has been left here. (Woodhall: cinderblock)$2")}
+#action >+Key025A ^&1a green key&2={#print ("$1a green key (Woodhall: halldoor/cellar)$2")}
+#action >+Key025B ^&1A green key lies here, barely visible on the ground.&2={#print ("$1A green key lies here, barely visible on the ground. (Woodhall: halldoor/cellar)$2")}
+#action >+Key026A ^&1an old ornate key&2={#print ("$1an old ornate key (Dunland Vellum: sarcophagus)$2")}
+#action >+Key026B ^&1A small key covered with dirt is lying here.&2={#print ("$1A small key covered with dirt is lying here. (Dunland Vellum: sarcophagus)$2")}
+#action >+Key027A ^&1a black and silver key&2={#print ("$1a black and silver key (Old Wight: slab)$2")}
+#action >+Key027B ^&1A black and silver key is lying here.&2={#print ("$1A black and silver key is lying here. (Old Wight: slab)$2")}
+#action >+Key028A ^&1a rusted key&2={#print ("$1a rusted key (Old Wight: cryptdoor)$2")}
+#action >+Key028B ^&1A half broken rusted key has been left here.&2={#print ("$1A half broken rusted key has been left here. (Old Wight: cryptdoor)$2")}
+#action >+Key029A ^&1a large key&2={#print ("$1a large key (Old Wight: wall)$2")}
+#action >+Key029B ^&1A large steel key has been left here.&2={#print ("$1A large steel key has been left here. (Old Wight: wall)$2")}
+#action >+Key030A ^&1a heavy steel key&2={#print ("$1a heavy steel key (Sage: rockface/stonedoor)$2")}
+#action >+Key030B ^&1A rather heavy-looking steel key lies on the ground.&2={#print ("$1A rather heavy-looking steel key lies on the ground. (Sage: rockface/stonedoor)$2")}
+#action >+Key031A ^&1a blood-stained key&2={#print ("$1a blood-stained key (Sage: rack/prisondoor)$2")}
+#action >+Key031B ^&1A metal key, stained brown by dried blood, has been dropped here.&2={#print ("$1A metal key, stained brown by dried blood, has been dropped here. (Sage: rack/prisondoor)$2")}
+#action >+Key032A ^&1an ivory key&2={#print ("$1an icory key (ABR BouldersArea: stoneblock)$2")}
+#action >+Key032B ^&1A shiny ivory key has been left here.&2={#print ("$1A shiny ivory key has been left here. (ABR BouldersArea: stoneblock)$2")}
+#action >+Key033A ^&1a copper key&2={#print ("$1a copper key (Pipeweed smugglers: grate)$2")}
+#action >+Key033B ^&1A copper key has been left on the ground.&2={#print ("$1A copper key has been left on the ground. (Pipeweed smugglers: grate)$2")}
+#action >+Key034A ^&1a very rusty key&2={#print ("$1a very rusty key (Nobleman: gate)$2")}
+#action >+Key034B ^&1A very rusty key lies here, crumbling into dust.&2={#print ("$1A very rusty key lies here, crumbling into dust. (Nobleman: gate)$2")}
+#action >+Key035A ^&1an old bronze key&2={#print ("$1an old bronze key (NOC: wolfgate/irondoor(s))$2")}
+#action >+Key035B ^&1A bronze key, covered with a green patina, lies here.&2={#print ("$1A bronze key, covered with a green patina, lies here. (NOC: wolfgate/irondoor(s))$2")}
+#action >+Key036A ^&1a big stonekey&2={#print ("$1a big stonekey (BBT: stonedoor/rock)$2")}
+#action >+Key036B ^&1A big, heavy stonekey has been left here.&2={#print ("$1A big, heavy stonekey has been left here. (BBT: stonedoor/rock)$2")}
+#action >+Key037A ^&1a darkly stained metal key&2={#print ("$1a darkly stained metal key (Guardian: irongate)$2")}
+#action >+Key037B ^&1A plain metal key, covered with dark stains, lies here.&2={#print ("$1A plain metal key, covered with dark stains, lies here. (Guardian: irongate)$2")}
+#action >+Key038A ^&1a Bree town key&2={#print ("$1a Bree town key (Bree: gate)$2")}
+#action >+Key038B ^&1A large key is lying here.&2={#print ("$1A large key is lying here. (Bree: gate)$2")}
+#action >+Key039A ^&1a rusted iron key&2={#print ("$1a rusted iron key (Orkish Chieftain: metaldoor)$2")}
+#action >+Key039B ^&1An iron key lies on the ground, flaked with orange rust.&2={#print ("$1An iron key lies on the ground, flaked with orange rust. (Orkish Chieftain: metaldoor)$2")}
+#action >+Key040A ^&1a skull key&2={#print ("$1a skull key (Hillmen: burialtrap)$2")}
+#action >+Key040B ^&1A key shaped as a skull is lying here.&2={#print ("$1A key shaped as a skull is lying here. (Hillmen: burialtrap)$2")}
+#action >+Key041A ^&1a castle key&2={#print ("$1a castle key (Malardil: irondoor)$2")}
+#action >+Key041B ^&1A heavy iron key with a large handle has been left here.&2={#print ("$1A heavy iron key with a large handle has been left here. (Malardil: irondoor)$2")}
+#action >+Key042A ^&1a granite key inlaid with wood&2={#print ("$1a granite key inlaid with wood (Woodhall: chest)$2")}
+#action >+Key042B ^&1A stone key, inlaid with wood, lies here.&2={#print ("$1A stone key, inlaid with wood, lies here. (Woodhall: chest)$2")}
+#action >+Key043A ^&1an engraved stone key&2={#print ("$1an engraved stone key (Overseer: irondoor)$2")}
+#action >+Key043B ^&1A stone key with some strange runes lies here.&2={#print ("$1A stone key with some strange runes lies here. (Overseer: irondoor)$2")}
+#action >+Key044A ^&1a small iron key&2={#print ("$1a small iron key (Overseer: carpet;Illusionist: chest;Broghha: trapdoor)$2")}
+#action >+Key044B ^&1An iron key has been left here.&2={#print ("$1An iron key has been left here. (Overseer: carpet)$2")}
+#action >+Key045A ^&1a small iron key&2={#print ("$1a small iron key (Overseer: carpet;Illusionist: chest;Broghha: trapdoor)$2")}
+#action >+Key045B ^&1A small iron key has been left here.&2={#print ("$1A small iron key has been left here. (Illusionist: chest)$2")}
+#action >+Key046A ^&1a dirty key&2={#print ("$1a dirty key (Bandit Leader: trapdoor)$2")}
+#action >+Key046B ^&1A dirty key lies on the ground.&2={#print ("$1A dirty key lies on the ground. (Bandit Leader: trapdoor)$2")}
+#action >+Key047A ^&1a brass key&2={#print ("$1a brass key (Bandit Leader: metaldoor)$2")}
+#action >+Key047B ^&1A brass key has been left here.&2={#print ("$1A brass key has been left here. (Bandit Leader: metaldoor)$2")}
+#action >+Key048A ^&1a blue steel-key&2={#print ("$1a blue steel-key (Liche: minedoor)$2")}
+#action >+Key048B ^&1A blue steel-key of dwarven make has been left here.&2={#print ("$1A blue steel-key of dwarven make has been left here. (Liche: minedoor)$2")}
+#action >+Key049A ^&1a small iron key&2={#print ("$1a small iron key (Overseer: carpet;Illusionist: chest;Broghha: trapdoor)$2")}
+#action >+Key049B ^&1A small iron key has been discarded here.&2={#print ("$1A small iron key has been discarded here. (Broghha: trapdoor)$2")}
+#action >+Key050A ^&1a glass key&2={#print ("$1a glass key (Dead Knight: flagstone)$2")}
+#action >+Key050B ^&1A glassy key with an ebony handle lies here.&2={#print ("$1A glassy key with an ebony handle lies here. (Dead Knight: flagstone)$2")}
+#action >+Key051A ^&1a crude iron key&2={#print ("$1a crude iron key (ZOC: irondoor)$2")}
+#action >+Key051B ^&1A crude iron key lies here.&2={#print ("$1A crude iron key lies here. (ZOC: irongate)$2")}
+s#action >+Key052A ^&1a tinted brass key&2={#print ("$1a tinted brass key (Gilded: door)$2")}
+#action >+Key052B ^&1A brass key tinted with green spots has been left here.&2={#print ("$1A brass key tinted with green spots has been left here. (Gilded: door)$2")}
+#action >+Key053A ^&1an iron key&2={#print ("$1an iron key (Warrenstower)$2")}
+#action >+Key053B ^&1An iron key lies here.&2={#print ("$1An iron key lies here. (Warrenstower)$2")}
+#action >+Key100A ^&1an ancient dwarven key&2={#print ("$1an ancient dwarven key (Moria: flagstone)$2")}
+#action >+Key100B ^&1An ancient key of dwarven manufacture lies here.&2={#print ("$1An ancient key of dwarven manufacture lies here. (Moria: flagstone)$2")}
+#action >+Key101A ^&1an intricate steel key&2={#print ("$1an intricate steel key (Moria: Umuk chest)$2")}
+#action >+Key101B ^&1A steel key with a complex set of notches has been left here.&2={#print ("$1A steel key with a complex set of notches has been left here. (Moria: Umuk chest)$2")}
+#action >+Key102A ^&1a small stone key&2={#print ("$1a small stone key (Moria: stonelatch)$2")}
+#action >+Key102B ^&1A small stone key lies here.&2={#print ("$1A small stone key lies here. (Moria: stonelatch)$2")}
+#action >+Key103A ^&1a jewel-encrusted key&2={#print ("$1a jewel-encrusted key (Water-drake: jewelleddoor)$2")}
+#action >+Key103B ^&1A beautiful key, encrusted with jewels, lies here.&2={#print ("$1A beautiful key, encrusted with jewels, lies here. (Water-drake: jewelleddoor)$2")}
+#action >+Key104A ^&1a huge iron key&2={#print ("$1a huge iron key (Shaghosh: steeldoor)$2")}
+#action >+Key104B ^&1A large iron key is lying here on the ground.&2={#print ("$1A large iron key is lying here on the ground. (Shaghosh: steeldoor)$2")}
+#action >+Key105A ^&1a shining key&2={#print ("$1a shining key (Muranog: archeddoor/oakdoor)$2")}
+#action >+Key105B ^&1A key, shining like a star, lies on the ground.&2={#print ("$1A key, shining like a star, lies on the ground. (Muranog: archeddoor/oakdoor)$2")}
+#action >+Key106A ^&1a mithril key&2={#print ("$1a mithril key (Water-drake: mithrildoor)$2")}
+#action >+Key106B ^&1A brilliant mithril key is here, shining brightly.&2={#print ("$1A brilliant mithril key is here, shining brightly. (Water-drake: mithrildoor)$2")}
+#action >+Key107A ^&1a great bone key&2={#print ("$1a great bone key (Water-drake: trapdoor)$2")}
+#action >+Key107B ^&1A great key, carved from bone, rests here.&2={#print ("$1A great key, carved from bone, rests here. (Water-drake: trapdoor)$2")}
+#action >+Key108A ^&1an icy key&2={#print ("$1an icy key (Balrog: all doors)$2")}
+#action >+Key108B ^&1A slender key almost escapes your notice.&2={#print ("$1A slender key almost escapes your notice. (Balrog: all doors)$2")}
+#action >+Key109A ^&1a bloody key&2={#print ("$1a bloody key (Mezagor: door/gorydoor/steeldoor)$2")}
+#action >+Key109B ^&1A small copper key, covered with blood, rests here.&2={#print ("$1A small copper key, covered with blood, rests here. (Mezagor: door/gorydoor/steeldoor)$2")}
+#action >+Key110A ^&1a stone key&2={#print ("$1a stone key (Dwarven Armoury: pillars)$2")}
+#action >+Key110B ^&1An old dwarven key made of stone has been left here.&2={#print ("$1An old dwarven key made of stone has been left here. (Dwarven Armoury: pillars)$2")}
+#action >+Key111A ^&1a slightly bent iron key&2={#print ("$1a slightly bent iron key (Recess: chest)$2")}
+#action >+Key111B ^&1A slightly bent iron key lies on the ground.&2={#print ("$1A slightly bent iron key lies on the ground. (Recess: chest)$2")}
+#action >+Key112A ^&1a bent bone key&2={#print ("$1a bent bone key (Moria Prison: stonedoor/celldoor)$2")}
+#action >+Key112B ^&1A slightly bent bone key lies here in the dust.&2={#print ("$1A slightly bent bone key lies here in the dust. (Moria Prison: stonedoor/celldoor)$2")}
+#action >+Key113A ^&1a black stone key&2={#print ("$1a black stone key (Mithril Storage: panel)$2")}
+#action >+Key113B ^&1A black stone key, apparently to a dwarven lock, lies here.&2={#print ("$1A black stone key, apparently to a dwarven lock, lies here. (Mithril Storage: panel)$2")}
+#action >+Key114A ^&1a bright steel key&2={#print ("$1a bright steel key (Mithril Storage: grille)$2")}
+#action >+Key114B ^&1An untarnished steel key lies here.&2={#print ("$1An untarnished steel key lies here. (Mithril Storage: grille)$2")}
+#action >+Key115A ^&1a slimy metal key&2={#print ("$1a slimy metal key (Shaghosh: irondoor)$2")}
+#action >+Key115B ^&1A metal key covered with some green slime.&2={#print ("$1A metal key covered with some green slime. (Shaghosh: irondoor)$2")}
+#action >+tracksleading You see some tracks of &1 leading $2, done less than $3 hour ago={#var $trackdir=$2;#print ("You see "+$BOLD+"TRACKS of $1"+$NORM+" leading " +$TRACK_CAPDIR_$2 + " < $3 ticks ago.")}
+#action >+BlockResist ^Your power blocking the $1 resisted a breaking attempt!={#print (attr "cyan" + "Your power blocking the " + attr "yellow" + ">> $1 <<" + attr "cyan" + " resisted a breaking attempt!" + noattr+$NORM)}
+#action >+quakeme ^$1 makes the earth tremble and shiver={#print ($BOLD+$RED++"$1"+noattr+$NORM" +attr "bold red"+"~ ~ ~ QUAKES YOU !!! ~ ~ ~"+noattr+$NORM)}
+#action >+exit &1 - The glare of the sun burns your eyes={#print \033[41m ** $1 ** - The glare of the sun burns your eyes.\033[0m}
+#action >+timeam $1am on $2, the $3 of $4, Year $5 of the Third Age.={#print;#var $realtime=$1am;#var $checkmonth=$4;#if ($1 == 12) #var @checktime=(%($1+12));#else #var @checktime=$1;checkdate}
+#action >+timepm $1pm on $2, the $3 of $4, Year $5 of the Third Age.={#print;#var $realtime=$1pm;#var $checkmonth=$4;#if ($1 == 12) #var @checktime=$1;#else #var @checktime=(%($1+12));checkdate}
+#action >-group $1 raises $2 hand={group $1 add;gadd $1}
+
+#action >+cast &1 begins some strange incantations.={#print ("$1 "+$BOLD+$BLUE+"--> STARTS CASTING <--"+$NORM)}
+#action >+casting &1 is standing here trying to concentrate=#print $1 is STANDING here \033[1m\033[31m--> C A S T I N G <--\033[0m
+#action >+ememycast *&1* begins some strange incantations.={#print ($BOLD+$RED+"*$1* "+$BKCYAN+"--> STARTS CASTING <--"+$NORM)}
+#action >+evilgroup ^You feel the evil influence={#print ----- EVIL PERSON IN GROUP! ------;group self}
+#action >+failedrescue ^You fail the rescue={#print ($BOLD+$YELLOW+"------ YOU FAILED RESCUE ------"+$NORM}
+#action >+underwatersub ^You feel VERY tired={#print;#print ------- GO OUT FROM UNDERWATER!!! -------}
+#action >+portalsub ^You sense a portal leading here={#print --- PORTAL LEADS IN THIS ROOM ---}
+#action >+antidote_drops ^You feel a strange taste in your mouth={#print ------- ANTIDOTE DOWN -------}
+#action >+watchroom_drops ^Your awareness decreases={#print ------- WATCH ROOM DOWN -------}
+
+#action >+translatespell1 &1 utters the word '$2'={#if ($magical_${2}=="") #print;#else #print (""+\$1+" "+$BOLD+$WHITE+"utters the word '"+$magical_${2}+"'"+$NORM)}
+#action >+translatespell2 &1 utters the words '$2 $3'={#print (""+\$1+" "+$BOLD+$WHITE+"utters the words '"+$magical_${2}_${3}+"'"+$NORM)}
+#action >+translatespell3 &1 utters the words '$2 $3 $4'={#print (""+\$1+" "+$BOLD+$WHITE+"utters the words '"+$magical_${2}_${3}_${4}+"'"+$NORM)}
+
+#action >-filllant1 You pour all your remaining oil into a lantern={#print;hide oil;gt oil;fill lantern}
+#action >-filllant2 You completely fill a lantern with oil, emptying a dark coloured flask={#print;hide oil;fill lantern}
+#action >-filllant3 You completely fill a lantern with oil={#print;pt oil;gm;#action -filllant1;#action -filllant2;#action -filllant3;#action -filllant4}
+#action >-filllant4 You can't find an oil={#print ($ULINE+$RED+"$0"+$NORM);gm;#action -filllant1;#action -filllant2;#action -filllant3;#action -filllant4}
+#alias fl={#action +filllant1;#action +filllant2;#action +filllant3;#action -filllant4;u1;gt oil;fill lantern}
+#alias fp={gb pipe;gsa pipe-weed;gba pipe-weed;put all.pipe-weed pipe;gsa pipe-weed;gba pipe-weed;put all.pipe-weed pipe;l i pipe;pba pipe}
+
+
+#action >-catchloc &1 key: '&2'={#print;#var $latest_key=$2;#action -catchloc}
+#action >-autoass1 &1joins &2's fight.={#print;assist}
+#action >-autoass2 &1 (leader) approaches &2={#print;assist}
+#action >-autoass3 &1 (leader) hits &2={#print;assist}
+#action >-autorebash1 An &1 seems to have recovered &2 senses={#print;bash}
+#action >-autorebash2 A &1 seems to have recovered &2 senses={#print;bash}
+#action >-autorebash3 As &1 avoids your bash, you topple over and lose your &2={#print;bash}
+#action >-dk1 incapacitated={#print;#send kick}
+#action >-dk2 mortally wounded={#print;#send kick}
+#action >-dk3 probably die soon={#print;#send kick}
+
+
+#($TRACK_CAPDIR_down = "\033[1m\033[36mxxxxxx DOWN xxxxxx\033[0m")
+#($TRACK_CAPDIR_east = "\033[1m\033[36m>>>>>> EAST >>>>>>\033[0m")
+#($TRACK_CAPDIR_north = "\033[1m\033[36m^^^^^^ NORTH ^^^^^^\033[0m")
+#($TRACK_CAPDIR_south = "\033[1m\033[36mvvvvvv SOUTH vvvvvv\033[0m")
+#($TRACK_CAPDIR_up = "\033[1m\033[36moooooooo UP ooooooooo\033[0m")
+#($TRACK_CAPDIR_west = "\033[1m\033[36m<<<<<< WEST <<<<<<\033[0m")
+#($autodoor = "gate")
+#($autogroup = "OFF")
+#($checkmonth = "Foreyule")
+#($emount = "warg")
+#($gaintp = "0")
+#($gainxp = "21")
+#($hps = "419")
+#($hpsM = "419")
+#($leader = "elong")
+#($magical_abrawajf = "armour")
+#($magical_bfzahp_ay_bfugtizgg = "breath of briskness")
+#($magical_bfzat_eaaf = "break door")
+#($magical_braqt_bfzahp = "black breath")
+#($magical_braqt_eaaf = "block door")
+#($magical_canduswazz_judifgz = "remove curse")
+#($magical_canduswazz_saugai = "remove poison")
+#($magical_diesilla_barh = "LIGHTNING BOLT")
+#($magical_eabratizgg = "darkness")
+#($magical_eugszr_waouq = "dispel magic")
+#($magical_eugszr_zzur = "DISPEL EVIL")
+#($magical_euzuiahuai = "divination")
+#($magical_fido = "bless")
+#($magical_gaiqhjabral = "sanctuary")
+#($magical_ghafz = "store")
+#($magical_ghcandusiohp = "strength")
+#($magical_gjwwai = "summon")
+#($magical_gpaqtuio_ofags = "SHOCKING GRASP")
+#($magical_gpfaje = "shroud")
+#($magical_gpuzre = "shield")
+#($magical_gqfl = "scry")
+#($magical_gruugz_oculoae = "raise dead")
+#($magical_grzzs = "sleep")
+#($magical_gunsogz_ruyz = "sense life")
+#($magical_gurunsoqz = "silence")
+#($magical_hgruigyzf = "transfer")
+#($magical_hiqahz = "locate")
+#($magical_hiqahz_ruyz = "locate life")
+#($magical_hiqahz_waouq = "locate magic")
+#($magical_hzrzsafh = "teleport")
+#($magical_iuoph_zuguai = "night vision")
+#($magical_judicandus_dies = "cure light")
+#($magical_judicandus_gzfuajg = "cure serious")
+#($magical_judicandus_noselacri = "cure blindness")
+#($magical_judicandus_qfuhuq = "cure critic")
+#($magical_judifgz = "curse")
+#($magical_mosailla_paieg = "BURNING HANDS")
+#($magical_noselacri = "blindness")
+#($magical_oculoinfra_saugai = "detect poison")
+#($magical_oculoinfra_uizuguburuhl = "detect invisibility")
+#($magical_oculoinfra_waouq = "detect magic")
+#($magical_oculoinfra_zzur = "detect evil")
+#($magical_pabraw = "HARM")
+#($magical_pare = "hold")
+#($magical_pzar = "heal")
+#($magical_qahijf_gsfal = "COLOUR SPRAY")
+#($magical_qaihfar_xzahpzf = "control weather")
+#($magical_qarr_diesilla = "CALL LIGHTNING")
+#($magical_qfzahz_dies = "create light")
+#($magical_qfzahz_xahzf = "create water")
+#($magical_qfzahz_yaae = "create food")
+#($magical_qpabraw = "charm")
+#($magical_qpurr_hajqp = "CHILL TOUCH")
+#($magical_safhar = "\033[1m\033[37m!PORTAL!\033[0m")
+#($magical_saugai = "poison")
+#($magical_sfahzqhuai_yfaw_zzur = "protection from evil")
+#($magical_unsoqpaih = "enchant")
+#($magical_unsozfol_efaui = "energy drain")
+#($magical_uoculoihuyl = "identify")
+#($magical_waouq_bragh = "magic blast")
+#($magical_waouq_wuggurz = "MAGIC MISSILE")
+#($magical_xafe_ay_candusqarr = "word of recall")
+#($magical_xahqp_faaw = "watch room")
+#($magical_yufzbarr = "FIREBALL")
+#($magical_yuie_hpz_sahp = "find the path")
+#($magical_yzabra = "fear")
+#($magical_zabrahpdjatz = "EARTHQUAKE")
+#($mana = "67")
+#($manaM = "67")
+#($mount = "m")
+#($move = "154")
+#($moveM = "154")
+#($nummer = "1")
+#($realtime = "6am")
+#($sesstp = "226793")
+#($sessxp = "5245192")
+#($stored_quakes = "0\015")
+#($tank = "av")
+#($target = "")
+#($timeofday = "DAWN")
+#($twodoor = "exit")
+#($xpcal = "0")
+#bind C-n ^N=&next-line
+#bind C-p ^P=&prev-line
+#bind KP* ^[Oj={#send ("close "+$twodoor)}
+#bind KP- ^[Oz=up
+#bind KP0 ^[Op=flee
+#bind KP1 ^[Oq=ttarget
+#bind KP2 ^[Or={south;#print ("south")}
+#bind KP3 ^[Os={down;#print ("down")}
+#bind KP4 ^[Ot={west;#print ("west")}
+#bind KP5 ^[Ou={exit;#print ("exit")}
+#bind KP6 ^[Ov={east;#print ("east")}
+#bind KP8 ^[Ox={north;#print ("north")}
+#bind KP9 ^[Oy={up;#print ("up")} 
+#bind KP_+ ^[Ok={#send ("close "+$keydoor);#send ("lock "+$keydoor)}
+#bind KP_- ^[Om={#send ("unlock "+$keydoor);#send ("open "+$keydoor)}
+#bind KPenter ^[OM=flush quick
+#bind KPperiod ^[On=time
+#bind KPslash ^[Oo={#send ("open "+$twodoor)}
+#bind Tab ^I=_sync
+#bind pagedown ^[[6~={#send ("close "+$xdoor)}
+#bind pageup ^[[5~={#send ("open "+$xdoor)}
+#option +autoclear -autoprint -compact -debug +echo -exit -history
+#option +info -keyecho -reprint -sendsize -speedwalk -words -wrap
+
+info
