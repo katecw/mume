@@ -1,0 +1,179 @@
+
+# ( " Herb-related aliases " )
+# ( "  - 'pf' when at a bush, or 'ga plant' then 'cpa' to crush and auto-stash all " )
+# ( "  - assumes you are using same aliases for storage (see aliases.txt)          " )
+
+#alias pf={get all from all.plant;get all from all.shrub;stashbush}
+#alias cp={crush plant;stashcrush}
+#alias cpa={crush plant;crush plant;crush plant;stashcrush}
+#alias cpaa={crush plant;crush plant;crush plant;crush plant;crush plant;crush plant;crush plant;crush plant;crush plant;crush plant;stashcrush}
+#alias stashherbs={psa weed; psba red; stashcrush; stashbush}
+#alias stashcrush={ppa thyme;ppa sage;ppa tarragon;ppa lily;ppa marjoram;psa petals;psa powder;psa leaves}
+#alias stashbush={psba violet;ppa sage;ppa juniper;ppa blackcurrant;psa flowers}
+#action >-donecp You have={#print;stashcrush;#action -donecp}
+
+#alias hh={crush honeycomb;crush honeycomb;crush honeycomb;crush honeycomb;crush honeycomb;pp honey-wax;pta honey-wax}
+
+#alias qf={quaff $1;hide $1}
+
+
+
+# ( " These assume you've pre-made and stashed them (most of those last a while). Heavy ones in satchel on mount, light ones in backpack " )
+
+#alias see={gb phosphorescent;qf phosphorescent}
+#alias shad={gb sombre;qf sombre}
+#alias anti={gb brown;qf brown}
+#alias sooth={u1;gt draught;qf draught;g1m}
+#alias clear={u1;gt pungent;qf pungent;g1m}
+
+
+
+# ( " Mixed kits " )
+
+#action %+nomixed A (fragrant-smelling bag|green leather bag|crude herbal kit) contains nothing={#print ("$0 ("+$HERBCOL+"EMPTY"+$NORM+")")}
+#action %+mixedwalk1 A (fragrant-smelling bag|green leather bag|crude herbal kit) contains a cluster of hard, round, black berries, a handful of clover, several cloves and a pinch of pale-green, crushed leaves={#print ("$0 ("+$HERBCOL+"Walking"+$NORM+")")}
+#action %+mixedwalk2 A (fragrant-smelling bag|green leather bag|crude herbal kit) contains a pinch of pale-green, crushed leaves, a handful of clover, several cloves and a cluster of hard, round, black berries={#print ("$0 ("+$HERBCOL+"Walking"+$NORM+")")}
+#action %+mixedsooth1 A (fragrant-smelling bag|green leather bag|crude herbal kit) contains a handful of blackcurrant berries, a mashed honey-wax mixture, some grey-green leaves, some scented crushed leaves and some white petals={#print ("$0 ("+$HERBCOL+"Soothing-draught"+$NORM+")")}
+#action %+mixedsooth2 A (fragrant-smelling bag|green leather bag|crude herbal kit) contains a handful of blackcurrant berries, a mashed honey-wax mixture, some grey-green leaves, some white petals and some scented crushed leaves={#print ("$0 ("+$HERBCOL+"Soothing-draught"+$NORM+")")}
+#action %+mixedshad A (fragrant-smelling bag|green leather bag|crude herbal kit) contains a bag of cinnamon, several needlelike leaves and a rib-bone of a skeleton={#print ("$0 ("+$HERBCOL+"Shadows"+$NORM+").")}
+#action %+mixedanti A (fragrant-smelling bag|green leather bag|crude herbal kit) contains two piles of blackberries, some long, slender green leaves, some white petals and some grey petals={#print ("$0 ("+$HERBCOL+"Antidote"+$NORM+").")}
+#action %+mixedseeing1 A (fragrant-smelling bag|green leather bag|crude herbal kit) contains a bag of cinnamon, a patch of phosphorescent moss and several needlelike leaves={#print ("$0 ("+$HERBCOL+"Seeing"+$NORM+").")}
+#action %+mixedseeing2 A (fragrant-smelling bag|green leather bag|crude herbal kit) contains a bag of cinnamon, several needlelike leaves and a patch of phosphorescent moss={#print ("$0 ("+$HERBCOL+"Seeing"+$NORM+").")}
+#action %+mixedclear A (fragrant-smelling bag|green leather bag|crude herbal kit) contains some sweet-smelling dried mauve petals, some grey-green leaves, some scented crushed leaves and a cluster of hard, round, black berries.={#print ("$0 ("+$HERBCOL+"Clear-Thoughts"+$NORM+").")}
+#action %+mixedscaly A (fragrant-smelling bag|green leather bag|crude herbal kit) contains a bright red mushroom, a hemlock plant, a sticky mass of stems, leaves and sap, a foul-smelling root, some orange-red flowers and some white, egg-shaped berries={#print ("$0 ("+$HERBCOL+"Drake-slumber"+$NORM+").")}
+#action %+mixedbaker1 A (fragrant-smelling bag|green leather bag|crude herbal kit) contains three eggs, a mashed honey-wax mixture and a sack of flour={#print ("$0 ("+$HERBCOL+"Baker/bannock"+$NORM+").")}
+#action %+mixedbaker2 A (fragrant-smelling bag|green leather bag|crude herbal kit) contains three eggs, a sack of flour and a mashed honey-wax mixture={#print ("$0 ("+$HERBCOL+"Baker/bannock"+$NORM+").")}
+#action %+mixedtrav1 A (fragrant-smelling bag|green leather bag|crude herbal kit) contains a handful of narrow leaves, a handful of clover and a man-like root={#print ("$0 ("+$HERBCOL+"Travelling"+$NORM+").")}
+#action %+mixedleaf1 A (fragrant-smelling bag|green leather bag|crude herbal kit) contains a purple flower with a fluffy red center, a mashed honey-wax mixture, some grey-green leaves and some scented crushed leaves={#print ("$0 ("+$HERBCOL+"Leaf-Cake"+$NORM+").")}
+
+
+# ( " Herb identification " )
+
+#action >+bell2 &1violet berries&2=#print ("$1violet berries ("+$HERBCOL+"Belladonna"+$NORM+")$2")}
+#action >+bella1 &1large shrub covered with dark violet berries&2=#print ("$1large shrub covered with dark violet berries ("+$HERBCOL+"Belladonna"+$NORM+")$2")
+#action >+blackc1 &1shrub with maple-like leaves&2=#print ("$1shrub with maple-like leaves ("+$HERBCOL+"Blackcurrant"+$NORM+")$2")
+#action >+blackc2 &1blackcurrant berries&2=#print ("$1blackcurrant berries ("+$HERBCOL+"Blackcurrant"+$NORM+")$2")
+#action >+cherries &1branches loosely spreading&2=#print ("$1branches loosely spreading ("+$HERBCOL+"Cherries"+$NORM+")$2")
+#action >+foxtail1 &1bushy plant grows here, with tall clusters of yellow flowers&2=#print ("$1bushy plant grows here, with tall clusters of yellow flowers ("+$HERBCOL+"Foxtail"+$NORM+")$2")
+#action >+foxtail2 &1 yellow petals&2=#print ("$1 yellow petals ("+$HERBCOL+"Foxtail"+$NORM+")$2")
+#action >+ginseng &1man-like root&2=#print ("$1man-like root ("+$HERBCOL+"Ginseng"+$NORM+")$2")
+#action >+ginseng2 &1single cluster of flowers atop its narrow stem&2=#print ("$1single cluster of flowers atop its narrow stem ("+$HERBCOL+"Ginseng"+$NORM+")$2")
+#action >+hem1 &1tall plant with a perfectly smooth stem&2=#print ("A tall plant with a perfectly smooth stem ("+$HERBCOL+"Hemlock"+$NORM+")$2")
+#action >+hem2 &1hemlock plant&2=#print ("$1hemlock plant ("+$HERBCOL+"Hemlock"+$NORM+")$2")
+#action >+figwort1 &1grey-green plant&2=#print ("$1grey-green plant ("+$HERBCOL+"Figwort"+$NORM+")$2")
+#action >+lily1 &1 white petals&2=#print ("$1 white petals ("+$HERBCOL+"Water Lily"+$NORM+")$2")
+#action >+lily2 &1water&2lily&3=#print ("$1water$2lily ("+$HERBCOL+"Water Lily"+$NORM+")$3")
+#action >+herb15 &1woody stemmed plant&2=#print ("1 woody stemmed plants ("+$HERBCOL+"Tarragon"+$NORM+")$2")
+#action >+herb16 &1many-branched shrub&2=#print ("$1many-branched shrub ("+$HERBCOL+"Thyme"+$NORM+")$2")
+#action >+herb17 &1large thorny branched shrub&2=#print ("$1large thorny branched shrub ("+$HERBCOL+"Blackberries"+$NORM+")$2")
+#action >+herb18 &1low shrub with bright green, oblong leaves&2=#print ("$1low shrub with bright green, oblong leaves ("+$HERBCOL+"Blueberries"+$NORM+")$2")
+#action >+herb19 &1woody evergreen plant grows here, with many stems reaching upward&2=#print ("$1woody evergreen plant grows here, with many stems reaching upward ("+$HERBCOL+"Rosemary"+$NORM+")$2")
+#action >+herb1a &1grey-green leaves and grey flowers&2=#print ("$1grey-green leaves and grey flowers ("+$HERBCOL+"Figwort"+$NORM+")$2")
+#action >+herb2 &1grey petals&2=#print ("$1some grey petals ("+$HERBCOL+"Figwort"+$NORM+")$2")
+#action >+herb20 &1woody, many-stemmed plant&2={#print ("$1woody, many-stemmed plant ("+$HERBCOL+"Rosemary"+$NORM+")$2")}
+#action >+herb21 &1needlelike leaves&2={#print ("$1needlelike leaves ("+$HERBCOL+"Rosemary"+$NORM+")$2")}
+#action >+sage1 &1waist-high evergreen shrub grows here, with thick, reaching&2=#print ("$1waist-high evergreen shrub grows here, with thick, reaching$2 ("+$HERBCOL+"Sage"+$NORM+")")
+#action >+sage2 &1grey-green leaves&2=#print ("$1grey-green leaves ("+$HERBCOL+"Sage"+$NORM+")$2")
+#action >+herb3 &1small evergreen plant grows here, its woody stems reaching two feet&2=#print ("$1small evergreen plant grows here, its woody stems reaching two feet ("+$HERBCOL+"Tarragon"+$NORM+")$2")
+#action >+herb30 &1short evergreen plant, with slightly bluish needles&2=#print ("$1short evergreen plant, with slightly bluish needles ("+$HERBCOL+"Juniper"+$NORM+")$2")
+#action >+herb31 &1of hard, round, black berries&2=#print ("$1of hard, round, black berries ("+$HERBCOL+"Juniper"+$NORM+")$2")
+#action >+herb4 &1grey petals have been scattered about&2=#print ("$1grey petals have been scattered about ("+$HERBCOL+"Figwort"+$NORM+")$2")
+#action >+herb5 &1of narrow, fragrant leaves&2=#print ("$1of narrow, fragrant leaves ("+$HERBCOL+"Tarragon"+$NORM+")$2")
+#action >+herb6 &1woody, stemmed plant&2={#print ("$1woody, stemmed plant ("+$HERBCOL+"Tarragon"+$NORM+")$2")}
+#action >+Milkweed &1slender plant grows here, with clusters of tiny pink flowers&2=#print ("$1slender plant grows here, with clusters of tiny pink flowers ("+$HERBCOL+"Milkweed"+$NORM+")$2")
+#action >+herb8 &1sticky mass&2=#print ("$1sticky mass ("+$HERBCOL+"Milkweed"+$NORM+")$2")
+#action >+herbar1 &1grey fluid-sack&2=#print ("$1grey fluid-sack ("+$HERBCOL+"Arachnia"+$NORM+")$2")
+#action >+herbath &1long, pointed leaves and flowers at its top&2=#print ("$1long, pointed leaves and flowers at its top ("+$HERBCOL+"Athelas"+$NORM+")$2")
+#action >+herbath1 &1long, slender green leaves&2=#print ("$1long, slender green leaves ("+$HERBCOL+"Athelas"+$NORM+")$2")
+#action >+herbath2 &1small plant&2, with long leaves&3=#print ("$1small plant$2, with long leaves ("+$HERBCOL+"Athelas"+$NORM+")$3")
+#action >+herbbb &1 blackberries&2=#print ("$1 blackberries ("+$HERBCOL+"Blackberries"+$NORM+")$2")
+#action >+herbbf1 &1short, black fur&2=#print ("$1short, black fur ("+$HERBCOL+"Bat Fur"+$NORM+")$2")
+#action >+card1 &1purple bloom and wide leaves&2=#print ("$purple bloom and wide leaves ("+$HERBCOL+"Cardamon"+$NORM+")$2")
+#action >+card2 &1short flowe&2, with&3purple bloom&4=#print ("$1short flowe$2, with$3purple bloom$4 ("+$HERBCOL+"Cardamon"+$NORM+")")
+#action >+card3 &1grey-brown powder&2=#print ("$1grey-brown powder ("+$HERBCOL+"Cardamon"+$NORM+")$2")
+#action >+herbsal1 &1short, moist tail&2=#print ("$1short, moist tail ("+$HERBCOL+"Salamander"+$NORM+")$2")
+#action >+herbthi1 &1white-stemmed plants, with blue flower heads&2=#print ("$1white-stemmed plants, with blue flower heads grow ("+$HERBCOL+"Thistle"+$NORM+")$2")
+#action >+herbthi1 &1prickly plant with blue flower heads&2=#print ("$1prickly plant with blue flower heads ("+$HERBCOL+"Thistle"+$NORM+")$2")
+#action >+herbve1 &1small fluid-sack&2=#print ("$1small fluid-sack ("+$HERBCOL+"Venom"+$NORM+")$2")
+#action >+honeysuckle &1 fragile flowers&2={#print ("$1 fragile flowers ("+$HERBCOL+"Honeysuckle"+$NORM+")$2")}
+#action >+honeysuckle1 &1shrub grows here, filling the air with a heavy scent&2={#print ("$1shrub grows here, filling the air with a heavy scent ("+$HERBCOL+"Honeysuckle"+$NORM+")$2")}
+#action >+ink1 &1holly bush with dark green leaves&2=#print ("$1holly bush with dark green leaves ("+$HERBCOL+"Inkberries"+$NORM+")$2")
+#action >+tarra7 &1of narrow leaves&2=#print ("$1of narrow leaves ("+$HERBCOL+"Tarragon"+$NORM+")$2")
+#action >+thyme3 &1scented crushed leaves&2=#print ("$1scented crushed leaves ("+$HERBCOL+"Thyme"+$NORM+")$2")
+#action >+vani3 &1brown bean&2=#print ("$1brown bean ("+$HERBCOL+"Vanilla"+$NORM+")$2")
+#action >+valerian1 &1foul-smelling root&2=#print ("$1foul-smelling root ("+$HERBCOL+"Valerian"+$NORM+")$2")
+#action >+marjoram1 &1thin, hairy plant&2=#print ("$1thin, hairy plant ("+$HERBCOL+"Marjoram"+$NORM+")$2")
+#action >+marjoram2 &1 pale-green, crushed leaves&2=#print ("$1 pale-green, crushed leaves ("+$HERBCOL+"Marjoram"+$NORM+")$2")
+#action >+poppy1 &1orange-red flowers&2=#print ("$1orange-red flowers ("+$HERBCOL+"Poppy"+$NORM+")$2")
+#action >+poppy2 &1orange-red blossoms&2=#print ("$1orange-red flowers ("+$HERBCOL+"Poppy"+$NORM+")$2")
+#action >+seeing1 &1phosphorescent moss&2=#print ("$1phosphorescent moss ("+$HERBCOL+"Seeing Moss"+$NORM+")$2")
+#action >+seeing2 &1patch of moss grows here on a wet, flat stone&2=#print ("$1patch of moss ("+$HERBCOL+"Seeing Moss"+$NORM+")$2")
+#action >+pipeweed &1pipe-weed&2=#print ("$1pipe-weed ("+$HERBCOL+"Pipe-weed"+$NORM+")$2")
+#action >+slenderflow1 &1slender flowering plant&2=#print ("$1slender flowering plant ("+$HERBCOL+"Milkweed"+$NORM+")$2")
+#action >+corriander1 &1 man's-waist high evergreen shrub grows here, with bright green &2={#print ("$1 man's-waist high evergreen shrub grows here, with bright green $2 ("+$HERBCOL+"Corriander"+$NORM+")")}
+#action >+clover1 &1clover grows&2={#print ("$1clover grows$2 ("+$HERBCOL+"Clover"+$NORM+")")}
+#action >+clover2 &1handful&2of clover&3={#print ("$1handful$2"+"of clover ("+$HERBCOL+"Clover"+$NORM+")$3")}
+#action >+cloves1 &1small cloves&2={#print ("$1small cloves$2 ("+$HERBCOL+"Cloves"+$NORM+")")}
+#action >+cloves2 &1several cloves&2={#print ("$1several cloves$2 ("+$HERBCOL+"Cloves"+$NORM+")")}
+#action >+cloves3 &1piles of cloves&2={#print ("$1piles of cloves$2 ("+$HERBCOL+"Cloves"+$NORM+")")}
+#action >+cinnamon1 &1bag&2of cinnamon&3={#print ("$1bag$2of cinnamon$3 ("+$HERBCOL+"Cinnamon"+$NORM+")")}
+#action >+splayed1 &1splayed leaves&2=#print ("$1splayed leaves ("+$HERBCOL+"Corriander"+$NORM+")$2")
+#action >+slendwhite1 &1slender plant&2=#print ("$1slender plant ("+$HERBCOL+"Cash crop1"+$NORM+")$2")
+#action >+bluishwhite1 &1bluish-white petals&2=#print ("$1bluish-white petals ("+$HERBCOL+"Cash crop 1"+$NORM+")$2")
+#action >+misty1 &1misty plant&2=#print ("$1misty plant ("+$HERBCOL+"Hithlain"+$NORM+")$2")
+#action >+misty2 &1tall silvery plant&2mist&3=#print ("$1tall silvery plant$2mist$3 ("+$HERBCOL+"Hithlain"+$NORM+")")
+#action >+bushy1 &1bushy flowering&2=#print ("$1bushy flowering ("+$HERBCOL+"Foxtail"+$NORM+")$2")
+#action >+bulbous1 &1bulbous roots&2=#print ("$1bulbous roots ("+$HERBCOL+"Cash crop 2"+$NORM+")$2")
+#action >+goose1 &1tough green weed&2=#print ("$1tough green weed ("+$HERBCOL+"Goosegrass"+$NORM+")$2")
+#action >+goose2 &1small and tough weed&2=#print ("$1small and tough weed ("+$HERBCOL+"Goosegrass"+$NORM+")$2")
+#action >+bane1 &1white, egg-shaped berries&2=#print ("$1white, egg-shaped berries ("+$HERBCOL+"Baneberries"+$NORM+")$2")
+#action >+mint1 &1fresh-scented leaves&2=#print ("$1fresh-scented leaves ("+$HERBCOL+"Mint"+$NORM+")$2")
+#action >+mint2 &1clean fragrance drifts up from a thick clump of leaves&2=#print ("$1clean fragrance drifts up from a thick clump of leaves ("+$HERBCOL+"Mint"+$NORM+")$2")
+#action >+mauve1 &1mauve petals&2=#print ("$1mauve petals ("+$HERBCOL+"Mauve"+$NORM+")$2")
+#action >+salt1 &1chunk&2of salt&3=#print ("$1chunk$2of salt ("+$HERBCOL+"Salt"+$NORM+") $3")
+#action >+pepper1 &1sack&2of pepper&3=#print ("$1sack$2of pepper ("+$HERBCOL+"Pepper"+$NORM+") $3")
+#action >+orchid1 &1orchid of light violet petals&2=#print ("$1orchid of light violet petals ("+$BOLD+$DARK+$CYAN+"Orchid"+$NORM+")$2")
+#action >+orchid2 &1violet orchid&2=#print ("$1violet orchid ("+$BOLD+$DARK+$CYAN+"Violet Orchid"+$NORM+")$2")
+#action >+coneflower1 &1short plant, with lance-shaped leaves&2=#print ("$1short plant, with lance-shaped leaves ("+$HERBCOL+"Coneflower"+$NORM+")$2")
+#action >+coneflower2 &1purple flower with a fluffy red center&2=#print ("$1purple flower with a fluffy red center ("+$HERBCOL+"Coneflower"+$NORM+")$2")
+#action >+coneflower3 &1purple-red flower&2=#print ("$1purple-red flower$2 ("+$HERBCOL+"Coneflower"+$NORM+")")
+#action >+paprika1 &1pungent red powder&2=#print ("$1pungent red powder$2 ("+$HERBCOL+"Paprika"+$NORM+")")
+#action >+honey1 &1honey-wax mixture&2=#print ("$1honey-wax mixture$2 ("+$HERBCOL+"Honey"+$NORM+")")
+#action >+baneberry1 &1dark green, foul-smelling shrub&2=#print ("$1dark green, foul-smelling shrub$2 ("+$HERBCOL+"Baneberries"+$NORM+")")
+
+
+# ( " Auto-mixing aliases - you'll need to adjust if you keep herbs in different places to me! (see "stashherbs") " )
+
+#alias autobaker={getbaker;mixbaker;mk;cad}
+#alias autodough={getbaker;mixbaker;mk;sa dough;psca dough}
+#alias getbaker={gsc honey-wax;gsc egg;gsc egg;gsc egg;gsc flour;lk}
+#alias mixbaker={put honey-wax kit;put egg kit;put egg kit;put egg kit;put flour kit;lk}
+#alias autoantidote={getantidote;mixantidote;mk}
+#alias getantidote={gp blackberries;gp blackberries;gp lily;gp figwort;gp athelas;lk}
+#alias mixantidote={pk blackberries;pk blackberries;pk lily;pk figwort;pk athelas;lk}
+#alias autoclear={getclear;mixclear;mk}
+#alias getclear={gp juniper;gp mauve;gp sage;gp thyme;lk}
+#alias mixclear={put juniper kit;put mauve kit;put sage kit;put thyme kit;lk}
+#alias autoseeing={getseeing;mixseeing;mk}
+#alias getseeing={gp cinnamon;gp rosemary;gp moss;lk}
+#alias mixseeing={put cinnamon kit;put rosemary kit;put moss kit;lk}
+#alias autoshadows={getshadows;mixshadows;mk}
+#alias getshadows={gp cinnamon;gp rosemary;gp rib-bone;lk}
+#alias mixshadows={put cinnamon kit;put rosemary kit;put rib-bone kit;lk}
+#alias autosoothing={getsoothing;mixsoothing;mk}
+#alias getsoothing={gp honey;gp sage;gp thyme;gp blackcurrant;gp lily;lk}
+#alias mixsoothing={put honey kit;put sage kit;put thyme kit;put blackcurrant kit;put lily kit;lk}
+#alias autowalking={getwalking;mixwalking;mk}
+#alias getwalking={gp marjoram;gp clover;gp cloves;gp juniper;lk}
+#alias mixwalking={put marjoram kit;put cloves kit;put clover kit;put juniper kit;lk}
+#alias getscaly={u1;gt mass;gt hemlock;gt red;gp valerian;gp poppy;gp baneberry;lk}
+#alias mixscaly={put mass kit;put valerian kit;put poppy kit;put hemlock kit;put red kit;put baneberry kit;lk}
+#alias autotravelling={gettravelling;mixtravelling;mk}
+#alias gettravelling={gp tarragon;gp ginseng; gp clover;lk}
+#alias mixtravelling={pk tarragon;pk ginseng; pk clover;lk}
+#alias getleafcake={gp honey; gp thyme; gp sage; gp coneflower; lk}
+#alias mixleafcake={pk honey; pk thyme; pk sage; pk coneflower; lk}
+#alias mk={rest;mix kit;stand}
+
+
+#print (" ==== herbs.txt loaded ==== ")

@@ -1,0 +1,360 @@
+
+# ( " Moods " )
+
+#alias csq={cha spell q}
+#alias csf={cha spell f}
+#alias csn={cha spell n}
+#alias csc={cha spell c}
+#alias cst={cha spell t}
+
+#alias cma={cha moo agg}
+#alias cmb={cha moo brave}
+#alias cmn={cha moo normal}
+#alias cmp={cha moo prudent}
+#alias cmw={cha moo wimpy}
+
+#alias can={cha alert n}
+#alias cac={cha alert c}
+#alias caa={cha alert a}
+#alias cav={cha alert v}
+#alias cap={cha alert p}
+
+
+# ( " General " )
+
+#alias voidoff=#action +void
+#alias voidon=#action -void
+
+#alias w0={cha wimp 0}
+#alias w1={cha wimp 10}
+#alias w2={cha wimp 20}
+#alias w3={cha wimp 30}
+#alias w5={cha wimp 50}
+#alias w8={cha wimp 80}
+#alias w10={cha wimp 100}
+#alias w15={cha wimp 150}
+#alias w20={cha wimp 200}
+
+#alias wl={weather local}
+
+#alias x={exa $1}
+#alias xc=#if (*\$0) exam $0.corpse;#else exam corpse
+
+#alias ee={scout east}
+#alias dd={scout down}
+#alias ww={scout west}
+#alias uu={scout up}
+#alias nn={scout north}
+#alias ss={scout south}
+
+#action ^You are awakened by={#print;stand}
+#alias ws={wake;stand}
+#alias wa=ws
+
+#alias da={drop all.$1}
+#alias dam={eat meat;eat meat;drop all.meat}
+
+#alias ban={bandage $1}
+
+#alias bc={gb knife;#if (*\$0) butcher $0.corpse;#else butcher corpse;pb knife}
+#alias bca={gb knife;butcher 1.corpse;butcher 2.corpse;butcher 3.corpse;butcher 4.corpse;butcher 5.corpse;pb knife}}
+
+#action >+server1 ^###=#print (        $BKBLUE+$YELLOW+"     ---+++$0 ###+++---"+$NORM)
+
+#alias dw={drink water}
+#alias ds=drink flagon
+#alias pws={pour water flagon}
+
+#("Uses food/water stashed in satchel/saddlebag on mount")
+#alias pwg={u1;gda goblet;pour water 1.goblet;pour water 1.goblet;pda goblet;g1m}
+#alias dg={u1;gd goblet;drink goblet;pd goblet;g1m}
+#alias eb={u1;gt bannock;eat bannock;g1m}
+
+#(" For use with small elven bag ")
+#alias eeb={g lembas bag; eat lembas}
+#alias deb={g cup bag;drink cup; put cup bag}
+
+#alias ga={get all.$1}
+#alias gac={get all.$1 from all.corpse}
+#alias gas={get all from all.skeleton}
+#alias gf={get all from $1}
+#alias gfa={get all from 1.rack;get all from 1.rack;get all from 2.rack;get all from 3.rack;get all from 4.rack;get all from 1.peg;get all from 2.peg}
+
+# ( " 'gak' is get all key, including from pouches " )
+#alias gak={ga key; gac key; gac pouch; get all.key from all.pouch; da pouch; pkey all.key}
+
+# ( " 'gmac' is get all metal all.corpse, except a bit broader - possibly too broad still (stweapon for instance are usually low in value) " )
+#alias gmac={gac chain; gac metal; gac scale; gac cweapon; gac pweapon; gac tweapon; gac sweapon; gac stweapon }
+
+
+
+# ( " Aliases for killing and charmies " )
+# ( " mta <target> sets your target, cta <target> sets charmies'. ta <target> puts you both on the same. You can set target when not in the room, eg. 3.bear " )
+# ( " Some (`, oka, b, spells etc) will automatically use target if set (ta <target> or mta <target>), unless you specify something else " )
+
+#alias b={#if ("$1"!="") bash $1; #else #send ("bash "+$mtarget)}
+#alias bd={#if ("$1"!="") bash dis $1; #else #send ("bash dis "+$mtarget)}
+
+#alias `={#if ("$1"!="") shoot $1; #else #send ("shoot "+$mtarget)}
+#alias ka={ { #if ("$1"!="") kill $1; #else #send ("kill "+$mtarget) }; ofa }
+#alias ka={kill $0;ofa}
+#alias r={rescue $1}
+#alias p={protect $1}
+
+#alias of={order followers $0}
+#alias off={order followers flee}
+#alias ff={off;flee}
+#alias ofa={order followers assist; #if ( $folautobash=="1" ) op bash }
+#alias ofb={order followers bash}
+#alias ofk={order followers kill $1}
+
+#alias oka={ { #if ("$1"!="") order tank kill $1; #else #send ("order tank kill "+$ctarget) }; aa }
+#alias roka={ { #if ("$1"!="") {rev $1; order tank kill $1}; #else #send ("rev "+$ctarget+";order tank kill "+$ctarget) }; aa }
+#alias otk={ { #if ("$1"!="") order tank kill $1; #else #send ("order tank kill "+$ctarget) } }
+#alias rotk={ { #if ("$1"!="") {rev $1; order tank kill $1}; #else #send ("rev "+$ctarget+";order tank kill "+$ctarget) } }
+#alias ock={ { #if ("$1"!="") { order tank kill $1; ofa }; #else {#send ("order tank kill "+$ctarget); ofa } } }
+#alias rock={ { #if ("$1"!="") {rev $1; order tank kill $1; ofa}; #else { #send ("rev "+$ctarget+";order tank kill "+$ctarget); ofa } } }
+#alias otsl={ot sleep;#send ("order tank act waiting for its mistress")}
+#alias ot={order tank $0}
+#alias ota={order tank assist $0}
+#alias otr={order tank resc $0}
+
+#alias op={order parry $0}
+#alias opk={order parry kill $0}
+#alias opb={order parry bash $0}
+#alias opa={order parry assist $0}
+#alias opr={order parry resc}
+
+#alias ofsl={of sleep;#send ("order followers act , waiting for its mistress")}
+#alias ofsln={of sleep;#send ("order followers act , waiting for "+$name)}
+#alias ofwa={of wake;of stand}
+#alias aa={assist;ofa}
+#alias swapt={label tank tankx;label parry tank;label tankx parry}
+
+#alias parry={#var $parry=$1;#send ("label $1 parry");gr parry;#print $1 is now the parry split...}
+#alias parryb={#var $parryb=$1;#send ("label $1 parryb");gr parryb;#print $1 is now the second parry split...}
+#alias tank={#var $tank=$1;#send ("label $1 tank");gr tank;#print $1 is now the tank...}
+
+#( " All target - make us all aim at the same " )
+#alias ta={mta $1; cta $1}
+#( " My target - what I'm aiming at " )
+#($mtarget = "")
+#alias mta={#var $mtarget=$1; #if ("$1"=="") { label remove MYTARGET; #var $mtarget=(""); #print ("My target cleared.") }; #else { #print ("My target  -->"+$mtarget); #send ("label "+$mtarget+" MYTARGET") } }
+#( " Charmie target - what we're sicking the charmies on " )
+#($ctarget = "")
+#alias cta={#var $ctarget=$1; #if ("$1"=="") { label remove CHTARGET; #var $mtarget=(""); #print ("Charmies target cleared.") }; #else { #print ("Charmies target  -->"+$ctarget); #send ("label "+$ctarget+" CHTARGET") } }
+#alias xt={#send ("exa "+$mtarget)}
+
+
+# ( " Repeatable actions on same-named targets " )
+# ( "  - For example, 'ta statue' then 'setq vbt' before entering room. On entering type 1<enter>, 2<enter> etc for 'cast thoro 'blindness' 1.statue, then 2. etc " )
+
+
+#var $qact=("vb")
+#alias setq=#var $qact=$1
+#alias 1=#ex ($qact+" 1."+$mtarget)
+#alias 2=#ex ($qact+" 2."+$mtarget)
+#alias 3=#ex ($qact+" 3."+$mtarget)
+#alias 4=#ex ($qact+" 4."+$mtarget)
+#alias 5=#ex ($qact+" 5."+$mtarget)
+#alias 6=#ex ($qact+" 6."+$mtarget)
+#alias 7=#ex ($qact+" 7."+$mtarget)
+
+
+# ( " Some quick aliases for PK. I'm clueless at it so probably make your own! " )
+
+#alias km={k *man*;otk *man*;opb *man*;vq man}
+#alias ko={k *orc*;otk *orc*;opb *orc*;vq orc}
+#alias kt={k *troll*;otk *troll*;opb *troll*;vq troll}
+#alias vqm={cast fast 'dispel evil' *man*}
+#alias vqo={cast fast 'dispel evil' *orc*}
+#alias vqt={cast fast 'dispel evil' *troll*}
+#alias vq={cast fast 'dispel evil' $1}
+
+
+
+# ( " Mounts - some of Kate's custom setup in here! " )
+
+#alias mount={#var $mount=$1;#print ("MOUNT ===>"+$mount);label $1 mine;lead mine;drop saddlecloth;s1;get saddlecloth;group mine;g1m}
+#alias mountb={#var $mountb=$1;#print ("MOUNT B ===>"+$mountb);label $1 mineb;lead mineb;drop saddle;s2;get saddle;group mineb}
+#alias mounts={mount rohirrim;mountb wardrobe;gm}
+#alias s1={saddle mine}
+#alias s2={saddle mineb}
+#alias u1={unsaddle mine all;get all}
+#alias u2={unsaddle mineb all;get all}
+#alias us1={unsaddle mine}
+#alias us2={unsaddle mineb}
+#alias us={lead;us1;us2}
+#alias usa={lead;us1;us2;u1;u2}
+#alias resa={drop saddlecloth;s1;get saddlecloth;s2;gm;sr}
+#alias sr={stand;ride mine}
+#alias sr2={stand;ride mineb}
+#alias r2={ride mineb}
+#alias sr3={stand;ride minec}
+#alias r3={ride minec}
+#alias mr={stand;ride mine;ask merc ride}
+#alias st={stand}
+#alias stashrings={lead mine;unsaddle mine;get pouch saddle;put all.ring 2.pouch;put pouch saddle;saddle mine;ride mine}
+#alias unstashrings={lead mine;unsaddle mine;get pouch saddle;get all.ring 2.pouch;put pouch saddle;saddle mine;ride mine}
+#alias stashgems={gba pouch; get wallet 3.pouch; oj; pja gem; pj mithril; cj; put wallet 3.pouch; pba pouch}
+#alias unstashgems={gba pouch; get wallet 3.pouch; oj; gja; cj; put wallet 3.pouch; pba pouch}
+#alias stashcash={lead mine;unsaddle mine;get all.moneybag saddle;rem kit;rem sable;wear all.moneybag;put $1 lauren 1.moneybag;put $1 lauren 2.moneybag;rem all.moneybag;put all.moneybag saddle;wear kit;wear sable;saddle mine;ride mine}
+#alias unstashcash={lead mine;unsaddle mine;get all.moneybag saddle;rem kit;rem sable;wear all.moneybag;get all 1.moneybag;get all 2.moneybag;rem all.moneybag;wear kit;wear sable;put all.moneybag saddle;saddle mine;ride mine}
+#alias unstashall={unstashcash;unstashgems;unstashrings}
+
+#alias g1={give $1 mine}
+#alias g1a={give all.$1 mine}
+#alias g1d={give saddlebag mine}
+#alias g1s={give sack mine}
+#alias g1t={give satchel mine}
+#alias g1r={give rope mine}
+#alias g1x={give box mine}
+#alias g1b={give backpack mine}
+#alias g1w={give web mine}
+#alias g2={give $1 mineb}
+#alias g2a={give all.$1 mineb}
+#alias g2d={give saddlebag mineb}
+#alias g2s={give sack mineb}
+#alias g2t={give satchel mineb}
+#alias g2r={give rope mineb}
+#alias g2x={give box mineb}
+#alias g2b={give backpack mineb}
+#alias g2w={give web mineb}
+#alias g1m={g1d;g1t;g1b}
+#alias g2m={g2a sack;g2w}
+#alias gm={g1m;g2a}
+
+#($mbag = "saddlebag")
+#alias mbag={#var $mbag=$1}
+#alias gd1={u1;#send ("drop "+$mbag);g1a;#send ("get "+$mbag)}
+#alias gd2={u2;#send ("drop "+$mbag);g2a;#send ("get "+$mbag)}
+#alias gs1={u1;drop all.sack;g1a;get all.sack}
+#alias gs2={u2;drop all.sack;drop web;g2a;get web;get all.sack}
+#alias gt1={u1;drop satchel;g1a;get satchel}
+#alias gt2={u2;drop satchel;g2a;get satchel}
+#alias gw1={u1;drop web;g1a;get web}
+#alias gw2={u2;drop web;g2a;get web}
+#alias gb1={u1;drop backpack;g1a;get backpack}
+#alias gb2={u2;drop backpack;g2a;get backpack}
+
+#alias ld={#send ("look in "+$mbag)}
+#alias gd={#send ("get $1 "+$mbag)}
+#alias gda={#send ("get all.$1 "+$mbag)}
+#alias pd={#send ("put $1 "+$mbag)}
+#alias pda={#send ("put all.$1 "+$mbag)}
+
+
+#alias lb={look in backpack}
+#alias gb={get $1 backpack} 
+#alias gba={get all.$1 backpack} 
+#alias pb={put $1 backpack} 
+#alias pba={put all.$1 backpack} 
+
+#alias lbb={look in 2.backpack}
+#alias gbb={get $1 2.backpack} 
+#alias gbba={get all.$1 2.backpack} 
+#alias pbb={put $1 2.backpack} 
+#alias pbba={put all.$1 2.backpack} 
+
+
+# ( " Still working on this - multi-sack management. 'lsa' will look in an weigh all sacks, useful for herbloot storage IMHO " )
+
+#($SACKLET_0 = "a")
+#($SACKLET_1 = "b")
+#($SACKLET_2 = "c")
+#var $sacknum=0
+#(" ["+$SACKLET_$sacknum+"]")
+#action >+sackid ^sack (&1)={#if ($sacknum=="0") #print;#else {#print (""); #print ($ULINE+"Contents of "+$sacknum+".sack ($1)"+$NORM)}}
+#action >+sackgag It is a large sack.={}
+#alias lsa={ls;lsb;lsc}
+#alias ls={#var $sacknum=1;look in 1.sack;con 1.sack}
+#alias ps={put $1 sack} 
+#alias psa={put all.$1 sack} 
+#alias gs={get $1 sack} 
+#alias gsa={get all.$1 sack} 
+#alias lsb={#var $sacknum=2;look in 2.sack;con 2.sack}
+#alias psb={put $1 2.sack} 
+#alias psba={put all.$1 2.sack} 
+#alias gsb={get $1 2.sack} 
+#alias gsba={get all.$1 2.sack} 
+#alias lsc={#var $sacknum=3;look in 3.sack;con 3.sack}
+#alias psc={put $1 3.sack} 
+#alias psca={put all.$1 3.sack} 
+#alias gsc={get $1 3.sack} 
+#alias gsca={get all.$1 3.sack} 
+
+#alias ox={open box}
+#alias cx={close box}
+#alias lx={look in box}
+#alias px={put $1 box} 
+#alias pxa={put all.$1 box} 
+#alias gx={get $1 box} 
+#alias gxa={get all.$1 box} 
+
+#alias lp={look in pouch}
+#alias pp={put $1 pouch} 
+#alias ppa={put all.$1 pouch} 
+#alias gp={get $1 pouch} 
+#alias gpa={get all.$1 pouch} 
+
+#alias lpb={look in 2.pouch}
+#alias ppb={put $1 2.pouch} 
+#alias ppba={put all.$1 2.pouch} 
+#alias gpb={get $1 2.pouch} 
+#alias gpba={get all.$1 2.pouch} 
+
+#alias lj={look in wallet}
+#alias pj={put $1 wallet} 
+#alias pja={put all.$1 wallet} 
+#alias gj={get $1 wallet} 
+#alias gja={get all.$1 wallet} 
+#alias cj={close wallet}
+#alias oj={open wallet} 
+
+#alias lw={look in web}
+#alias pw={put $1 web} 
+#alias pwa={put all.$1 web} 
+#alias gw={get $1 web} 
+#alias gwa={get all.$1 web} 
+
+#alias lq={look in quiver}
+#alias pq={put $1 quiver} 
+#alias pqa={put all.$1 quiver} 
+#alias gq={get $1 quiver} 
+#alias gqa={get all.$1 quiver}
+
+#alias lt={look in satchel}
+#alias pt={put $1 satchel} 
+#alias pta={put all.$1 satchel} 
+#alias gt={get $1 satchel} 
+#alias gta={get all.$1 satchel} 
+
+#alias lkey={look in keyring;con keyring}
+#alias pkey={put $1 keyring}
+#alias gkey={get $1 keyring}
+
+
+# ( " I like to have a bunch of pre-prepared kits, in the satchel on my main mounts. 'lka' looks in them all, then 'wk <1-8>' selects the one you want " )
+
+#alias lk=#if (*\$0) look in $0.kit;#else look in kit
+#alias lka={rem kit;gta kit;lk 1;lk 2;lk 3;lk 4;lk 5;lk 6;lk 7;lk 8}
+#alias wk={wear $1.kit;pta kit;lk}
+#alias pk={put $1 kit}
+
+#alias cad={gd pan;rem kit;wear pan;cook dough;cook dough;cook dough;cook dough;cook dough;cook dough;cook dough;cook dough;rem pan;wear kit belt;pd pan;psca bannock;pba bannock}
+#alias cam={gd pan;gd salt;rem kit;wear pan;cook raw;cook 2.raw;cook 3.raw;cook 4.raw;cook 5.raw;cook 6.raw;cook 7.raw;cook 8.raw;rem pan;wear kit belt;pd pan;pd salt;psa venison;psa smoked}
+
+
+# ( " Special " )
+
+#alias cup={gb green;quaff cup;pb cup}
+#alias sancscroll={gb purplescroll; recite purplescroll $1}
+#alias bobscroll={gb vellumscroll; recite vellumscroll $1}
+#alias lightningscroll={gb fragile; recite fragile $1}
+
+#alias pbs=use pale $1
+#alias horn={gb horn;use horn;pb horn}
+#alias ork={gb flask;qf flask}
+
+
+#print (" ==== aliases.txt loaded ==== ")

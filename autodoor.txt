@@ -1,0 +1,72 @@
+#( "========================================================================================================================================" )
+#( "|                 ~~~~ Kate's Auto-open/unlatch/unlock/pick via MMapper ~~~~                                                           |" ) #
+#( "| To use just type 'o<dir>' (eg 'on' or 'od') and let it do the rest. Reqires that your map knows the door name if secret.             |" ) #
+#( "| To close, 'cl<dir>' and to close+lock, 'lo<dir>'                                                                                     |" ) #
+#( "| This is mostly working. If doesn't work first time, just try again- sometimes it gets confused about whether it has finished or not  |" ) #
+#( "|                                                                                                                                      |" ) #
+#( "|                   * WARNING: Definitely illegal in PK! *                                                                             |" ) #
+#( "========================================================================================================================================" )
+
+#alias autoopen={ capopenon; #send ("_open "+$opendir) }
+#action >+capturedoor ^--->open &1={#print; #var $autodoor=$1}
+#alias capopenon={#action +doorlocked1; #action +doorlocked2; #action +doorlatched; #action +alreadyopen; #action +noexitthere; #action +opensuccess }
+#alias capopenoff={ #action -doorlocked1; #action -doorlocked2; #action -doorlatched; #action -alreadyopen; #action -noexitthere; #action -opensuccess }
+#action >-doorlocked1 ^It seems to be locked.={ #action +doorclick; #action +nokeyholes; #action +notgotkey; capopenoff; #print; #send ("_unlock "+$opendir) }
+#action >-doorlocked2 ^They seem to be locked.={ #action +doorclick; #action +nokeyholes; #action +notgotkey; capopenoff; #print; #send ("_unlock "+$opendir) }
+#action >-doorlatched ^It seems to be latched.={#action +doorclick; capopenoff; #send ("_unlock "+$opendir) }
+#action >-alreadyopen ^It's already open!={ capopenoff; #print ($BKGREEN+"$0"+$NORM) }
+#action >-noexitthere ^You don't see any exit there.={ capopenoff;  #print ($BKYELLOW+"$0"+$NORM) }
+#action >-opensuccess ^Ok.={ capopenoff; #print ($BKGREEN+"$0"+$NORM) }
+
+
+#("You don't see any roof here.")
+#("")
+
+#action >-notgotkey ^You do not have the proper key for that.={#action +doorclick; #action +unabletopick; #action +pickyield1; #action +stoppick; #action -nokeyholes; #action -notgotkey; #print; #send ("_pick "+$opendir) }
+#action >-nokeyholes ^You can't seem to spot any keyholes.={#action -nokeyholes; #action -notgotkey; #print ($BKYELLOW+"$0"+$NORM) }
+
+#action >-stoppick ^You stop trying to pick the lock.={#action -doorclick; #action -unabletopick; #action -stoppick; #print ($BKYELLOW+"$0"+$NORM) }
+#action >-unabletopick ^You seem to be unable to pick this lock.={#action -doorclick; #action -unabletopick; #action -stoppick; #print ($BKYELLOW+"$0"+$NORM) }
+#action >-pickyield1 The lock finally yields to your skill.={#action -doorclick; #action -unabletopick; #action -stoppick; #print ($BKGREEN+"$0"+$NORM); #send ("_open "+$opendir) }
+
+#action >-doorclick ^*click*={#action -doorclick; #action -unabletopick; #print ($BKGREEN+"$0"+$NORM); #send ("_open "+$opendir) }
+
+#alias on={#var $opendir=n;autoopen}
+#alias os={#var $opendir=s;autoopen}
+#alias oe={#var $opendir=e;autoopen}
+#alias ow={#var $opendir=w;autoopen}
+#alias ou={#var $opendir=u;autoopen}
+#alias od={#var $opendir=d;autoopen}
+#alias xos={open exit south}
+#alias xoe={open exit east}
+#alias xow={open exit west}
+#alias xou={open exit up}
+#alias xod={open exit down}
+
+#alias cloe={#send ("_close $1")}
+#alias cln={cloe n}
+#alias cle={cloe e}
+#alias cls={cloe s}
+#alias clw={cloe w}
+#alias clu={cloe u}
+#alias cld={cloe d}
+
+#action >+enablelock ^You manage to enable the lock=#print ($BKMAGENTA+"You manage to ENABLE the lock."+$NORM)
+#alias lo={cloe $1; #send ("_lock $1")}
+#alias lon={lo n}
+#alias loe={lo e}
+#alias los={lo s}
+#alias low={lo w}
+#alias lou={lo u}
+#alias lod={lo d}
+
+#alias ul={unlock $1;open $1}
+#alias uln={unlock exit n;open exit n}
+#alias uls={unlock exit s;open exit s}
+#alias ule={unlock exit e;open exit e}
+#alias ulw={unlock exit w;open exit w}
+#alias ulu={unlock exit u;open exit u}
+#alias uld={unlock exit d;open exit d}
+
+
+#print (" ==== autodoor.txt loaded ==== ")

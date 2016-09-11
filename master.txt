@@ -1,0 +1,565 @@
+#savefile-version 1
+
+#( "======================================================================================================" )
+#( "|                                                                                                    |" )
+#( "|                Master config for powwow/powtty - loads other config files                          |" )
+#( "|                                                                                                    |" )
+#( "|      - This still needs to be factored significantly and has a lot of 'Kate custom' stuff in it    |" )
+#( "|      - Also still quite buggy. Use selectively!                                                    |" )
+#( "|                                                                                                    |" )
+#( "======================================================================================================" )
+
+#host localhost 4242
+#delim normal
+#groupdelim @
+#setvar mem=10485760
+
+#("Annoyingly it seems to need explicit path on Mac, so you'll need to change this")
+
+#var $cwd=("/Users/khcw/Games/MUME/")
+
+#alias reload={#load /Users/khcw/Games/MUME/master.txt}
+
+#( "Don't save the config file every time" )
+#file =
+
+#( "Tell MUME we are local-editor capable" )
+#identify
+#edit nano
+
+
+#( " Colour definitions " )
+
+#($NORM = "\033[0m")
+#($BOLD = "\033[1m")
+#($DARK = "\033[2m")
+#($ULINE = "\033[4m")
+#($FLASH = "\033[5m")
+
+#($BLACK  = "\033[30m" )
+#($WHITE = "\033[37m")
+#($RED = "\033[31m")
+#($GREEN = "\033[32m")
+#($BLUE = "\033[34m")
+#($MAGENTA = "\033[35m")
+#($CYAN = "\033[36m")
+#($YELLOW = "\033[33m")
+
+#($BKBLACK = "\033[40m")
+#($BKWHITE = "\033[47m")
+#($BKBLUE = "\033[44m")
+#($BKCYAN = "\033[46m")
+#($BKGREEN = "\033[42m")
+#($BKMAGENTA = "\033[45m")
+#($BKRED = "\033[41m")
+#($BKYELLOW = "\033[43m")
+
+#( " Colour customisations - these can be set to whatever you like " )
+
+#var $EXITSCOL=($BLUE)
+#var $ITEMCOL=($CYAN)
+#var $HERBCOL=($BOLD+$CYAN)
+#var $WEATHERCOL=($DARK+$BOLD+$CYAN)
+#var $KEYCOL=($DARK+$CYAN+$BOLD)
+#var $MOBCOL=($YELLOW)
+#var $LABELCOL=($GREEN)
+#var $STATUSCOL=($BKYELLOW+$BLACK)
+#var $ARRIVESCOL=($MAGENTA)
+#var $LEAVESCOL=($GREEN)
+#var $BASHCOL=($BLUE)
+#var $MAGICCOL=($MAGENTA)
+#var $TELLCOL=($GREEN)
+
+
+# ( " Need to override MUME's colours for some of the pattern matching. This was before I worked out how to get regexps working, so apologies for crudeness! " )
+
+cha col all def
+cha col look bold underline green
+
+#(" this didn't work: #exe ('<'+$cwd+'aliases.txt') etc ")
+
+#exe </Users/khcw/Games/MUME/aliases.txt
+#exe </Users/khcw/Games/MUME/magic.txt
+#exe </Users/khcw/Games/MUME/herbs.txt
+#exe </Users/khcw/Games/MUME/autotravel.txt
+#exe </Users/khcw/Games/MUME/autodoor.txt
+#exe </Users/khcw/Games/MUME/keys.txt
+#exe </Users/khcw/Games/MUME/whathere.txt
+
+
+# ( " Some custom emotes " )
+
+#alias nodh=emote nods happily.
+#alias rubglee=emote rubs her hands together gleefully.
+#alias shud=emote shudders, a chill running down her spine.
+#alias mumb=emote mumbles, '$0', in her sleep.
+
+
+# ( " Communications - come first to avoid confusion when people past stuff into narrates" )
+
+#action >+tellfix1 inner voice={#print}
+#action >+shoptellA1 Angdil tells you &2={#print ($MOBCOL + " Angdil "+$NORM+"tells you " + $GREEN+"$2" + $NORM)}
+#action >+shoptellB1 Barliman tells you &2={#print ($MOBCOL + " Barliman "+$NORM+"tells you " + $GREEN+"$2" + $NORM)}
+#action >+shoptellE1 Ecthelion tells you &2={#print ($MOBCOL + " Ecthelion "+$NORM+"tells you " + $GREEN+"$2" + $NORM)}
+#action >+shoptellE2 Erienal tells you &2={#print ($MOBCOL + " Erienal "+$NORM+"tells you " + $GREEN+"$2" + $NORM)}
+#action >+shoptellS1 Sarion tells you &2={#print ($MOBCOL + " Sarion "+$NORM+"tells you " + $GREEN+"$2" + $NORM)}
+#action >+specialtellC1 Ciryariel tells you &2={#print ($MOBCOL + " Ciryariel "+$NORM+"tells you " + $GREEN+"$2" + $NORM)}
+#action >+specialtellD1 Daegil tells you &2={#print ($MOBCOL + " Ciryariel "+$NORM+"tells you " + $GREEN+"$2" + $NORM)}
+#action >+specialtellG1 Galadriel tells you &2={#print ($MOBCOL + " Galadriel "+$NORM+"tells you " + $GREEN+"$2" + $NORM)}
+#action >+specialtellS1 Sauron tells you &2={#print ($MOBCOL + " Sauron "+$NORM+"tells you " + $GREEN+"$2" + $NORM)}
+#action >+specialtellM1 &1 Morgoth tells you &2={#print ("$1" + $MOBCOL + "  Morgoth "+$NORM+"tells you " + $GREEN+"$2" + $NORM)}
+
+#action %+mobsay1   m(The|An|A) ([a-zA-Z \,\'\-]+) (tells you|says|asks you|whispers to you) (.+)=#print ("$2 "+$MOBCOL+"$3"+$NORM+" $4 "+$GREEN+"$5"+$NORM)
+#action %+mobsay2   m([a-zA-Z \,\'\-]+) the ([a-zA-Z -']+) (tells you|says|asks you|whispers to you) (.+)=#print ($MOBCOL+"$2 the $3"+$NORM+" $4 "+$GREEN+"$5"+$NORM)
+
+#action >+tell1 m&1 tells you &2={#print ($BOLD+$BLUE+"  $1"+$NORM+" tells you "+$BOLD+$GREEN+"$2"+$NORM);#alias qt=tell $1 \$0}
+#action >+tellg m&1 tells the group &2={#print ($BOLD+$BLUE+"  $1 "+$NORM+$ULINE+"tells the group"+$NORM+$BOLD+$GREEN+" $2"+$NORM)}
+
+#action >+nar1 m&1 narrates &2={#print ($BKBLUE+$GREEN+"  $1"+$NORM+$BKBLUE+" narrates "+$NORM+$BKBLUE+$YELLOW+"$2"+$NORM)}
+#action >+sing1 m&1 sings &2={#print ($BLUE+"  $1"+$NORM+" sings "+$NORM+$YELLOW+"$2"+$NORM)}
+
+#action >-autogratz1 m&1 narrates 'level!'={#print; #send ("nar Wow, yeah, well done, um... whatever your name was! [automated felicitations brought to you by GrumpyGratz (tm)]")}
+#action >-autogratz2 m&1 narrates 'Level!'={#print; #send ("nar woo, $1 has another level. *yawn* [automated felicitations brought to you by GrumpyGratz (tm)]")}
+#action >-autogratz3 m&1 narrates 'ding!'={#print; #send ("nar Go on, rub it in you little squirt, $1. Some of us have to work for our levels you know! [automated felicitations brought to you by GrumpyGratz (tm)]")}
+
+
+#alias am={aba mine;aba mineb}
+
+
+#( " Weapon switching " )
+#( " z=bow, m=back to melee, C=cast(staff), V=hit(sword etc), c/v=cast/hit fast switch (don't put in backpack) " )
+
+
+#alias wm={#send ("wield "+$cweap+" "+$primaryh)}
+#alias rm={#send ("remove "+$cweap)}
+#var $bowalt=("")
+#alias z={draw bow; #var $bowalt=($cweap); #var $cweap=("bow") }
+#alias m={#send ("draw "+$bowalt); #var $cweap=($bowalt) }
+#alias c={wield bejewelled 2; #var $cweap=("bejewelled")}
+#alias v={#send ("wield "+$primary+" "+$primaryh); #var $cweap=($primary)}
+#alias aphC={}
+#alias aphV={}
+#alias shalC={gb bejewelled;wield bejewelled 2; #send ("p "+$primary+" backpack"); #var $cweap=("bejewelled") }
+#alias shalV={#send ("g "+$primary+" backpack"); #send ("wield "+$primary+" "+$primaryh); pb bejewelled; #var $cweap=($primary) }
+
+
+# ( " Here begins Shallaya's (and Aphros's to a lesses extent) 'many outfits' aliases! Some stuff kept on main mount " )
+
+#alias circ={ C; gb circlet;  #if ($body=="") { rem coif; pb   coif; rem helmet; pb   helmet }; #if ($body=="com") {rem coif; pb coif  };  #else {rem helmet; pb helmet  };  wear circlet }
+#alias helm={ rem circlet; #if ($body=="") { gb  coif; wear coif; gb  helmet; wear helmet }; #if ($body=="com") {gb coif;  wear coif};  #else {gb  helmet; wear helmet};  pb circlet }
+
+#alias xnone={#send ("rem "+$cweap)}
+#alias pipe={gb pipe;wield pipe;rest;smoke;stand;wm;pb pipe}
+
+#var $ring={""}
+#alias ring={ #if ($ring!="$1") { charing $1; #var $ring=("$1") } }
+#alias charing={ rem jewelled; rem copper; rem rubyring; rem ironring; #if ("$1"=="spell") { wearring copper };#if ("$1"=="mana") { wearring ruby-ring };#if ("$1"=="ob") { wearring rubyring }; #if ("$1"=="db") { wearring ironring };  pba ring }
+#alias wearring={ gb $1; wear $1 }
+
+#alias rruby={ rem rubyring; pb rubyring }
+#alias riron={ rem ironring; pb ironring }
+#alias wiron={ gb ironring; wear ironring }
+#alias wruby={ gb rubyring; wear rubyring }
+
+#alias ccr={  gb garnet-ring;rem jewelled; rem rubyring; rem ironring; wear garnet-ring; use garnet-ring; rem garnet-ring; pb garnet-ring; wear ring }
+
+#var $body=("")
+#alias setbody={ #var $body=("$1") }
+#alias body={    #if ("$1"=="hit" && $body!="hit") { attack; setbody $1 };  #if ("$1"=="com" && $body!="com") { combo; setbody $1 };  #if ("$1"=="def" && $body!="def") { defence; setbody $1 } }
+#alias attack={   gba chain; gbb horned; gb gloves;  rem vambraces; rem breastplate; rem helm; rem coif;    wear horned; wear all.chain;   rem gloves; wear soft;   pbba chain; pba black; pbba metal; pbb horned  }
+#alias combo={    gba chain; gbba chain;             rem vambraces; rem breastplate; rem helm; rem horned;  rem gloves;  wear all.chain;   pb soft;                 pba black; pbba metal; pbb horned}
+#alias defence={  gba metal; gbba metal; pb boots;   rem all.chain; wear necklace;   rem helmet;            rem gloves;  wear all.metal;   pba shining; pba white;  pbba chain; pb soft; pbb horned   }
+
+#alias gall={g kit; g box; g saddlebag; g satchel; g web; g smooth; ga sack; g1a; gac; wear backpack; wear all}
+
+#var $cloak={""}
+#alias cloak={ #if ($cloak!="$1") { rem hide; pbb hide; rem mantle; pb mantle; rem cloak; pb cloak; gbb $1; gb $1; wear $1; #var $cloak=("$1") } }
+
+#var $boots={""}
+#alias boots={ #if ($boots!="$1") { fight; rem boots; gbba boots; wear $1; pbba boots; #var $boots=("$1") } }
+
+#alias gear={  u1;  body $1;  cloak $2; g1m  }
+
+#alias hitw={  gear hit  mantle     }
+#alias hit={   gear hit  hide       }
+#alias comw={  gear com  mantle     }
+#alias com={   gear com  hide       }
+#alias defw={  gear def  ragged     }
+#alias def={   gear def  stitched   }
+#alias tank={  gear def  grey-cloak }
+#alias tanks={ gear def  sacred     }
+
+#alias stick={     C; rm;  rem buckler; pb buckler;   wear  bejewelled shield;  gb stick;   wield stick; #var $cweap=("stick") }
+#alias unstick={   rem bejewelled;            wield bejewelled 2;       gb buckler; wear buckler;   pb stick; #var $cweap=("bejewelled") } 
+#alias walk={      gb boots; rem boots; pb metal;   wear boots }
+#alias fight={     gb boots; rem boots; wear all.metal; pb boots   } 
+
+#alias unbackpack={ V; gb bejewelled; rem backpack; g2 backpack; }
+#alias rebackpack={ unsaddle mineb all; get backpack; wear backpack; ga; g2a; ga; g2a }
+#alias unbow={     u1;  rem quiver; pbb  quiver;       rem bow; pbb  bow;   g1m }
+#alias rebow={     u1;  gbb quiver; wear quiver belt;  gbb bow; wear bow;   g1m }
+
+#alias golight={   rruby;  cloak ragged;  u1;   attack;   gbba chain;  rem all.metal; wear black;   wear all.chain;  pbba metal;  boots padded;   g1a;  wiron  }
+#alias unlight={   riron;  cloak ragged;  u1;   rem leggings; rem sleeves;                          defence;         pbba chain;  boots metal;    g1a;  wruby  }
+
+
+#alias casual={    fight; u1; rem gloves; pbb gloves; rem boots; pbb boots;rem all.metal; pbba metal; rem all.white; pbba white; ox; gxa blue; cloak blue; wear all.blue; gx blouse; wear blouse; #send ("rem "+$primary); #send ("put "+$primary+" backpack"); c; gx flowers; wear flowers; g1m }
+#alias battle={    u1; rem all.blue; pxa blue; rem blouse; px blouse; rem flowers; px flowers; cloak stitched; defence; cx; g1a; #send ("get "+$primary+" backpack"); wm }
+
+#alias snow={u1;gbb shoes;rem boots;wear shoes;g1m}
+#alias unsnow={rem shoes;wear boots;u1;pbb shoes;g1m}
+
+
+#alias addlewm={wield eket}
+
+#action >-cwhet very tired of mending={#print;whet}
+#action >+dwhet1 ^You have successfully mended={#print;stand;rem whetstone;wear kit;pd whetstone;g1m;#action -cwhet}
+#action >+dwhet2 ^You stop mending={#print;stand;rem whetstone;wear kit;pd whetstone;g1m;#action -cwhet}
+#alias awhet={u1;gd whetstone;rem kit;wear whetstone;whet;#action +cwhet}
+
+#alias lishiny={li black metal; li white metal; li engraved; li warsword; li dunadan; li shining}
+#alias buyherbs={buy 20 pipe-weed;psa weed;buy 10 cinnamon;psa cinnamon buy 10 hemlock;buy 10 misty;buy 10 nettles;psa plant;buy 10 mauve;psa mauve;buy 10 purple;psa purple;buy 10 powder;psa powder;buy 10 splayed leaves;buy 10 narrow leaves;buy 10 thyme;buy 10 sage;buy 10 figwort;buy 10 rosemary;psa leaves;buy 10 athelas;buy 10 vanilla;psa vanilla;buy 10 ginseng;buy 10 roots;ppa root;buy 10 honeysuckle;buy 10 poppy;psa flowers;buy 10 corriander;psa corriander;buy 10 foxtail;psa petals;buy 3 marjoram;ppa marjoram;buy 10 cloves;psa cloves;psa plant}
+
+
+#alias checkdate={#if ($checkmonth == "Foreyule") {#var @dawn=7;#var @night=7};#if ($checkmonth == "Astron") {#var @dawn=7;#var @night=7};#if ($checkmonth == "Thrimidge") {#var @dawn=7;#var @night=8};#if ($checkmonth == "Forelithe") {#var @dawn=6;#var @night=8};#if ($checkmonth == "Afterlithe") {#var @dawn=5;#var @night=9};#if ($checkmonth == "Wedmath") {#var @dawn=4;#var @night=10};#if ($checkmonth == "Halimath") {#var @dawn=5;#var @night=9};#if ($checkmonth == "Winterfilth") {#var @dawn=6;#var @night=8};#if ($checkmonth == "Blotmath") {#var @dawn=7;#var @night=8};#if ($checkmonth == "Afteryule") {#var @dawn=8;#var @night=6};#if ($checkmonth == "Solmath") {#var @dawn=9;#var @night=5};#if ($checkmonth == "Rethe") {#var @dawn=8;#var @night=6};printdate}
+
+
+#action >+tooheavy ^You can't get &1, &2 too heavy.=#print ($BOLD+"You can't get "+$ULINE+$ITEMCOL+"$1"+$NORM+$BOLD+", $2 too heavy."+$NORM)
+
+#( "Standing / mount / riding / storage" )
+#action >+auto-remount ZBLAM! A $1={#print ($RED+"$0"+$NORM);sr}
+#action >+auto-unrest ^You feel too relaxed={#print;stand}
+#action >+auto-stand1 ^Maybe you should get on your feet first={#print;stand}
+#action >+auto-stand2 ^You can't do this sitting={#print;stand}
+#action >+auto-stand3 ^You can't concentrate enough while resting={#print;stand}
+
+#alias kadd={#($-10=\$-10+" "+\$1);#print ("%% " + attr "yellow" + "New portlocation: " +attr "bold red" + "$1" +noattr);#var $key_$1=${latestkey}}
+#alias kadd0={#(@-10=0);#($-11=\$1);kremsub1;#if (\@-10!=0) {#print ("%% " + attr "yellow"+"Location " +attr "bold red"+\$-11+ noattr+attr "yellow"+" exist. Replacing it" +noattr);krem $1;kadd $1}; #else kadd $1}
+#alias kclean={#($-10="");#print ("%% " +attr "yellow" + "Portlist cleaned. No destiations now." +noattr)}
+#alias key={#print ("Key $1 = "+$lkey_${1})}
+#alias kremsub1={#for (\@1=1; \@1<=(:?$-10); \@1++) #if (\$-10:\@1==\$-11) #(@-10=\@1)}
+#alias kremsub2={#($-12="");#for (\@1=1; \@1<=(:?$-10); \@1++) #if (\$-10:\@1!=\$-11) #($-12=\$-12+" "+(\$-10:\@1))}
+#alias leadoff={#action -lead;#print autolead: OFF}
+#alias leadon={#action +lead;#print autolead: ON}
+#alias lm={lead mine;lead mineb}
+
+#alias loe={close exit;lock exit}
+
+#alias log={#if ("$0" != ""){#capture $0;#emu #Beginning Capture("$1")};#if ("$0" == ""){#emu #Ending Capture;#capture}}
+#alias lootoff={#action -loot;#print cashloot: OFF}
+#alias looton={#action +loot;#print cashloot: ON}
+#alias mapoff={#bind KP8=n;#bind KP6=e;#bind KP4=w;#bind KP2=s;#bind KP9=u;#bind KP3=d}
+#alias mapon={#bind KP8=_mapnorth;#bind KP6=_mapeast;#bind KP4=_mapwest;#bind KP2=_mapsouth;#bind KP9=_mapup;#bind KP3=_mapdown}
+
+
+
+#("NOT WORKING (on Mac at least) - ignoring nummer for now")
+
+#bind KP7 ^[Ow={#send ("hit "+$nummer+"."+$target)}
+#bind f1 ^[[11~={#print ("tar= --> 1."+$target);#var $nummer=1;#send ("label 1."+$target+" TARGET");#send look}
+#bind f2 ^[[12~={#print ("tar= --> 2."+$target);#var $nummer=2;#send ("label 2."+$target+" TARGET");#send look}
+#bind f3 ^[[13~={#print ("tar= --> 3."+$target);#var $nummer=3;#send ("label 3."+$target+" TARGET");#send look}
+#bind f4 ^[[14~={#print ("tar= --> 4."+$target);#var $nummer=4;#send ("label 4."+$target+" TARGET");#send look}
+#bind f5 ^[[15~={#print ("tar= --> 5."+$target);#var $nummer=5;#send ("label 5."+$target+" TARGET");#send look}
+#bind f6 ^[[17~={#print ("tar= --> 6."+$target);#var $nummer=6;#send ("label 6."+$target+" TARGET");#send look}
+#alias tb={#print ("tar=   -->"+$nummer+".*BEAR*");#var $target=*BEAR*}
+#alias td={#print ("tar=   -->"+$nummer+".*DWARF*");#var $target=*DWARF*}
+#alias te={#print ("tar=   -->"+$nummer+".*ELF*");#var $target=*ELF*}
+#alias th={#print ("tar=   -->"+$nummer+".*HOBBIT*");#var $target=*HOBBIT*}
+#alias tm={#print ("tar=   -->"+$nummer+".*MAN*");#var $target=*man*}
+#alias to={#print ("tar=   -->"+$nummer+".*ORC*");#var $target=*orc*}
+#alias tt={#print ("tar=   -->"+$nummer+".*TROLL*");#var $target=*troll*}
+
+#alias merc={give 10 celeb mercenary;label mercenary merc;gr merc}
+#alias pm={give 10 celeb merc}
+#alias oma={ask merc assist}
+
+
+
+
+
+#alias picks={#emu A couple lockpicks have a small bump near the tip.;#emu Two of the lockpicks have shallow notches on them.;#emu The lockpicks are extremely well tempered.;#emu Several of the picks have long, smooth grooves along their length.;#emu There is a strange lockpick, with a sharp protrusion on one side, in the set.;#emu The lockpicks feel oddly light in your hand.;#emu The edges of most picks have been carefully sharpened.;#send ("")}
+
+
+#alias printdate={#print ("");#if (@checktime < @dawn) {#print ("It is currently \033[34mNIGHT\033[0m, "+$realtime+"    ["+$checkmonth+", Dawn: "+%(@dawn)+"am, Night: "+%(@night)+"pm]");#var @timeleft=(@dawn-@checktime);#var $timeofday=DAWN;#print ("Time left until "+$timeofday+" is "+%(@timeleft)+" tick\(s\)")};#if (@checktime >= (@night + 12)) {#print ("It is currently \033[34mNIGHT\033[0m, "+$realtime+"    ["+$checkmonth+", Dawn: "+%(@dawn)+"am, Night: "+%(@night)+"pm]");#var @timeleft=(24 + @dawn - @checktime);#var $timeofday=DAWN;#print ("Time left until "+$timeofday+" is "+%(@timeleft)+" tick\(s\)")};#if (@checktime == @dawn) {#print ("It is currently \033[31mDAWN\033[0m, "+$realtime+"    ["+$checkmonth+", Dawn: "+%(@dawn)+"am, Night: "+%(@night)+"pm]");#var @timeleft=1;#var $timeofday=DAY;#print ("Time left until "+$timeofday+" is "+%(@timeleft)+" tick\(s\)")};#if (@checktime > @dawn && @checktime < (@night + 12) && @checktime >= 12 ) {#print ("It is currently \033[33mDAY\033[0m, "+$realtime+"      ["+$checkmonth+", Dawn: "+%(@dawn)+"am, Night: "+%(@night)+"pm]");#var @timeleft=(@night+12-@checktime);#var $timeofday=NIGHT;#print ("Time left until "+$timeofday+" is "+%(@timeleft)+" tick\(s\)")};#if (@checktime > @dawn && @checktime < (@night + 12) && @checktime < 12 ) {#print ("It is currently \033[33mDAY\033[0m, "+$realtime+"      ["+$checkmonth+", Dawn: "+%(@dawn)+"am, Night: "+%(@night)+"pm]");#var @timeleft=(@night+12-@checktime);#var $timeofday=NIGHT;#print ("Time left until "+$timeofday+" is "+%(@timeleft)+" tick\(s\)")};#print ("")}
+
+#alias qt=tell Daum $0
+
+#alias rq={reveal q}
+#alias rr={reveal root;pp root}
+#alias sa={sell all.$1}
+#alias sweap={sa cweapon; sa pweapon; sa tweapon; sa sweapon; sa stweapon; sa fweapon }
+#alias sarm={sa chain; sa metal; sa scale; sa shield; sa cloak; sa fur; sa leather }
+#alias sban={gsca bannock;gba bannock;sa bannock;sa bannock;sa bannock;psca bannock}
+#alias sd={seek rivendell}
+#alias sellherbs={gsa;sa cinnamon;sa petals;sa bean;sa leaves;sa flowers;sa roots;sa powder;sa plant;sa root;sa cloves;sa salt;sa weed;sa salt}
+#alias skey={#var $lkey_${1}=($latest_key)}
+#alias sl={snuff lantern}
+#alias ll={light lantern}
+#alias so={say open}
+#alias sq={search q}
+
+
+#alias trent={train all;rent}
+#alias trt={#send ("track "+$target)}
+#alias ttoff=#action -tell
+#alias tton=#action +tell
+#alias uk={rem kit;pd kit;gb whip;wear whip}
+
+
+#alias be={#action -autodoor;#action -autodoor2;#action -autodoor3;#print Exitchange stopped!}
+#alias ub={#action +autodoor;#action +autodoor2;#action +autodoor3;#print Exitchange started!}
+#action >+autodoor1 The &1 is closed={#print;#var $autodoor=$1}
+#action >+autodoor2 The &1 is open={#print;#var $autodoor=$1}
+#action >+autodoor3 The &1 seems to be closed={#print;#var $autodoor=$1}
+
+#var $door={"exit"}
+#var $opendir={"north"}
+#alias o={ open $1; #var $door=$1}
+#alias xO=o $autodoor
+#alias xC=close $autodoor
+
+#action >+ddoor &1 opens the &2={#print ($MOBCOL+" $1 "+$NORM+$BKGREEN+"OPENS the $2."+$NORM);#add $2}
+#action >+dddoor &1 closes the &2={#print (" $1 CLOSES the $2.");#add $2}
+#action >+hhdoor &1 puts all &2 weight against the &3, trying to close it.={#print ( $MOBCOL+"$1"+$NORM+" puts all $2 weight against the $3, trying to CLOSE it."); #add $3; #alias hc={close $3}}
+
+
+
+
+
+#action >+bladoor The &1 is opened from the other side={#print the $1 is OPENED from the other side!}
+#action >+blaadoor The &1 closes quietly={#print The $1 was CLOSED from the other side!}
+#action >+39 The exit &1 blurs for a while={#print The exit -- $1 -- \033[1m\033[32m POPPED! \033[0m}
+#action >+52 The exit &1 seems to blur for a while={#print The exit -- $1 -- was \033[1m\033[32m BLOCKED! \033[0m}
+#action >+53a The &1 seems to blur for a while={#print The block on the -- $1 -- was \033[1m\033[32m BROKEN! \033[0m}
+#action >+53b The &1 seem to blur for a while={#print The block on the -- $1 -- was \033[1m\033[32m BROKEN! \033[0m}
+
+
+
+#alias xp=info XPCOUNTER: %x %t %X %T.
+#alias xpcalc={#var $gainxp=($1-@oldxp);#var $gaintp=($2-@oldtp);#if (@oldxp==0) {#var $gainxp=0;#var $sessxp=0};#if (@oldtp==0) {#var $gaintp=0;#var $sesstp=0};#var $sessxp=((%($sessxp))+(%($gainxp)));#var $sesstp=((%($sesstp))+(%($gaintp)));#var @oldxp=$1;#var @oldtp=$2}
+#alias xpprint={#print ("\015\012"+$bgr+"-->"+$noattr+" \033[1m\033[36m Gained \033[0m  xp: "+$bwh+($gainxp)+$noattr+"\015\011\011\011\011tp: "+$bwh+($gaintp)+$noattr)\;#print ($bgr+"-->"+$noattr+" \033[1m\033[36m Trip \033[0m    xp: "+($sessxp)+"\015\011\011\011\011tp: "+($sesstp))\;#print ($bgr+"-->"+$noattr+" \033[1m\033[36m Needed \033[0m  xp: $3\015\011\011\011\011tp: $4")}
+#alias xprep={#send ("say This Session:  " + $sessxp + " XP   " + $sesstp + " TP");#send  ("This Session:  " + $sessxp + " XP   " + $sesstp + " TP")}
+#alias xpreset={#var $sessxp=0;#var @oldxp=0}
+
+
+
+
+#action >+shatter ^&1 shatter &2={#print ("" + \$1 + $BOLD + " SHATTER " + \$2 + $NORM + "")}
+#action >+shatters ^&1 shatters &2={#print ("" + \$1 + $BOLD + " SHATTERS " + \$2 + $NORM + "")}
+#action >+loot is dead!={#print;get all.coins all.corpse}
+
+#action >+repp ^reports:=emote $0'
+#action >+xp0 Welcome to the land of Middle Earth={#print;xpreset;tpreset;xp;#var $xpcal=1}
+#action >+xp1 XPCOUNTER: &1 &2 &3 &4={#if ($xpcal=="1") {xpcalc $1 $2\;#var $xpcal=0}\;xpprint $1 $2 $3 $4}
+#action >+xp2 ^You receive your share of experience={#print;xp;#var $xpcal=1}
+#action >+xp3 ^You feel more experienced={#print;xp;#var $xpcal=1}
+
+#alias drinkon={ #action +autodrink1;#action +autodrink2;#action +autodrink3;#action +autodrink4;#action +autodrink5}
+#alias drinkoff={#action -autodrink1;#action -autodrink2;#action -autodrink3;#action -autodrink4;#action -autodrink5}
+
+#action >+autodrink1 clear spring babbles={#print;drink water}
+#action >+autodrink2 ^A &1fountain={#print;drink water}
+#action >+autodrink3 inviting you to take a refreshing={#print;drink water}
+#action >+autodrink4 sparkling clear water={#print;drink water}
+#action >+autodrink5 ^A &1stone well={#print;drink water}
+
+#action >+72 You have been blinded!=#print $1 \033[32m \033[1m You have been B L I N D E D!\033[0m
+
+#( "There is an option for this (cha col exits) but it didn't seem to do anything" )
+#action >+exits_highlight1 ^Exits: &1=#print ("Exits: "+$BLUE+"$1"+$NORM)
+#action >+exits_highlight2 ^Exits/emulated: &1=#print ("Exits/emulated: "+$BLUE+"$1"+$NORM)
+
+
+#mark You shiver and feel a watchful eye on you... Someone is searching you!=white on red
+
+
+
+#($CAPDIR_north = "^^^ NORTH ^^^")
+#($CAPDIR_east = ">>> EAST >>>")
+#($CAPDIR_south = "vvv SOUTH vvv")
+#($CAPDIR_west = "<<< WEST <<<")
+#($CAPDIR_up = "ooo UP ooo")
+#($CAPDIR_down = "xxx DOWN xxx")
+
+#($CAPDIR_northwest = "^^^ NORTH WEST <<<")
+#($CAPDIR_northeast = "^^^ NORTH EAST >>>")
+#($CAPDIR_southwest = "vvv SOUTH WEST <<<")
+#($CAPDIR_southeast = "vvv SOUTH EAST >>>")
+
+#($CAPADIR_north = "vvv NORTH vvv")
+#($CAPADIR_east = "<<< EAST <<<")
+#($CAPADIR_south = "^^^ SOUTH ^^^")
+#($CAPADIR_west = ">>> WEST >>>")
+#($CAPADIR_above = "xxx ABOVE xxx")
+#($CAPADIR_below = "ooo BELOW ooo")
+#($GOBACK_down = "u")
+#($GOBACK_east = "w")
+#($GOBACK_north = "s")
+#($GOBACK_south = "n")
+#($GOBACK_up = "d")
+#($GOBACK_west = "e")
+
+#action >+leaves_hiding1 ^&1 &2 leaves &3 hiding place.=#print ("$1 "+$BOLD+$MOBCOL+"$2 "+$NORM+$ULINE+"leaves $3 hiding place."+$NORM)
+#action >+leaves_hiding2 ^&1 &2 suddenly leaves its place&3=#print ("$1 "+$BOLD+$MOBCOL+"$2 "+$NORM+$ULINE+"suddenly leaves its place$3"+$NORM)
+#action >+found_hiding1 ^You found &1 &2!=#print ($NORM+$ULINE+"You found $1 "+$BOLD+$MOBCOL+"$2"+$NORM+"!")
+#action >+leaves_fix1 &1 tree&2 leaves&3=#print
+#action >+leaves_fix2 &1 leaves&2valley=#print
+#action >+leaves_fix3 &1 silvery-green&2leaves&3=#print
+#action >+leaves_fix4 &1 rose &2 leaves&3=#print
+#action >-leaves_fix5 &1 green leaves&3=#print
+
+#action >+earr1 *&1*\033[0m &2 has arrived from the &3 riding &4.={#print ("*$1* "+$BOLD+$RED+"$2"+$NORM+" $2 has arrived from "+$ARRIVESCOL+$CAPADIR_$3+$NORM+" riding "+$BOLD+$MOBCOL+"$4"+$NORM)}
+#action >+earr2 *&1*\033[0m &2 has arrived from the &3.={#print ("*$1* "+$BOLD+$RED+"$2"+$NORM+" $2 has arrived from "+$ARRIVESCOL+$CAPADIR_$3+$NORM)}
+#action >+earr3 *&1*\033[0m has arrived from the &2 riding &3.={#print ($BOLD+$RED+"*$1*"+$NORM+" has arrived from "+$ARRIVESCOL+$CAPADIR_$2+$NORM+" riding "+$BOLD+$MOBCOL+"$3"+$NORM)}
+#action >+earr4 *&1*\033[0m has arrived from the &2.={#print ($BOLD+$RED+"*$1*"+$NORM+" has arrived from "+$ARRIVESCOL+$CAPADIR_$2+$NORM)}
+
+#action >+eleaves1 *&1*\033[0m leaves &2.={#print ($BOLD+$RED+"*$1*"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$2)}
+#action >+eleaves_riding *&1*\033[0m leaves &2 riding &3.={#print ($BOLD+$RED+"*$1*"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$2+" riding "+$BOLD+"$3"+$NORM)}
+#action >+eleaves_sneaking *&1*\033[0m leaves &2 sneaking.={#print ($BOLD+$RED+"*$1*"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$2+" sneaking.")}
+#action >+eleaves_ff *&1*\033[0m &2 leaves &3.={#print ($BOLD+$RED+"*$1*"+$NORM+" "+"$2"+" leaves "+$LEAVESCOL+$CAPDIR_$3)}
+#action >+eleaves_riding_ff *&1*\033[0m &2 leaves &3 riding &4.={#print ($BOLD+$RED+"*$1*"+$NORM+" "+"$2"+" leaves  "+$""+$LEAVESCOL+$CAPDIR_$3+" riding "+"$4")}
+
+#action %+mobarrives ^(The|An|A) ([a-zA-Z \'-]+) has arrived from( the)? (north|east|south|west|above|below) riding ([a-zA-Z -]+).={#print ("$2 "+$BOLD+$MOBCOL+"$3"+$NORM+" has arrived from the "+$ARRIVESCOL+$CAPADIR_$5+$NORM+" riding "+$MOBCOL+"$6"+$NORM+"\.")}
+#action %+mobarrivesr ^(The|An|A) ([a-zA-Z \'-]+) has arrived from( the)? (north|east|south|west|above|below)\.={#print ("$2 "+$BOLD+$MOBCOL+"$3"+$NORM+" has arrived from the "+$ARRIVESCOL+$CAPADIR_$5+$NORM)}
+
+#action %+mobleaves ^(The|An|A) leaves (north|east|south|west|up|down)( sneaking)?\.={#print ("$2 "+$MOBCOL+"$3"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$4+$NORM+"$5.")}
+#action %+mobleavesr ^(The|An|A) leaves (north|east|south|west|up|down)\.={#print ("$2 "+$MOBCOL+"$3"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$4+$NORM+" riding "+$MOBCOL+"$5"+$NORM+".")}
+#action %+namleaves ^([a-zA-Z \'-]+) leaves (north|east|south|west|up|down)( sneaking)?\.={#print ($MOBCOL+"$2"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$3+$NORM+"$4.")}
+#action %+namleavesr ^([a-zA-Z \'-]+) leaves (north|east|south|west|up|down)\.={#print ($MOBCOL+"$2"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$3+$NORM+" riding "+$MOBCOL+"$4"+$NORM+".")}
+
+#action >+tracksleading - &1 track&2of &3 leading &4 done less than &5 hour&6ago={#var $trackdir=$4;#print ("  - $1 track$2of "+$MOBCOL+"$3"+$NORM+" leading "+$LEAVESCOL+$CAPDIR_$4+$NORM+" less than "+$BOLD+"$5"+$NORM+" hour$6ago")}
+
+#action >+FleeGag You flee head over heels={}
+#action >+flee1 ^You flee &1.={#print ("");#print ($BOLD+"         You fled "+ $CYAN+$CAPDIR_$1+$NORM);#print (""); #alias goback=#send ($GOBACK_$1)}
+
+#action >+night1 The night has begun={#print ("The "+$BOLD+$BLUE+"Night"+$NORM+" has begun!")}
+#action >+day1 The day has begun={#print ("The "+$BOLD+$YELLOW+"Day"+$NORM+" has begun!")}
+#action >-dark1 It is pitch black...={#print;ll}
+#action >+panic PANIC! You can't quit the fight!=#print ($BOLD+"         PANIC! You couldn't escape!"+$NORM)
+
+#action >+29 &1 panics, and attempts to flee=#print $1 IS TRYING TO ESCAPE!
+#action >+tracking &1 is standing here searching for tracks=#print $1 is STANDING here --> T R A C K I N G <--.
+#action >+track &1 carefully examines the ground around him, looking for tracks.=#print $1 starts to --> T R A C K <--.
+
+#action >+repo \033[32m&1\033[0m/\033[32m&2\033[0m hits, \033[32m&3\033[0m/\033[32m&4\033[0m mana, and \033[32m&5\033[0m/\033[32m&6\033[0m moves={#print;#alias rep=emote reports:  $1/$2 hits    $3/$4 mana   $5/$6 moves}
+#alias reptnl=info REPTNL: %X %T %l.
+#alias tnl=emote needs ???? xp and ?? tp to next level.
+#action >+tnl ^Needed: \033[32m&1\033[0m xp, \033[32m&2\033[0m tp={#print;#alias tnl=emote needs $1 xp and $2 tp to next level.}
+
+#action >+30 WARNING: inactivity timeout in 5 seconds={#print;score}
+
+#action >+BlockResist ^Your power blocking the $1 resisted a breaking attempt!={#print (attr "cyan" + "Your power blocking the " + attr "yellow" + ">> $1 <<" + attr "cyan" + " resisted a breaking attempt!" + noattr+$NORM)}
+#action >+quakeme ^$1 makes the earth tremble and shiver={#print ($BOLD+$MOBCOL+"$1"+$NORM+$BOLD+" makes the earth tremble and shiver ("+$RED+$ULINE+"quakes YOU!"+$NORM+$BOLD")"+noattr+$NORM)}
+#action >+exit &1 - The glare of the sun burns your eyes={#print \033[41m ** $1 ** - The glare of the sun burns your eyes.\033[0m}
+#action >+timeam $1am on $2, the $3 of $4, Year $5 of the Third Age.={#print;#var $realtime=$1am;#var $checkmonth=$4;#if ($1 == 12) #var @checktime=(%($1+12));#else #var @checktime=$1;checkdate}
+#action >+timepm $1pm on $2, the $3 of $4, Year $5 of the Third Age.={#print;#var $realtime=$1pm;#var $checkmonth=$4;#if ($1 == 12) #var @checktime=$1;#else #var @checktime=(%($1+12));checkdate}
+#action >-group $1 raises $2 hand={group $1 add;gadd $1}
+
+#action >+cast &1 begins some strange incantations.={#print ("$1 "+$BOLD+$BLUE+"--> STARTS CASTING <--"+$NORM)}
+#action >+casting &1 is standing here trying to concentrate=#print $1 is STANDING here \033[1m\033[31m--> C A S T I N G <--\033[0m
+#action >+ememycast *&1* begins some strange incantations.={#print ($BOLD+$RED+"*$1* "+$BKCYAN+"--> STARTS CASTING <--"+$NORM)}
+#action >+evilgroup ^You feel the evil influence={#print ----- EVIL PERSON IN GROUP! ------;group self}
+#action >+failedrescue ^You fail the rescue={#print ($BOLD+$YELLOW+"------ YOU FAILED RESCUE ------"+$NORM}
+#action >+underwatersub ^You feel VERY tired={#print;#print ------- GO OUT FROM UNDERWATER!!! -------}
+#action >+portalsub ^You sense a portal leading here={#print --- PORTAL LEADS IN THIS ROOM ---}
+#action >+antidote_drops ^You feel a strange taste in your mouth={#print ------- ANTIDOTE DOWN -------}
+#action >+watchroom_drops ^Your awareness decreases={#print ------- WATCH ROOM DOWN -------}
+
+#action >+translatespell1 &1 utters the word '$2'={#if ($magical_${2}=="") #print;#else #print (""+\$1+" "+$BOLD+$MAGENTA+"utters the word '"+$magical_${2}+"'"+$NORM)}
+#action >+translatespell2 &1 utters the words '$2 $3'={#if ($magical_${2}_${3}=="") #print; #else #print (""+\$1+" "+$BOLD+$MAGENTA+"utters the words '"+$magical_${2}_${3}+"'"+$NORM)}
+#action >+translatespell3 &1 utters the words '$2 $3 $4'={#if ($magical_${2}_${3}_${4}=="") #print; #else #print (""+\$1+" "+$BOLD+$MAGENTA+"utters the words '"+$magical_${2}_${3}_${4}+"'"+$NORM)}
+
+#action >-filllant1 ^You pour all your remaining oil into &1 lantern.={#print;hide oil;gt oil;fill lantern}
+#action >-filllant2 ^You completely fill &1 lantern with oil, emptying a dark coloured flask.={#print;hide flask;fldone}
+#action >-filllant3 ^You completely fill &1 lantern with oil.={#print;pt oil;fldone}
+#action >-filllant4 ^You can't find an oil={#print ($ULINE+$RED+"$0"+$NORM);fldone}
+#alias fldone={g1m;#action -filllant1;#action -filllant2;#action -filllant3;#action -filllant4}
+#alias fl={#action +filllant1;#action +filllant2;#action +filllant3;#action -filllant4;u1;gt oil;fill lantern}
+#alias fp={gb pipe;gsa pipe-weed;gba pipe-weed;put all.pipe-weed pipe;gsa pipe-weed;gba pipe-weed;put all.pipe-weed pipe;l i pipe;pba pipe}
+
+
+#action >-catchloc &1 key: '&2'={#print;#var $latest_key=$2;#action -catchloc}
+
+
+#(" Auto-warrior: Automated assisting, bashing and deathkicking so you can keep chatting while your character keeps killing! :p ")
+
+#alias awaroff={assoff;bashoff;dkoff}
+#alias awaron={asson;bashon;dkon}
+
+#alias assoff={#action -autoass1;#action -autoass2;#action -autoass3#print ("Auto-assist OFF!")}
+#alias asson={#action +autoass1;#action +autoass2;#action +autoass3;#print ("Auto-assist ON!")}
+
+#action >-autoass1 &1joins &2's fight.={#print;assist}
+#action >-autoass2 &1 (leader) approaches &2={#print;assist}
+#action >-autoass3 &1 (leader) hits &2={#print;assist}
+
+#alias Xbashoff={#action -autorebash1;#action -autorebash2;#action +unbashed1;#action +missbash1; #print ("Auto-rebash OFF!")}
+#alias Xbashon={#action +autorebash1;#action +autorebash2;#action -unbashed1;#action -missbash1; #print ("Auto-rebash ON!")}
+#var $meautorebash=0
+#var $folautorebash=0
+#alias bashoff={#var $meautorebash=0; #print ("Auto-rebash OFF!")}
+#alias bashon={#var $meautorebash=1; #print ("Auto-rebash ON!")}
+#alias fbashoff={#var $folautobash=0; #print ("Follower auto-rebash command OFF!")}
+#alias fbashon={#var $folautobash=1; #print ("Follower auto-rebash command ON!")}
+
+#action >+mebashed1 &1 sends you sprawling with a powerful bash=#print ($RED+"$1 sends you "+$BOLD+"SPRAWLING"+$NORM+$RED+" with a powerful bash!")
+#action >+meunbashed1 Your head stops stinging=#print ($BASHCOL+"Your head stops stinging!"+$NORM+$DARK+"(you've recovered from being bashed)"+$NORM)}
+#action >+enbashed1 Your bash at &1 sends &2 sprawling=#print ($BASHCOL+"Your bash at $1 sends $2 "+$BOLD+"SPRAWLING!"+$NORM)
+#action >+labelledbashed1 &1 sends &2 (&3) sprawling with a powerful bash=#print ($RED+"$1 sends "+$LABELCOL+"$2 ($3) "+$RED+$BOLD+"SPRAWLING"+$NORM+$RED+" with a powerful bash!"+$NORM)
+#action >+enbashed2 &1 sends &2 (TARGET) sprawling with a powerful bash=#print ($BASHCOL+"$1 sends $2 (TARGET)"+$BOLD+"SPRAWLING"+$NORM+$BASHCOL+" with a powerful bash!"+$NORM)
+#action >+enbashed3 &1 (&2) sends &3 sprawling with a powerful bash=#print ($BASHCOL+"$1 ($2) sends $3 "+$BOLD+"SPRAWLING"+$NORM+$BASHCOL+" with a powerful bash!"+$NORM)
+#action >+enbashed4 &1 sends &2 sprawling with a powerful bash=#print
+#action >+enunbashed1 ^&1 seems to have recovered &2 senses.={#print ($BASHCOL+"$1 seems to have "+$ULINE+"recovered $2 senses."+$NORM) ; #if ( $meautorebash=="1" ) bash; #if ( $folautobash=="1" ) opb }
+#action >+missbash1 ^As &1 avoids your bash, you topple over and lose your={#print ($BASHCOL+"$0"+$NORM); #if ( $meautorebash=="1" ) bash }
+#action >+missbash2 ^&1 avoids being bashed by &2 (&3) who loses &4 balance.={#print ($BASHCOL+"$0"+$NORM); #if ( $folautobash=="1" ) op bash }
+
+
+#alias dkoff={#action -dk1;#action -dk2;#action -dk3;#print ("Auto-death-kick OFF!")}
+#alias dkon={#action +dk1;#action +dk2;#action +dk3;#print ("Auto-death-kick ON!")}
+
+#action >-dk1 incapacitated={#print;#send kick}
+#action >-dk2 mortally wounded={#print;#send kick}
+#action >-dk3 probably die soon={#print;#send kick}
+
+#var $name={""}
+#action >+shallaya This ranks you as Shallaya={#print; dkon; #var $primary=warsword; #var $primaryh=2; #var $cweap=("bejewelled"); #alias C=shalC; #alias V=shalV; #var $name=Shallaya;#action -shallaya;#print ("---+++*** SHALLAYA LOADED ***+++---")}
+#action >+aphros This ranks you as Aphros={#print; bb2 leader; #var $primary=sword;#var $primaryh=1; #var $cweap=($primary); #alias C=aphC; #alias V=aphV;  #var $name=Aphros; #action -aphros;#print ("---+++*** APHROS LOADED ***+++---")}
+
+#action >+anath This ranks you as Anath={#print;dkon;#alias hit=anhit;#alias hitw=anhitw;#alias solo=ansolo;#alias solow=ansolow;#alias buf=anbuf;#alias bufw=anbufw;#alias wm=anwm;#var $name=Anath;#print ("---+++*** ANATH LOADED ***+++---")}
+#action >+arg This ranks you as Arg={#print;anathkb;dkon;asson;#action -arg;#print ("---+++*** ARG LOADED ***+++---")}
+#action >+addle This ranks you as Addle={#print;addlekb;#alias hit=addlehit;#alias hitw=addlehitw;#alias solo=addlesolo;#alias bufw=addlebuffw;#alias buf=addlebuff;#alias wm=addlewm;#var $name=Addle;#print ("---+++*** ADDLE LOADED ***+++---")}
+#action >+xmlon XML mode is now off={#print;cha xml on}
+#(@checktime = 6, @dawn = 7, @night = 7, @oldtp = 234491, @oldxp = 13754115, @timeleft = 1)
+
+
+
+#($autodoor = "gate")
+#($checkmonth = "Foreyule")
+#($emount = "warg")
+#($gaintp = "0")
+#($gainxp = "21")
+#($hps = "419")
+#($hpsM = "419")
+#($leader = "elong")
+#($mana = "67")
+#($manaM = "67")
+#($mount = "m")
+#($move = "154")
+#($moveM = "154")
+#($nummer = "1")
+#($realtime = "6am")
+#($sesstp = "226793")
+#($sessxp = "5245192")
+#($stored_quakes = "0\015")
+#($tank = "av")
+#($target = "")
+#($timeofday = "DAWN")
+#($twodoor = "exit")
+#($xpcal = "0")
+#bind C-n ^N=&next-line
+#bind C-p ^P=&prev-line
+#option +autoclear -autoprint -compact -debug +echo -exit -history
+#option +info -keyecho -reprint -sendsize -speedwalk -words -wrap
+
+info

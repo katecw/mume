@@ -1,0 +1,71 @@
+
+# ( " Stuff todo with making travelling around Arda a little bit easier/convenient " )
+
+#( " Lorien gates/doors " )
+#action >+greatgates greatgates seem to be closed={#print;knock greatgates}
+#action >+talldoors ^The talldoors seem to be closed.={#print;knock talldoors}
+#alias kwd=knock walldoors
+
+
+#( " Auto-board the white ship and then auto-board the ferry when it arrives " )
+#( " Just type 'sail' once Círdan has led you through to the quay " )
+
+#alias sail={rest;#action +boardwhiteship1; #print (" -> Waiting to auto-board the white ship West <--")}
+#action >-boardwhiteship1 ^The white ship docks at the pier and a gangway is lowered.={#print; st; w; rest; #action >-boardwhiteship1; #action +leavewhiteship1}
+#action >-leavewhiteship1 ^The ship is now docked at a pier in Avall={#print; st; n; #action -leavewhiteship1; rest; ferry; #action +leaveferry2}
+
+#( " Greyhavens & Valar ferry - just type 'ferry' and go make a cup of tea. If Valar, also auto-board white ship " )
+
+#alias ferry={#action +boardferry1;#action +boardferry2;rest;#print (" -> Waiting to auto-board ferry <- ");look}
+#alias boardferry={#print;st;board;rest;#action -boardferry1;#action -boardferry2;#action +leaveferry1;#action +leaveferry2;exam}
+#action >-boardferry1 ^The ferry has arrived=boardferry
+#action >-boardferry2 ^The ferry is docked here, ready to be boarded=boardferry
+#action >-leaveferry1 ^The ferry pulls slowly into the dock={#print;st;leave;#action -leaveferry1;#action -leaveferry2}
+#action >+backavallone vessel into the lamplit harbour of Avall={#print; #action +boardwhiteship2a}
+#action >-leaveferry2 ^Githil wishes you a pleasant visit.={#print;st;leave;#action -leaveferry1;#action -leaveferry2}
+
+#action >-boardwhiteship2a ^There is an old street-lamp on the border of the street={#print; #action +aboardwhiteship; s; #action -Ciryariel; #action +boardwhiteship2b; #print (" -> Waiting to auto-board the white ship East <- ")}
+#action >-boardwhiteship2b ^The white ship docks at one of the piers.={#print; st; s; #action -boardwhiteship2b}
+#action >-aboardwhiteship Ciryariel={rest; #action -aboardwhiteship; #action +leavewhiteship2; #print (" -> Waiting to auto-leave the white ship East <- ")}
+#action >-leavewhiteship2 ^Grey Havens. A gangway is lowered onto the quay.={#print; st; e; #action -leavewhiteship2}
+
+
+#( " Auto ride/lead/dismount: The group leader needs to be labelled 'leader' for this to work, and your mount to be labelled mine " )
+
+#alias rideoff={#action -ride;#print autoride: OFF}
+#alias rideon={#action +ride;#print autoride: ON}
+#action >+lead1 &1 (leader) dismounts from &2 stops riding={#print;#send ("lead mine")}
+#action >+ride &1 (leader) picks up &2 reins &3 starts riding={#print;#send ("ride mine")}
+#action >+lead2 &1 (&2) now follows &3 (leader).={#print;lm}
+
+
+#( " Help any labelled person in your group open stuff " )
+
+#action >+openhelp1 &1 (&2) puts all &3 weight against the &4, trying to open={#print;open $4}
+
+
+
+#( " Just type 'eagle <destination>' and this will do the rest. You can safely rest while waiting " )
+
+#action >-rideeagle swoops down from the sky and lands={dism;st;ride eagle;#print;#send ("whisper eagle " + $eagledest);#action -rideeagle}
+#alias eagle={#var $eagledest=$1;#action +rideeagle;call eagle;#print (" -> Auto-waiting for eagle to " + $eagledest+" <-")}
+
+
+# ( " Nasty quickwalk - if you zblam or get attacked it will go wrong, be warned! " )
+# ( " TODO: Make something neat to work with powwow speedwalk, or use hoopajoo's auto-walker " )
+
+#alias ghec={e;s;e;e;s;e;e;e;s;e;e;e;s;e;e;s;e;e;e;e;n;e;n;e;e;e;s;e;e;s;e;e;e;s;e;e;s;s;e;e;e;e;s;e;e;e;s;e;e;e}
+#alias ecmd={s;e;e;e;e;e;s;e;e;e;s;e;e;e;e;e;s;e;e;e;e;e;e;e;n;e;e;e;e;e;n;e;e;e;e;e;n;e;e;e;e;e}
+#alias mdsh={e;e;e;e;n;e;e;e;e;e;e;e;e;e;n;e;e;e;n;e;e;e;e;e;n;e;n;e;e;e;n;e;n;e;n;e;e;e;n}
+#alias shbr={e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;e;n;e;n;e;e;e;e;n;e;e;e;e;e;s;e;e;e;e;e;e;s;e;e;s;e;e;e}
+
+#alias brsh={w;w;w;n;w;w;n;w;w;w;w;w;w;n;w;w;w;w;w;s;w;w;w;w;s;w;s;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w;w}
+#alias shmd={s;w;w;w;s;w;s;w;s;w;w;w;s;w;s;w;w;w;w;w;s;w;w;w;s;w;w;;w;w;w;w;w;w;s;w;w;w;w;w}
+#alias mdec={w;w;w;w;w;w;s;w;w;w;w;w;s;w;w;w;w;w;s;w;w;w;w;w;w;w;n;w;w;w;w;w;n;w;w;w;n;w;w;w;w;w;n}
+#alias ecgh={w;w;w;n;w;w;w;n;w;w;w;w;n;n;w;w;n;w;w;w;n;w;w;n;w;w;w;s;w;s;w;w;w;w;n;w;w;n;w;w;w;n;w;w;w;n;w;w;n;w}
+
+#alias brfo={n;n;n;n;n;n;n;n;e;e;e;n;n;e;n;n;n;n;n;n;n;e;n;n;n;w;n;n;n;n;n;n;n;n;n;n;n;n;e;n;n;n;n;n;n;n;n;e;n;n;n;n;n;n;n;n;n;n;e;n;n}
+#alias fobr={s;s;w;s;s;s;s;s;s;s;s;s;s;w;s;s;s;s;s;s;s;s;w;s;s;s;s;s;s;s;s;s;s;s;s;e;s;s;s;w;s;s;s;s;s;s;s;w;s;s;w;w;w;s;s;s;s;s;s;s;s}
+
+
+#print (" ==== autotravel.txt loaded ==== ")
