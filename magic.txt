@@ -6,7 +6,7 @@
 #( "======================================================================================================")
 
 
-#alias sx={#var $armour=0;#var $shield=0;#var $shroud=0;#var $bless=0;#var $str=0;#var $pfe=0;#var $sensel=0;#var $detmagic=0; #var $detevil=0; stat}
+#alias sx={#var $armour=0;#var $shield=0;#var $shroud=0;#var $bless=0;#var $str=0;#var $pfe=0;#var $sensel=0;#var $detmagic=0; #var $detevil=0; #var $sanc=0; stat}
 
 
 #alias mf={cast 'create food'}
@@ -17,7 +17,7 @@
 
 #action >+hungry1 ^You begin to feel hungry={#print ($RED+$DARK+"$0"+$NORM)}
 #action >+hungry2 ^You are hungry={#print ($RED+"You are "+$ULINE+"hungry"+$NORM+".")}
-#action >+thirsty1 ^You being to feel thirsty={#print ($RED+$DARK+"$0"+$NORM})
+#action >+thirsty1 ^You being to feel thirsty={#print ($RED+$DARK+"$0"+$NORM)}
 #action >+thirsty2 ^You are thirsty={#print ($RED+"You are "+$ULINE+"thirsty"+$NORM+".")}
 
 #action >-autofeed ^You are hungry={#print;precast;mm;postcast}
@@ -36,15 +36,12 @@
 
 #alias bsle={lead;gs2;u1;us1;rem fur;rem cloak;rem mantle;gd blanket;wear blanket;i;sle;act wrapped up cozily in her blanket}
 #alias bwa={act;wake;stand;rem blanket;pd blanket;wear cloak;wear fur;wear mantle;s1;gm}
-#alias aron={as;restful;cha linkdrop 120;#action -hungry2;#action -thirsty2;#action +autofeed;#action +autodrink;#action +void;autorebuffon;#action +autocure;#print Away-sleep auto spell/drink/water/void: ON}
-#alias ason={as;sleepy;cha linkdrop 120;#action -hungry2;#action -thirsty2;#action +autofeed;#action +autodrink;#action +void;autorebuffon;#action +autocure;#print Away-sleep auto spell/drink/water/void: ON}
-#alias asoff={ws;cha linkdrop 120;#action +hungry2;#action +thirsty2;#action -autofeed;#action -autodrink;#action -void;autorebuffoff;#action -autocure;sx;#print Away-sleep auto spell/drink/water/void: OFF}
+#alias aron={as;restful;cha linkdrop 120;#action -hungry2;#action -thirsty2;#action +autofeed;#action +autodrink;#action +void;autorebuffon;#action +autocure;message Away-rest auto spell/drink/water/void: ON}
+#alias ason={as;sleepy;cha linkdrop 120;#action -hungry2;#action -thirsty2;#action +autofeed;#action +autodrink;#action +void;autorebuffon;#action +autocure;message Away-sleep auto spell/drink/water/void: ON}
+#alias asoff={ws;cha linkdrop 120;#action +hungry2;#action +thirsty2;#action -autofeed;#action -autodrink;#action -void;autorebuffoff;#action -autocure;sx;message Away-sleep/rest auto spell/drink/water/void: OFF}
+#alias aroff=asoff
 #alias blanky={bsle;ason;act , wrapped up cozily in her blanket}
 #alias unblanky={bwa;asoff}
-
-#action >-afk m&1 tells you={#print;#send ("tell $1 I'm currently away from the keyboard...")}
-#alias back={asoff;#action -afk;#action +tell1; act;emote livens up a bit, smiles, and says 'Back!'}
-#alias afk={#action +afk;#action -tell1; act , staring off into the distance (afk)}
 
 #alias autorebuffoff={#action -ashield;#action -asanc;#action -aarm;#action -ashroud1;#action -abless;#action -asensel;#action -astr;#action -apfe;#action -adetmagic;#action -adetevil;#action -abob;#action +dshield;#action +dsanc;#action +darm;#action +dshroud1;#action +dbless;#action +dsensel;#action +dstr;#action +dpfe;#action +ddetmagic;#action +ddetevil;#action +dbob}
 #alias autorebuffon={#action +ashield;#action +asanc;#action +aarm;#action +ashroud1;#action +abless;#action +asensel;#action +astr;#action +apfe;#action +adetmagic;#action +adetevil;#action +abob;#action -dshield;#action -dsanc;#action -darm;#action -dshroud1;#action -dbless;#action -dsensel;#action -dstr;#action -dpfe;#action -ddetmagic;#action -ddetevil;#action -dbob}
@@ -53,75 +50,152 @@
 #action >+mestartcast2 You muster all of your concentration={#print ($DARK+"$0"+$NORM)}
 #action >+mebackfire ^Your spell backfired&1={#print ($RED+"Your spell "+$BKRED+$WHITE+"backfired"+$NORM+$RED+"$1"+$NORM)}
 
-#action >-aarm You feel less protected={#print;precast;ba;postcast}
-#action >-ashield Your magical shield wears off={#print;precast;bz;postcast}
-#action >-asanc The white aura around your body fades.={#print;precast;bx;postcast}
-#action >-ashroud1 Your misty shroud dissolves={#print;precast;bh;postcast}
-#action >-ashroud2 You feel yourself exposed={#print;precast;bh;postcast}
-#action >-abless The light of Aman fades away from you={#print;precast;bb;postcast}
-#action >-astr You feel weaker={#print;precast;bst;postcast}
-#action >-apfe You feel less righteous={#print;precast;bpe;postcast}
-#action >-asensel You feel less aware={#print;precast;bsl;postcast}
-#action >-adetmagic Your perception of magical auras wears off={#print;precast;bdm;postcast}
-#action >-adetevil You sense the red in your vision disappear.={#print;precast;bde;postcast}
-#action >-abob Your legs feel heavier={#print;precast;bob;postcast}
+/// Spell Timers and auto-recast
 
 #var $SPELLUP_COL=($GREEN)
 #var $SPELLDOWN_COL=($BOLD+$RED)
 
+#var $sn_armour=("armour")
+#var $sn_shield=("shield")
+#var $sn_shroud=("shroud")
+#var $sn_sanc=("sanctuary")
+#var $sn_bless=("bless")
+#var $sn_str=("strength")
+#var $sn_pfe=("protection from evil")
+#var $sn_sensel=("sense life")
+#var $sn_detmagic=("detect magic")
+#var $sn_detevil=("detect evil")
+#var $sn_bob=("breath of briskness")
 
-#action >+uarm A blue transparent wall slowly appears around you.={#print ("$0 "+$DARK+" (armour "+$NORM+$SPELLUP_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $armour=1}
-#action >+ushield You feel protected.={#print ("$0 "+$DARK+" (shield "+$NORM+$SPELLUP_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $shield=1}
-#action >+usanc You start glowing.={#print ("$0 "+$DARK+" (sanctuary "+$NORM+$SPELLUP_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $sanc=1}
-#action >+ushroud You are surrounded by a misty shroud.={#print ("$0 "+$DARK+" (shroud "+$NORM+$SPELLUP_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $shroud=1}
-#action >+ubless You begin to feel the light of Aman shine upon you.={#print ("$0 "+$DARK+"(bless "+$NORM+$SPELLUP_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $bless=1}
-#action >+ustr You feel stronger.={#print ("$0 "+$DARK+" (strength "+$NORM+$SPELLUP_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $str=1}
-#action >+upfe You have a righteous feeling!={#print ("$0 "+$DARK+" (prot from evil "+$NORM+$SPELLUP_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $pfe=1}
-#action >+usensel You feel your awareness improve.={#print ("$0 "+$DARK+" (sense life "+$NORM+$SPELLUP_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $sensel=1}
-#action >+udetmagic You become sensitive of magical auras.={#print ("$0 "+$DARK+" (detect magic "+$NORM+$SPELLUP_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $detmagic=1}
-#action >+udetevil You feel aware of all that is foul and evil.={#print ("$0 "+$DARK+" (detect evil "+$NORM+$SPELLUP_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $detevil=1}
-#action >+ubob An energy begins to flow within your legs as your body becomes lighter.={#print ("$0 "+$DARK+" (breath of briskness "+$NORM+$SPELLUP_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $bob=1}
+#var $sn_ork=("orkisk draught")
+#var $sn_refresh=("refreshment")
+#var $sn_antid=("antidote")
 
-#action >+rarm Your magic armour is revitalised.={#print ("$0 "+$DARK+" (armour "+$NORM+$SPELLUP_COL+"RENEWED"+$NORM+$DARK+")"+$NORM);#var $armour=1}
-#action >+rshield Your protection is revitalised.={#print ("$0 "+$DARK+" (shield "+$NORM+$SPELLUP_COL+"RENEWED"+$NORM+$DARK+")"+$NORM);#var $shield=1}
-#action >+rsanc Your aura glows more intensely.={#print ("$0 "+$DARK+" (sanctuary "+$NORM+$SPELLUP_COL+"RENEWED"+$NORM+$DARK+")"+$NORM);#var $sanc=1}
-#action >+rshroud Your misty shroud is renewed.={#print ("$0 "+$DARK+" (shroud "+$NORM+$SPELLUP_COL+"RENEWED"+$NORM+$DARK+")"+$NORM);#var $shroud=1}
-#action >+rbless You feel a renewed light shine upon you.={#print ("$0 "+$DARK+"(bless "+$NORM+$SPELLUP_COL+"RENEWED"+$NORM+$DARK+")"+$NORM);#var $bless=1}
-#action >+rstr The duration of the strength spell has been improved.={#print ("$0 "+$DARK+" (strength "+$NORM+$SPELLUP_COL+"RENEWED"+$NORM+$DARK+")"+$NORM);#var $str=1}
-#action >+rpfe You feel a renewed righteousness.={#print ("$0 "+$DARK+" (prot from evil "+$NORM+$SPELLUP_COL+"RENEWED"+$NORM+$DARK+")"+$NORM);#var $pfe=1}
-#action >+rsensel Your awareness is refreshed.={#print ("$0 "+$DARK+" (sense life "+$NORM+$SPELLUP_COL+"RENEWED"+$NORM+$DARK+")"+$NORM);#var $sensel=1}
-#action >+rdetmagic Your awareness of magical auras is renewed.={#print ("$0 "+$DARK+" (detect magic "+$NORM+$SPELLUP_COL+"RENEWED"+$NORM+$DARK+")"+$NORM);#var $detmagic=1}
-#action >+rdetevil Your awareness of evil is refreshed.={#print ("$0 "+$DARK+" (detect evil "+$NORM+$SPELLUP_COL+"RENEWED"+$NORM+$DARK+")"+$NORM);#var $detevil=1}
-#action >+rbob The energy in your legs is refreshed.={#print ("$0 "+$DARK+" (breath of briskness "+$NORM+$SPELLUP_COL+"RENEWED"+$NORM+$DARK+")"+$NORM);#var $bob=1}
+#alias spelltimer_on={#print (attr "bold blue" + $last_line + noattr)}
+
+#alias spell_up={#(@spelltimer_$1=timer);#print ($last_line+$DARK+" ("+$sn_$1+" "+$NORM+$SPELLUP_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $$1=1}
+
+#alias spelltimer={#var $$1=1; #(@spelltimer=@spelltimer_$1);#(@spelltimer_sec=(timer-@spelltimer)/1000%60);#if (@spelltimer_sec < 10) {#var $tmp=(%((timer-@spelltimer)/1000/60)+":0"+%(@spelltimer_sec))}; #else {#var $tmp=(%((timer-@spelltimer)/1000/60)+":"+%(@spelltimer_sec))}; #print ($last_line+$DARK+" ("+$tmp+" / "+$lasttime_$1+")"+$NORM); #var @spelltimer=;#var @spelltimer_sec=}
+
+#alias spell_down={#var $$1=0;#(@spelltimer=@spelltimer_$1);#(@spelltimer_sec=(timer-@spelltimer)/1000%60);#if (@spelltimer_sec < 10) {#var $sptime=(%((timer-@spelltimer)/1000/60)+":0"+%(@spelltimer_sec))}; #else {#var $sptime=(%((timer-@spelltimer)/1000/60)+":"+%(@spelltimer_sec))}; #print ($last_line+$DARK+" ("+$sn_$1+" "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+", lasted "+$sptime+", previous "+$lasttime_$1+")"+$NORM)); #var $lasttime_$1=($sptime); #var @spelltimer=;#var @spelltimer_sec=}
+
+/// #action >+setblesstimer1 You begin to feel the light of Aman shine upon you.={spelltimer_on;blesson}
+/// #action >+setblesstimer2 You feel a renewed light shine upon you.={spelltimer_on;blesson}
+/// #action >-showblesstimer ^- bless={spelltimer @spelltimer_bless}
+/// #action >-blessdown The light of Aman fades away from you.={spelltimer_off @spelltimer_bless;blessoff}
+/// #alias blesson={#(@spelltimer_bless=timer);#ac +setblesstimer2;#ac +showblesstimer;#ac +blessdown}
+/// #alias blessoff={#var @spelltimer_bless=;#ac -setblesstimer2;#ac -showblesstimer;#ac -blessdown}
 
 
-#action >+darm You feel less protected={#print ("$0 "+$DARK+" (armour "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM);#var $armour=0}
-#action >+dshield Your magical shield wears off={#print ("$0 "+$DARK+" (shield "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM);#var $shield=0}
-#action >+dsanc The white aura around your body fades.={#print ("$0 "+$DARK+" (sanctuary "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM);#var $sanc=0}
-#action >+dshroud1 Your misty shroud dissolves={#print ("$0 "+$DARK+" (shroud "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM);#var $shroud=0}
-#action >+dshroud2 You feel yourself exposed={#print ("$0 "+$DARK+" (shroud "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM);#var $shroud=0}
-#action >+dbless The light of Aman fades away from you={#print ("$0 "+$DARK+" (bless "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM);#var $bless=0}
-#action >+dstr You feel weaker={#print ("$0 "+$DARK+" (strength "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM);#var $str=0}
-#action >+dpfe You feel less righteous={#print ("$0 "+$DARK+" (prot from evil "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM);#var $pfe=0}
-#action >+dsensel You feel less aware={#print ("$0 "+$DARK+" (sense life "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM);#var $sensel=0}
-#action >+ddetmagic Your perception of magical auras wears off.={#print ("$0 "+$DARK+" (detect magic "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM);#var $detmagic=0}
-#action >+ddetevil You sense the red in your vision disappear.={#print ("$0 "+$DARK+" (detect evil "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM);#var $detevil=0}
-#action >+dbob Your legs feel heavier={#print ("$0 "+$DARK+" (breath of briskness "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM);#var $bob=0}
+#action >+qarm ^- armour={spelltimer armour}
+#action >+qshield ^- shield={spelltimer shield}
+#action >+qshroud ^- shroud={spelltimer shroud}
+#action >+qsanc ^- sanctuary={spelltimer sanc}
+#action >+qbless ^- bless={spelltimer bless}
+#action >+qstr ^- strength={spelltimer str}
+#action >+qpfe ^- protection from evil={spelltimer pfe}
+#action >+qsensel ^- sense life={spelltimer sensel}
+#action >+qdetmagic ^- detect magic={spelltimer detmagic}
+#action >+qdetevil ^- detect evil={spelltimer detevil}
+#action >+qbob ^- breath of briskness={spelltimer bob}
 
-#action >+qarm ^- armour={#print;#var $armour=1}
-#action >+qshield ^- shield={#print;#var $shield=1}
-#action >+qshroud ^- shroud={#print;#var $shroud=1}
-#action >+qsanc ^- sanctuary={#print;#var $sanc=1}
-#action >+qbless ^- bless={#print;#var $bless=1}
-#action >+qstr ^- strength={#print;#var $str=1}
-#action >+qpfe ^- protection={#prin;#var $pfe=1}
-#action >+qsensel ^- sense life={#print;#var $sensel=1}
-#action >+qdetmagic ^- detect magic={#print;#var $detmagic=1}
-#action >+qdetevil ^- detect evil={#print;#var $detevil=1}
-#action >+qbob ^- breath of briskness={#print;#var $bob=1}
+#alias afkcast={#print;precast;as;$1;sx;postcast}
+#action >-aarm You feel less protected={afkcast ba}
+#action >-ashield Your magical shield wears off={afkcast bz}
+#action >-asanc The white aura around your body fades.={afkcast bx}
+#action >-ashroud1 Your misty shroud dissolves={afkcast bh}
+#action >-ashroud2 You feel yourself exposed={afkcast bh}
+#action >-abless The light of Aman fades away from you={afkcast bb}
+#action >-astr You feel weaker={afkcast bst}
+#action >-apfe You feel less righteous={afkcast bpe}
+#action >-asensel You feel less aware={afkcast bsl}
+#action >-adetmagic Your perception of magical auras wears off={afkcast bdm}
+#action >-adetevil You sense the red in your vision disappear.={afkcast bde}
+#action >-abob Your legs feel heavier={afkcast bob}
 
-#alias loc={#action +catchloc;cast 'locate life' $1}
-#alias loct={#action +catchloc;cast tho 'locate life' $1}
+#action >+uarm A blue transparent wall slowly appears around you.={spell_up armour}
+#action >+ushield You feel protected.={spell_up shield}
+#action >+usanc You start glowing.={spell_up sanc}
+#action >+ushroud You are surrounded by a misty shroud.={spell_up shroud}
+#action >+ubless You begin to feel the light of Aman shine upon you.={spell_up bless}
+#action >+ustr You feel stronger.={spell_up str}
+#action >+upfe You have a righteous feeling!={spell_up pfe}
+#action >+usensel You feel your awareness improve.={spell_up sensel}
+#action >+udetmagic You become sensitive of magical auras.={spell_up detmagic}
+#action >+udetevil You feel aware of all that is foul and evil.={spell_up detevil}
+#action >+ubob An energy begins to flow within your legs as your body becomes lighter.={spell_up bob}
+
+#action >+rarm Your magic armour is revitalised.={spell_up armour}
+#action >+rshield Your protection is revitalised.={spell_up shield}
+#action >+rsanc Your aura glows more intensely.={spell_up sanc}
+#action >+rshroud Your misty shroud is renewed.={spell_up shroud}
+#action >+rbless You feel a renewed light shine upon you.={spell_up bless}
+#action >+rstr The duration of the strength spell has been improved.={spell_up str}
+#action >+rpfe You feel a renewed righteousness.={spell_up pfe}
+#action >+rsensel Your awareness is refreshed.={spell_up sensel}
+#action >+rdetmagic Your awareness of magical auras is renewed.={spell_up detmagic}
+#action >+rdetevil Your awareness of evil is refreshed.={spell_up detevil}
+#action >+rbob The energy in your legs is refreshed.={spell_up bob}
+
+#action >+darm You feel less protected={spell_down armour}
+#action >+dshield Your magical shield wears off={spell_down shield}
+#action >+dsanc The white aura around your body fades.={spell_down sanc}
+#action >+dshroud1 Your misty shroud dissolves={spell_down shroud}
+#action >+dshroud2 You feel yourself exposed={spell_down shroud}
+#action >+dbless The light of Aman fades away from you={spell_down bless}
+#action >+dstr You feel weaker={spell_down str}
+#action >+dpfe You feel less righteous={spell_down pfe}
+#action >+dsensel You feel less aware={spell_down sensel}
+#action >+ddetmagic Your perception of magical auras wears off.={spell_down detmagic}
+#action >+ddetevil You sense the red in your vision disappear.={spell_down detevil}
+#action >+dbob Your legs feel heavier={spell_down bob}
+
+#action >+uorkd The draught burns down your throat, and a fiery feeling fills your limbs.={spell_up ork}
+#action >+qorkd ^- Orkish draught={spelltimer @spelltimer_ork}
+#action >+dorkd As the warmth of the draught recedes from your limbs, you feel less energetic.={spell_down ork}
+
+/// refreshment: can be "greater strength"/less healthy or "greater energy"/less focussed or ...
+/// You feel less focused.
+
+#action >+urefresh The effect of the fresh water begins in your toes and rises steadily through every limb={spell_up refresh}
+#action >+qrefresh ^- refreshment={spelltimer refresh}
+#action >+drefresh1 You feel less focused.={spell_down refresh}
+#action >+drefresh2 You feel less healthy.={spell_down refresh}
+#action >+drefresh3 You feel less energetic.={spell_down refresh}
+
+/// Quaff potion, no poison: A warm feeling runs through your body.
+/// Quaff potion, poisoned:  A warm feeling runs through your body.
+/// Cast remp when poisoned: A warm feeling runs through your body, you feel better.
+/// Cast remp, not poisoned: A strange feeling runs through your body.
+
+#action >+uanti A warm feeling runs through your body.={spell_up antid}
+#action >+qanti ^- antidote={spelltimer antid}
+#action >+danti You feel a strange taste in your mouth.={spell_down antid}
+
+/// You feel aware of this place.
+/// [somewhere] Your awareness decreases.
+
+#action >+watchroom_drops ^Your awareness decreases={#print ("$0 "+$DARK+" (watch room "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM)}
+
+#( "watches for magic keys and writes them down, this saves ALL KEYS SEEN, and gets messy fast" )
+#alias keyclear=#var $mkeys=
+#alias keyview=#print ($mkeys)
+#action >+suck-keys &1 - &2 key: '$3'={#print;#($mkeys+="$1 - $3\012");#var $descport=$1;#var $lastport=$3}
+#action >+suck-keys-loc You feel the magic aura of this place: key: '$1'={#print;#($mkeys+="${thisroom} - $1\012");#var $descport=${thisroom};#var $lastport=$1}
+#alias key={#if ("$0"!="") {#var $descport=Hand Set ($2);#var $lastport=$1};#print ("Current key for '" + $descport + "' is '" + $lastport + "'" )}
+
+
+#alias loc={cast 'locate' $0}
+#alias locl={cast 'locate life' $0}
+#alias locm={cast 'locate magic' $0}
+#alias locme={cast 'locate magic' evil}
+#alias locmg={cast 'locate magic' good}
+
+#alias scry={cast 'scry' $0}
+#alias tp={cast 'teleport' $1}
+#alias tpc={cast carefully 'teleport' $1}
+#alias tpt={cast thoroughly 'teleport' $1}
+#alias port={#send ("cast 'portal' $1 "+$lkey_${2})}
 
 #alias ba={cast 'armour' $0}
 #alias bb={cast 'bless' $0}
@@ -130,9 +204,12 @@
 #alias bsc={cast care 'strength' $0}
 #alias bst={cast thoroughly 'strength' $1}
 #alias bsl={cast 'sense life' $0}
-#alias bx={cast 'sanctuary' $0}
+#alias bx={cast 'sanctuary' $0}	
+#alias bxc={cast care 'sanctuary' $0}	
+#alias bxt={cast tho 'sanctuary' $0}	
 #alias bz={cast 'shield' $0}
 #alias bh={cast 'shroud' $0}
+#alias bhm={bh mine;bh mineb}
 #alias bdm={cast 'detect magic'}
 #alias bde={cast 'detect evil' $0}
 #alias bld={cast 'block door' $0}
@@ -197,6 +274,7 @@
 #alias dispel={#if ("$2"!="") cast $1 'dispel evil' $2; #else #send ("cast $1 'dispel evil' "+$mtarget) }
 #alias vd=dispel norm $1
 #alias vdf=dispel fast $1
+#alias vq=dispel quick $1
 #alias harm={#if ("$2"!="") cast $1 'harm' $2; #else #send ("cast $1 'harm' "+$mtarget) }
 #alias vh=harm norm $1
 #alias vhf=harm fast $1
@@ -204,29 +282,29 @@
 #alias veq={cast quick 'earthquake' $1}
 #alias vet={cast thoroughly 'earthquake' $1}
 #alias vr={cast 'burning hands' $1}
-#alias tpc={cast 'teleport' $1}
-#alias tpc={cast carefully 'teleport' $1}
-#alias tpt={cast thoroughly 'teleport' $1}
 #alias wor={cast 'word of recall'}
 
-#alias port={#send ("cast 'portal' $1 "+$lkey_${2})}
 #alias cw={cast 'control weather' $0}
 #alias cwt={cast tho 'control weather' $0}
 
-
-#alias ascaster={#if ($bless=="0") bb;#if ($armour=="0") #send ("ba") ;#if ($shield=="0") #send ("cast 'shield'");#if ($shroud=="0") #send ("cast 'shroud'") ;#if ($str=="0") #send ("cast tho 'strength'") ;#if ($pfe=="0") #send  ("cast care 'protection from evil'") ;#if ($sensel=="0") #send ("cast 'sense life'");  #if ($detmagic=="0") bdm }
-
-#var $abless=1; #var $astr=1; #var $apfe=1; #var $asensel=1; #var $adetmagic=1; #var $aarmour=1; #var $ashield=1; #var $adetevil=1
 #var $bless2=("")
 #alias bb2=#var $bless2=$1
-#alias as={#if ($bless=="0" && $abless=="1") { bb; #if ($bless2!="") #send ("cast 'bless' "+$bless2) };#if ($str=="0" && $astr=="1") bst ;#if ($pfe=="0" && $apfe=="1") bpe; #if ($sensel=="0" && $asensel=="1") bsl; #if ($detmagic=="0" && $adetmagic=="1") bdm;  #if ($armour=="0" && $aarmour=="1") ba;  #if ($shield=="0" && $ashield=="1") bz; #if ($detevil=="0" && $adetevil=="1") bde}
 
+#var $abless=1; #var $astr=1; #var $apfe=1; #var $asensel=1; #var $adetmagic=1; #var $aarmour=1; #var $ashield=1; #var $adetevil=1; #var $asanc=0; #var $ashroud=0
+#alias as={#if ($sanc=="0" && $asanc=="1") bx; #if ($bless=="0" && $abless=="1") { bb; #if ($bless2!="") #exe ("bb "+$bless2) };#if ($str=="0" && $astr=="1") bst; #if ($pfe=="0" && $apfe=="1") bpe; #if ($sensel=="0" && $asensel=="1") bsl; #if ($detmagic=="0" && $adetmagic=="1") bdm;  #if ($armour=="0" && $aarmour=="1") ba; #if ($shroud=="0" && $ashroud=="1") bh; #if ($shield=="0" && $ashield=="1") bz; #if ($detevil=="0" && $adetevil=="1") bde}
+
+#alias asall={#var $adetevil=1; #var $adetmagic=1; #var $asanc=1; #var $ashroud=1; message Auto-cast now in all mode (all spells enabled, including sanc & shroud)} 
+#alias asgen={#var $adetevil=1; #var $adetmagic=1; #var $asanc=0; #var $ashroud=0; message Auto-cast now in general solo/leader mode (most spells enabled)} 
+#alias asmin={#var $adetevil=0; #var $adetmagic=0; #var $asanc=0; #var $ashroud=0; message Auto-cast now in minimum mode (non-essentials disabled, eg. detect evil/magic)}
 
 #action >+aura1 Traces of white tones form the aura of this place.=#print ($DARK+"Traces of "+$CYAN+"white tones"+$NORM+$DARK+" form the aura of this place."+$NORM)
 #action >+aura2 Traces of &1 white tones form the aura of this place.=#print ($DARK+"Traces of "+$CYAN+"$1 white tones"+$NORM+$DARK+" form the aura of this place."+$NORM)
 #action >+aura3 Traces of red tones form the aura of this place.=#print ($BKYELLOW+"Traces of "+$BOLD+$RED+"red tones"+$NORM+$BKYELLOW+" form the aura of this place."+$NORM)
 #action >+aura4 Traces of &1 red tones form the aura of this place.=#print ($BKYELLOW+"Traces of "+$BOLD+$RED+"$1 red tones"+$NORM+$BKYELLOW+" form the aura of this place."+$NORM)
 
+#action >+translatespell1 &1 utters the word '$2'={#if ($magical_${2}=="") #print;#else #print (""+\$1+" "+$BOLD+$MAGENTA+"utters the word '"+$magical_${2}+"'"+$NORM)}
+#action >+translatespell2 &1 utters the words '$2 $3'={#if ($magical_${2}_${3}=="") #print; #else #print (""+\$1+" "+$BOLD+$MAGENTA+"utters the words '"+$magical_${2}_${3}+"'"+$NORM)}
+#action >+translatespell3 &1 utters the words '$2 $3 $4'={#if ($magical_${2}_${3}_${4}=="") #print; #else #print (""+\$1+" "+$BOLD+$MAGENTA+"utters the words '"+$magical_${2}_${3}_${4}+"'"+$NORM)}
 
 #($magical_abrawajf = "armour")
 #($magical_bfzahp_ay_bfugtizgg = "breath of briskness")

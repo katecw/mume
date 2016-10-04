@@ -7,13 +7,14 @@
 #( "|                   * WARNING: Definitely illegal in PK! *                                                                             |" ) #
 #( "========================================================================================================================================" )
 
+
 #alias autoopen={ capopenon; #send ("_open "+$opendir) }
 #action >+capturedoor ^--->open &1={#print; #var $autodoor=$1}
 #alias capopenon={#action +doorlocked1; #action +doorlocked2; #action +doorlatched; #action +alreadyopen; #action +noexitthere; #action +opensuccess }
 #alias capopenoff={ #action -doorlocked1; #action -doorlocked2; #action -doorlatched; #action -alreadyopen; #action -noexitthere; #action -opensuccess }
-#action >-doorlocked1 ^It seems to be locked.={ #action +doorclick; #action +nokeyholes; #action +notgotkey; capopenoff; #print; #send ("_unlock "+$opendir) }
-#action >-doorlocked2 ^They seem to be locked.={ #action +doorclick; #action +nokeyholes; #action +notgotkey; capopenoff; #print; #send ("_unlock "+$opendir) }
-#action >-doorlatched ^It seems to be latched.={#action +doorclick; capopenoff; #send ("_unlock "+$opendir) }
+#action >-doorlocked1 ^It seems to be locked.={#print;#action +doorclick; #action +nokeyholes; #action +notgotkey; capopenoff; #print; #send ("_unlock "+$opendir) }
+#action >-doorlocked2 ^They seem to be locked.={#print;#action +doorclick; #action +nokeyholes; #action +notgotkey; capopenoff; #print; #send ("_unlock "+$opendir) }
+#action >-doorlatched ^It seems to be latched.={#print;#action +doorclick; #send ("_unlock "+$opendir) }
 #action >-alreadyopen ^It's already open!={ capopenoff; #print ($BKGREEN+"$0"+$NORM) }
 #action >-noexitthere ^You don't see any exit there.={ capopenoff;  #print ($BKYELLOW+"$0"+$NORM) }
 #action >-opensuccess ^Ok.={ capopenoff; #print ($BKGREEN+"$0"+$NORM) }
@@ -67,6 +68,25 @@
 #alias ulw={unlock exit w;open exit w}
 #alias ulu={unlock exit u;open exit u}
 #alias uld={unlock exit d;open exit d}
+
+
+/// Auto-chest gac. Type "gc" and it does the rest. Experimental! (aka not working :p)
+
+#var $autochest=("")
+#alias gc={#action +clchest1; #action +clchest2; #action +chget1; #action +chget2; gf chest; gf sarcophagus}
+#action %-clchest1 A(n)? ([a-zA-Z ]+ )?([a-zA-Z]+) is closed\.={#print;#var $autochest=("$4"); #action +lochest1; #send ("open "+$autochest); #exe ("gf "+$autochest); #action -clchest1 ; #action -clchest2}
+#action >-clchest2 It is closed.={#print;#var $autochest=("$3"); #action +lochest1; #send ("open "+$autochest); #exe ("gf "+$autochest); #action -clchest1 ; #action -clchest2}
+#action >-lochest1 It seems to be locked.={#print; #action +chwrongk1; #action +chclick 1; #send ("unlock "+$autochest); #send ("open "+$autochest); #exe ("gf "+$autochest);  #action -lochest1}
+#action >-chclick1 *click*={#print; #action -lochest1; #action -chwrongk1; #action -chclick1}
+#action >-chwrongk1 You don't seem to have the proper key.={#print;#send ("pick "+$autochest); #send ("open "+$autochest);  #exe ("gf "+$autochest); #action -chwrongk1}
+#action >-chget1 You get &1 from &2.={#print;#action -chget1;#action -chget2;#action -clchest1;#action -clchest2;#action -lochest1}
+#action >-chget2 You can't find anything in={#print;#action -chget1;#action -chget2;#action -clchest1;#action -clchest2;#action -lochest1}
+
+/// You can't find anything in the chest.
+/// You don't see a sarcophagus to get things from.
+
+/// The lock finally yields to your skill.
+/// *click*
 
 
 #print (" ==== autodoor.txt loaded ==== ")

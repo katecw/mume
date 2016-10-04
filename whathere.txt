@@ -10,12 +10,28 @@
 #("Labelled mobs/mounts/players")
 
 #mark (glowing)=white on magenta
-#mark (hidden)=red
+#mark and glowing)=white on magenta
+#mark (hidden)=black on yellow
+#mark (shrouded)=black on yellow
 
 #mark [blue]=blue
+#mark (blue aura)=blue
 #mark (red aura)=red
+#mark it glows blue=blue
+#mark it glows red=red
 
-#action >+saruman old man, swathed in a great light-coloured cloak={#print; #print ($BKCYAN+$DARK+" (Saruman)"+$NORM)}
+#mark (flawless)=green
+#mark (well-maintained)=green
+#mark (satisfactory)=yellow
+#mark (used)=yellow
+#mark (worn)=red
+#mark (neglected)=red
+#mark (marred)=red
+#mark (unavailing)=red
+#mark (deteriorating)=red
+#mark (worn out)=red
+
+#action >+saruman old man, swathed in a great light-coloured cloak={#print ("$0 "+$BKCYAN+$DARK+" (Saruman)"+$NORM)}
 
 #action %+lookaround1 ^You see some (light|smoke) to the ([a-z]+)\.=#print ($BOLD+"You see some $2 to the "+$YELLOW+$CAPDIR_$3+$NORM)
 
@@ -35,42 +51,25 @@
 #action >+labelleda1 &1 (&2) has arrived from &3.=#print ($DARK+$LABELCOL+"$1 ($2)"+$NORM+$DARK+" has arrived from $3."+$NORM)
 #action >+labelleda2 &1 (&2) has suddenly arrived.=#print ($DARK+$LABELCOL+"$1 ($2)"+$NORM+$DARK+" has suddenly arrived."+$NORM)
 #action >+labelledh1 &1 (&2) is her&3.=#print ($LABELCOL+"$1 ($2)"+$NORM+" is her$3.")
-#action >+labelledh2 &1 (&2) is standing her&3.=#print ($LABELCOL+"$1 ($2)"+$NORM+" is standing her$3.")
+#action >+labelledh2 &1 (&2) is standing her&3.=#print ($LABELCOL+"$1 ($2)"+$NORM+" is standing"+$NORM+" her$3.")
 #action >+labelledh3 &1 (&2) is sleeping her&3.=#print ($LABELCOL+"$1 ($2)"+$NORM+" is "+$STATUSCOL+"sleeping"+$NORM+" her$3.")
-
-
-#( " Enemies & special mobs")
-
-#mark *&Orc*=bold red
-#mark *&Troll*=bold red
-#mark *&Man*=bold red
-#mark *&Woman*=bold red
-#mark *&Elf*=bold red
-#mark *&Dwarf*=bold red
-#mark *&Hobbit*=bold red
-
-#action >+whohere_e1 *&1* is her&2.=#print ($BOLD+$RED+"*$1*"+$NORM+" is her$2.)
-#action >+whohere_e2 *&1*, wielding &2, is her&3.=#print ($BOLD+$RED+"*$1*"+$NORM+", wielding "+$ITEMCOL+"$2"+$NORM+", is her$3.")
-#action >+whohere_e3 *&1* is her&2, riding &3.=#print ($BOLD+$RED+"*$1*"+$NORM+" is her&2, riding "+$BOLD+$MOBCOL+"$3"+$NORM+".")
-#action >+whohere_e4 *&1*, wielding &2, is her&3, riding &4.=#print ($BOLD+$RED+"*$1*"+$NORM+", wielding "+$ITEMCOL+"$2"+$NORM+", +" is her$3, riding "+$BOLD+$MOBCOL+"$4"+$NORM+".")
-
-#action >+whohere_em &1 &2 is &3ere, ridden by *&4*.=#print ("$1 "+$BOLD+$MOBCOL+"$2"+$NORM+" is $3ere, ridden by "+$BOLD+$RED+"*$4*"+$NORM".")
-
-#action >+whohere_n1 ^&1 the &2 is her&3.=#print ($BOLD+$MOBCOL+"$1"+$NORM+" the $2 is her$3.")
-#action >+whohere_n2 ^&1 the &2, wielding &3, is her&4.=#print ($BOLD+$MOBCOL+"$1"+$NORM+" the $2, wielding "+$ITEMCOL+"$3"+$NORM+", is her$4.")
-#action >+whohere_n1 ^&1 the &2 is her&3, riding &4.=#print ($BOLD+$MOBCOL+"$1"+$NORM+" the $2 is her$3, riding "+$MOBCOL+"$4"+$NORM+".")
-#action >+whohere_n2 ^&1 the &2, wielding &3, is her&4, riding &5.=#print ($BOLD+$MOBCOL+"$1"+$NORM+" the $2, wielding "+$ITEMCOL+"$3"+$NORM+", is her$4, riding "+$MOBCOL+"$5"+$NORM+".")
-#action >+whohere_n3 ^&1 the &2 stands here.=#print ($BOLD+$MOBCOL+"$1"+$NORM+" the $2 stands here.")
 
 
 #( " Status / position " )
 
-#action >+Pos4a ^&1 is sitting &2=#print ($MOBCOL+"$1"+$NORM+" is "+$STATUSCOL+"SITTING"+$NORM+" $2")
-#action >+Pos5 ^&1 is resting &2=#print ($MOBCOL+"$1"+$NORM+" is "+$STATUSCOL+"RESTING"+$NORM+" $2")
-#action >+Pos6 ^&1 is sleeping &2=#print ($MOBCOL+"$1"+$NORM+" is " + $STATUSCOL + "SLEEPING" + $NORM+" $2" )
-#action >+Pos7 ^&1 is lying here, stunned&2=#print ("$1 is lying here, " + $BOLD+$STATUSCOL + "STUNNED" + "$2" + $NORM)
-#action >+Pos8 ^&1 is lying here, incapacitated&2=#print ("$1 is lying here, " + $BOLD+$STATUSCOL + "INCAPACITATED" + noattr + "$2" + $NORM)
-#action >+Pos9 ^&1 is lying here, mortally wounded&2=#print ("$1 is lying here, " + $BOLD+$STATUSCOL + "MORTALLY WOUNDED" + noattr + "$2" + $NORM)
+#action >+PosF1 ^&1 (&2) is sitting &3=#print ($LABELCOL+"$1 ($2)"+$NORM+" is "+$STATUSCOL+"SITTING"+$NORM+" $3")
+#action >+PosF2 ^&1 (&2) is resting &3=#print ($LABELCOL+"$1 ($2)"+$NORM+" is "+$STATUSCOL+"RESTING"+$NORM+" $3")
+#action >+PosF3 ^&1 (&2) is sleeping &3=#print ($LABELCOL+"$1 ($2)"+$NORM+" is " + $STATUSCOL + "SLEEPING" + $NORM+" $3" )
+#action >+PosF4 ^&1 (&2) is lying here, stunned&3=#print ("$1 ($2) is lying here, " + $BOLD+$STATUSCOL + "STUNNED" + "$3" + $NORM)
+#action >+PosF5 ^&1 (&2) is lying here, incapacitated&3=#print ("$1 ($2) is lying here, " + $BOLD+$STATUSCOL + "INCAPACITATED" + $NORM + "$3")
+#action >+PosF6 ^&1 (&2) is lying here, mortally wounded&3=#print ("$1 ($2) is lying here, " + $BOLD+$STATUSCOL + "MORTALLY WOUNDED" + $NORM + "$3")
+
+#action >+Pos1 ^&1 is sitting &2=#print ($MOBCOL+"$1"+$NORM+" is "+$STATUSCOL+"SITTING"+$NORM+" $2")
+#action >+Pos2 ^&1 is resting &2=#print ($MOBCOL+"$1"+$NORM+" is "+$STATUSCOL+"RESTING"+$NORM+" $2")
+#action >+Pos3 ^&1 is sleeping &2=#print ($MOBCOL+"$1"+$NORM+" is " + $STATUSCOL + "SLEEPING" + $NORM+" $2" )
+#action >+Pos4 ^&1 is lying here, stunned&2=#print ("$1 is lying here, " + $BOLD+$STATUSCOL + "STUNNED" + "$2" + $NORM)
+#action >+Pos5 ^&1 is lying here, incapacitated&2=#print ("$1 is lying here, " + $BOLD+$STATUSCOL + "INCAPACITATED" + noattr + "$2" + $NORM)
+#action >+Pos6 ^&1 is lying here, mortally wounded&2=#print ("$1 is lying here, " + $BOLD+$STATUSCOL + "MORTALLY WOUNDED" + noattr + "$2" + $NORM)
 
 
 #( " Weather / environmental effects " )
@@ -111,10 +110,19 @@
 #action >+lamphere1 ^A finely crafted crystal lamp is here.=#print
 #action >+ferryhere1 ^A ferry in the shape of a great white swan is here.=#print ("A "+$CONTAINERCOL+"ferry"+$NORM+" in the shape of a great white swan is here.")
 #action >+mailboxhere1 ^A mailbox stands here stuffed full of messages.=#print ("A "+$CONTAINERCOL+"mailbox"+$NORM+" stands here stuffed full of messages.")
-#action >+chesthere1 ^A &1 chest stands &2.=#print ("A "+$CONTAINERCOL+"$1 chest"+$NORM+" stands $2.")
-#action >+chesthere3 ^A &1 chest is standing here.=#print ("A "+$CONTAINERCOL+"$1 chest"+$NORM+" is standing here.")
-#action >+chesthere4 ^A &1 sarcophagus lies on the &2.=#print ("A "+$CONTAINERCOL+"$1 sarcophagus"+$NORM+" lies on the $2.")
-#action >+chesthere5 ^A &1 chest is here.=#print ("A "+$CONTAINERCOL+"$1 chest"+$NORM+" is here.")
+
+#action %+containerhere1 ^A ([a-z ]+) chest([a-z ]+)stands ([^.]+)\.=#print ("A "+$CONTAINERCOL+"$2 chest$3"+$NORM+" stands $4.")
+#action >+containerhere3 ^A &1 chest is standing here.=#print ("A "+$CONTAINERCOL+"$1 chest"+$NORM+" is standing here.")
+#action >+containerhere4 ^A &1 sarcophagus lies on the &2.=#print ("A "+$CONTAINERCOL+"$1 sarcophagus"+$NORM+" lies on the $2.")
+#action >+containerhere5 ^A &1 chest is here.=#print ("A "+$CONTAINERCOL+"$1 chest"+$NORM+" is here.")
+#action >+containerhere6 ^A &1 crate &2 sits on the floor.=#print ("A "+$CONTAINERCOL+"$1 crate"+$NORM+" $2 sits on the floor.")
+#action >+containerhere7 ^A &1 desk&2 stands here.=#print ("A "+$CONTAINERCOL+"$1 desk"+$NORM+"$2 stands here.")
+#action >+containerhere8 ^A &1 box&2 rests on the ground.=#print ("A "+$CONTAINERCOL+"$1 box"+$NORM+"$2 rests on the ground.")
+
+/// A heavy desk, made of solid oak, stands here.
+/// A wooden box, made from rich wood, rests on the ground.
+/// A large stone chest with ebony bands stands here.
+
 #action >+cabinethere1 ^A &1 cabinet &2s here.=#print ("A "+$CONTAINERCOL+"$1 cabinet"+$NORM+" is here.")
 #action >+rackhere1 ^A weapons rack &1 the wall.=#print ("A "+$CONTAINERCOL+"weapons rack"+$NORM+" $1 the wall.")
 #action >+peghere1 ^A sturdy peg &1 is on the wall. =#print ("A "+$CONTAINERCOL+"$1 chest"+$NORM+" $1 is on the wall.")
@@ -171,44 +179,80 @@
 
 
 
+#( " Enemies & special mobs")
+
+#mark *&Orc*=bold red
+#mark *&Troll*=bold red
+#mark *&Man*=bold red
+#mark *&Woman*=bold red
+#mark *&Elf*=bold red
+#mark *&Dwarf*=bold red
+#mark *&Hobbit*=bold red
+
+#action >+whohere_e1 *&1* is her&2.=#print ($BOLD+$RED+"*$1*"+$NORM+" is her$2.)
+#action >+whohere_e2 *&1*, wielding &2, is her&3.=#print ($BOLD+$RED+"*$1*"+$NORM+", wielding "+$ITEMCOL+"$2"+$NORM+", is her$3.")
+#action >+whohere_e3 *&1* is her&2, riding &3.=#print ($BOLD+$RED+"*$1*"+$NORM+" is her&2, riding "+$BOLD+$MOBCOL+"$3"+$NORM+".")
+#action >+whohere_e4 *&1*, wielding &2, is her&3, riding &4.=#print ($BOLD+$RED+"*$1*"+$NORM+", wielding "+$ITEMCOL+"$2"+$NORM+", +" is her$3, riding "+$BOLD+$MOBCOL+"$4"+$NORM+".")
+
+#action >+whohere_em &1 &2 is &3ere, ridden by *&4*.=#print ("$1 "+$BOLD+$MOBCOL+"$2"+$NORM+" is $3ere, ridden by "+$BOLD+$RED+"*$4*"+$NORM".")
+
+#action >-whohere_n1 ^&1 the &2 is her&3.=#print ($BOLD+$MOBCOL+"$1"+$NORM+" the $2 is her$3.")
+#action >-whohere_n2 ^&1 the &2, wielding &3, is her&4.=#print ($BOLD+$MOBCOL+"$1"+$NORM+" the $2, wielding "+$ITEMCOL+"$3"+$NORM+", is her$4.")
+#action >-whohere_n1 ^&1 the &2 is her&3, riding &4.=#print ($BOLD+$MOBCOL+"$1"+$NORM+" the $2 is her$3, riding "+$MOBCOL+"$4"+$NORM+".")
+#action >-whohere_n2 ^&1 the &2, wielding &3, is her&4, riding &5.=#print ($BOLD+$MOBCOL+"$1"+$NORM+" the $2, wielding "+$ITEMCOL+"$3"+$NORM+", is her$4, riding "+$MOBCOL+"$5"+$NORM+".")
+
+#action %+whohereP1 ^([a-zA-Z]+) is standing here(.*)\.=#print ($MOBCOL+"$2"+$NORM+" is standing here$3.")
+
+
+/// Named mobs
+
+#action %+whohereN1 ^([A-Z][a-zA-Z'\]+ [A-Z][a-zA-Z'-]+) (is )?(standing |stands )?here(.*).=#print ($MOBCOL+"$2"+$NORM+" $3$4here$5.")
+#action %+whohereN2 ^([a-zA-Z-]+) the ([a-zA-Z -]+) (is|stands|is standing) here(.*).=#print ($MOBCOL+"$2 the $3"+$NORM+" $4 here$5.")
+
+
+
+/// General mobs
+
 #action >+whohere_s1 ^&1 &2snake&3 is lying here&4=#print ("$1 "+$MOBCOL+"$1"+$NORM+"$2snake$3 is lying here$4")
-#action >+whohere0a ^A &1 is here&2.=#print ("A "+$MOBCOL+"$1"+$NORM+" is here$2.")
-#action >+whohere0n ^An &1 is here&2.=#print ("An "+$MOBCOL+"$1"+$NORM+" is here$2.")
-#action >+whohere0t ^The &1 is here&2.=#print ("The "+$MOBCOL+"$1"+$NORM+" is here$2.")
 
-#action >+whoheren1 ^&1 the &2 is her&3.=#print ($MOBCOL+"$1 the $2"+$NORM+" is her$3.")
+#action >-whohere4 ^&1 &2 stands&3here&4=#print ("$1 "+$MOBCOL+"$2"+$NORM+" stands$3"+"here$4")
+#action >-whohere4b ^&1 &2 stands&3before you&4=#print ("$1 "+$MOBCOL+"$2"+$NORM+" stands$3"+"before you$4")
+#action >-whohere4c ^&1 &2 stands&3menacingly&4=#print ("$1 "+$MOBCOL+"$2"+$NORM+" stands$3"+"menacingly$4")
+#action >-whohere4d ^&1 stands here carrying&2=#print ($MOBCOL+"$1"+$NORM+" stands here carrying $2")
+#action >-whohere4e ^&1 stands here wielding&2=#print ($MOBCOL+"$1"+$NORM+" stands here carrying $2")
 
-#action >+whohere0hw ^&1 &2 is working&3here&4=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is working$3here$4")
+#action %+whohereG1 ^(The|An|A) ([a-zA-Z ,'-]+) is here(.*)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" is here$4.")
 
-#action %+whohere1a ^(The|An|A) ([a-zA-Z ]+) is standing here(.*).=#print ("$2 "+$MOBCOL+"$3"+$NORM+" is standing here$4.")
-#action %+whohere1n ^([a-zA-Z\,\-]+) the ([a-zA-Z -]+) is standing here(.*).=#print ($MOBCOL+"$2 the $3"+$NORM+" is standing here$4.")
-#action %+whohere1p ^([a-zA-Z]+) is standing here(.*)\.=#print ($MOBCOL+"$2"+$NORM+" is standing here$3.")
-#action >+whohere4 ^&1 &2 stands&3here&4=#print ("$1 "+$MOBCOL+"$2"+$NORM+" stands$3"+"here$4")
-#action >+whohere4b ^&1 &2 stands&3before you&4=#print ("$1 "+$MOBCOL+"$2"+$NORM+" stands$3"+"before you$4")
-#action >+whohere4c ^&1 &2 stands&3menacingly&4=#print ("$1 "+$MOBCOL+"$2"+$NORM+" stands$3"+"menacingly$4")
-#action >+whohere4d ^&1 stands here carrying&2=#print ($MOBCOL+"$1"+$NORM+" stands here carrying $2")
-#action >+whohere4e ^&1 stands here wielding&2=#print ($MOBCOL+"$1"+$NORM+" stands here carrying $2")
+#action %+whohereG2 ^(The|An|A|Some) ([a-zA-Z, '-]+) (lurks|floats|crawls|is standing|paces|stands|bounces|is playing|is walking|walks|is wandering|is running|is strolling|is staggering|is working|is playing|shuffles|is hobbling|flies|is circling|is fluttering|is buzzing|are buzzing|scampers|waddles|is waddling|writhing|is strutting|is slithering|slithers|is digging|scurries) (about|about here|around|here|around here|above)(.*)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" $4 $5$6.")
+
+#action %+whohereG1 ^(The|An|A) ([a-zA-Z ,'-]+) is here(.*)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" is here$4.")
+
+#action %+whohereR1 ^(The|An|A) ([a-zA-Z ,'-]+) innkeeper (is here|stands ready)(.*)\.=#print ("$2 "+$MOBCOL+"$3 inkeeper"+$NORM+" $4$5.")
+#action %+whohereR2 ^([a-zA-Z ,'-]+) the innkeeper (is here|stands ready)(.*)\.=#print ($MOBCOL+"$2 the inkeeper"+$NORM+" $3$4.")
+
+#action >+whohere28 ^&1 &2 noses about hungrily&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" noses about hungrily$3")
+
+#action %+whohere28z ^(The|An|A|Some) ([a-zA-Z, '-]+) (are |is )? (scuttling|staggering|noses) about (here|hungrily)(.+)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" $4$5 about $6$7.")
 
 #action >+whohere2 ^&1 &2 pads&3here&4=#print ("$1 "+$MOBCOL+"$2"+$NORM+" pads$3"+"here$4")
 #action >+whohere2a ^&1 &2 pads restlessly&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" pads restlessly$3")
 #action >+whohere2b ^&1 &2 pads quietly&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" pads quietly$3")
-#action >+whohere3 ^&1 &2 lurks here&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" lurks here$3")
 #action >+whohere5 ^&1 &2 smothers the&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" smothers the$3")
 
-#action >+whohere6 ^&1 &2 looks&3at you&4=#print ("$1 "+$MOBCOL+"$2"+$NORM+" looks$3"+"at you$4")
-#action >+whohere7 ^&1 &2 stares&3at you&4=#print ("$1 "+$MOBCOL+"$2"+$NORM+" stares$3"+"at you$4")
-#action >+whohere7a ^&1 &2 glares&3at you&4=#print ("$1 "+$MOBCOL+"$2"+$NORM+" glares$3"+"at you$4")
-#action >+whohere7b ^&1 &2 gazes&3at you&4=#print ("$1 "+$MOBCOL+"$2"+$NORM+" glazes$3"+"at you$4")
-#action >+whohere7c ^&1 &2 glaring&3at you&4=#print ("$1 "+$MOBCOL+"$2"+$NORM+" glazes$3"+"at you$4")
+#action %+whohere6z ^(The|An|A|Some) ([a-zA-Z, '-]+) (are |is )?(lunges|looks|stares|glares|gazes|bares|glaring|grins|gleam)(.+)at you(.*)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" $4$5$6at you$7.")
+/// stares bitterly into the shadows
+
+#action >+whohere7d ^&1 &2 is sprawled on the ground&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is sprawled on the ground$3")
+
 #action >+whohere11 ^&1 &2 watches you&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" watches you$3")
-#action >+whohere11a ^&1 &2 is watching &3here&4=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is watching $3here$4")
-#action >+whohere11b ^&1 &2 is watching &3warily&4=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is watching $3warily$4")
+#action >+whohere11a ^&1 watches you with&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" watches you with$3")
+#action >+whohere11b ^&1 &2 is watching &3here&4=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is watching $3here$4")
+#action >+whohere11c ^&1 &2 is watching &3warily&4=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is watching $3warily$4")
 #action >+whohere16 ^&1 &2 is sizing up&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" sizing up$3")
 #action >+whohere17a ^&1 &2 eyes you&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" eyes you$3")
 
 #action >+whohere50a ^&1 &2 turns to face you you.=#print ("$1 "+$MOBCOL+"$2"+$NORM+" turns to face you.")
 #action >+whohere50b ^&1 &2 challenges you.=#print ("$1 "+$MOBCOL+"$2"+$NORM+" challenges you.")
-#action >+whohere34 ^&1 &2 floats here&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" floats here$3")
 #action >+whohere34a ^&1 &2 floats towards you&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" floats towards you$3")
 
 #action >+whohere8 ^&1 &2 is stamping&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is stamping$3")
@@ -220,22 +264,19 @@
 
 #action >+whohere12a ^&1 &2 soar&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" soar$3")
 #action >+whohere12b ^&1 &2 is circling above&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is circling above$3")
-#action >+whohere12c ^&1 &2 flies in the sky&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" flies in the sky$3")
-#action >+whohere13a ^&1 &2 flies around here&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" flies around here$3")
-#action >+whohere13b ^&1 &2 flies by.=#print ("$1 "+$MOBCOL+"$2"+$NORM+" flies by.$3")
+#action >+whohere12c ^&1 &2 is flying around&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is flying around$3")
+#action %+whohere13a ^(The|An|A) ([a-zA-Z -]+) flies (high above|by|in the sky|low)(.*).=#print ("$2 "+$MOBCOL+"$3"+$NORM+" flies $4$5.")
 
-#action >+whohere14 ^Some &1 whip&2=#print ("Some "+$MOBCOL+"$1"+$NORM+" whip$2")
 #action >+whohere15a ^Some &1 lie here&2 ensnare&3=#print ("Some "+$MOBCOL+"$1"+$NORM+" lie here$2 ensnare$3")
 #action >+whohere15b ^&1 shift uneasily all around you.=#print ($MOBCOL+"$1"+$NORM+" shift uneasily all around you.")
+#action %+whohere60f ^(A|An|Some) ([a-z ]+) vines (whip|entangles|drops) (.+)\.=#print ("$2 "+$MOBCOL+"$3 vines"+$NORM+" $4 all $5.")
+
 #action >+whohere18 ^&1 &2 seems ready to charge&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" seems ready to charge$3")
 
 #action >+whohere19 ^&1 &2 is searching for fresh meat&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is searching for fresh meat$3")
 #action >+whohere21 ^&1 &2 is looking for tracks&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is looking for tracks$3")
 #action >+whohere22 ^&1 &2 is on sentry here&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is on sentry here$3")
-#action >+whohere23 ^&1 &2 is hobbling around&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is hobbling around$3")
-#action >+whohere24 ^&1 &2 is shuffles around here&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" shuffles around here$3")
 #action >+whohere32a ^&1 &2 passes by&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" passes by$3")
-#action >+whohere32b ^&1 &2 is staggering about&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is staggering about$3")
 #action >+whohere32c ^&1 &2 has set up an inn here&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" has set up an inn here$3")
 
 #action >+whohere26 ^&1 &2 is walking around&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is walking around$3")
@@ -245,24 +286,32 @@
 #action >+whohere31 ^&1 &2 is coming out of its nest&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is coming out of its nest$3")
 #action >+whohere35 ^&1 &2 patters against you&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" patters against you$3")
 
-#action >+whohere25a ^&1 &2 swims here&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" swims here$3")
-#action >+whohere25b %(The|An|A) ([a-zA-Z -] creeps slowly through([\w\s]+)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" creeps slowly through$4")
-#action >+whohere28 ^&1 &2 noses about hungrily&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" noses about hungrily$3")
+
+#action %+whohere25a ^(The|An|A) ([a-zA-Z -]+) swims here&3=#print ("$2 "+$MOBCOL+"$3"+$NORM+" swims here$3")
+#action >+whohere25b ^&1 &2 is lurking in the mud&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is lurking in the mud$3")
+#action >+whohere25b ^&1 &2 croaks loudl&3.=#print ("$1 "+$MOBCOL+"$2"+$NORM+" croaks loudl$3.")
+#action %+whohere25c ^(The|An|A) ([a-zA-Z -]+) creeps slowly through([\w\s]+)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" creeps slowly through$4")
+#action %+whohere40c ^(The|An|A) ([a-zA-Z -]+) (is frolicking )?playfully( charges [\w\s]+)?\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" $4playfully$5.")
+
+#action %+whohere37b ^(The|An|A) ([a-zA-Z -]+) (is )?graz(ing|es) (peacefully )?here\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" $4graz$5 $6here.")
 #action >+whohere33 ^&1 &2 watches the surroundings&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" watches the surroundings$3")
-#action >+whohere36 ^&1 &2 scampers around here&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" scampers around here$3")
-#action >+whohere37 ^&1 &2 is grazing peacefully here&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is grazing peacefully here$3")
 #action >+whohere37a ^&1 &2 is warily browsing &3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is warily browsing$3")
-#action >+whohere39a ^&1 &2 is running around&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is running around$3")
+#action >+whohere37c ^&1 &2 keeps an eye out for danger&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" keeps an eye out for danger$3")
 #action >+whohere39b ^&1 &2 looks around timidly&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" looks around timidly$3")
 #action >+whohere40a ^&1 &2 runs swiftly from place to place&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" runs swiftly from place to place$3")
-#action >+whohere40b ^&1 &2 jumping from&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is jumping from3")
+#action >+whohere40b ^&1 &2 is jumping from&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is jumping from$3")
+#action >+whohere40c ^&1 &2 moves silently through&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" moves silently through$3")
+#action >+whohere40d ^&1 &2 sits here, singing&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" sits here, singing$3")
+#action >+whohere40e ^&1 &2 snuffles amongst the undergrowth&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" snuffles amongst the undergrowth$3")
 
-#action >+whohere40c %^(The|An|A) ([a-zA-Z -]) (is frolicking )?playfully( charges [\w\s]+)?\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" $4playfully$5.")
+#action %+whohere40z ^(The|An|A) ([a-zA-Z -]+) (wanders peacefully|romps harmlessly)(.+)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" $4$5.")
 
-#action >+whohere41 ^&1 &2 stalking the area&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" stalking the area$3")
+#action %+whohere41 ^(The|An|A) ([a-zA-Z -]+) (is )?stalking (the area|here|its prey)(.*)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" $4stalking $5$6.")
 #action >+whohere42 ^&1 &2 is hunting here&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is hunting here$3")
+#action >+whohere43 ^&1 &2 suddenly turns to life&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" suddenly turns to life$3")
 
 #action >+whohere38 ^&1 &2, looking at your nice purse&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+", looking at your nice purse$3")
+
 
 #action >+whohere60a ^&1 &2 pokes its blooms out of the soil&3.=#print ("$1 "+$MOBCOL+"$2"+$NORM+" pokes its blooms out of the soil$3.")
 #action >+whohere60b ^&1 &2 hangs here, clinging &3.=#print ("$1 "+$MOBCOL+"$2"+$NORM+" hangs here, clinging$3")
@@ -271,7 +320,6 @@
 #action >+whohere60e ^&1 &2 quivers on the ground&3.=#print ("$1 "+$MOBCOL+"$2"+$NORM+" quivers on the ground$3.")
 
 #action >+whohere61a ^&1 &2 extends &3 legs to you.=#print ("$1 "+$MOBCOL+"$2"+$NORM+" extends $3 legs to you.")
-
 
 #action >+whohere_hidden ^You feel a hidden presence.=#print ("You feel a "+$RED+"hidden presence"+$NORM+".")
 #action >+whohere_found ^You have found &1!=#print ("You have found "+$MOBCOL+"$1"+$NORM+"!")
