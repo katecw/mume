@@ -1,8 +1,11 @@
 
 /// Keys - been updating this as I go but definitely missing some. Better than what else I've found out there though
 
-#action >+key1 ^&1 ancient dwarven key&2=#print ("$1 ancient dwarven key. ("+$KEYCOL+"Flagstone, Circlet chest. [Moria]"+$NORM+")$2")
-#action >+key2 ^&1 ancient key&2=#print ("an ancient key. ("+$KEYCOL+"Stoneslab, lww smugglers."+$NORM+")$2")
+#action >+Key001B ^&1 ancient key, wrought from iron&2=#print ("$1 ancient key, wrought from iron ("+$KEYCOL"+$KEYCOL+"GC: rockdoor"+$NORM+")$2")
+#action >+Key100A ^&1 ancient dwarven key&2={#print ("$1an ancient dwarven key ("+$KEYCOL+"Moria: flagstone (circlet)"+$NORM+")$2")}
+#action >+Key100B ^&1 ancient key of dwarven manufacture&2={#print ("$1An ancient key of dwarven manufacture ("+$KEYCOL+"Moria: flagstone (circlet)"+$NORM+")$2")}
+#action >+key2 ^&1 ancient key&2=#print ("$1 ancient key ("+$KEYCOL+"Stoneslab, lww smugglers."+$NORM+")$2")
+
 #action >+key3 ^&1 old looking key&2=#print ("$1 old looking key ("+$KEYCOL+"Stoneslab, lww smugglers."+$NORM+")$2")
 #action >+key5 ^&1 big metal key&2=#print ("a big metal key. ("+$KEYCOL+"Oakendoor, Rohir Tower."+$NORM+") $2")
 #action >+key8 ^&1 black bone key&2=#print ("a black bone key. ("+$KEYCOL+"door, Nagroth."+$NORM+") $2")
@@ -12,7 +15,6 @@
 #action >+key25 ^&1 ebony key&2=#print ("$1 ebony key. ("+$KEYCOL+"1 of 2 doors up from Knight in Rdell."+$NORM+")$2")
 #action >+key26 ^&1 engraved silver ring&2=#print ("$1 engraved silver ring. ("+$KEYCOL+"Crypt, near WC."+$NORM+")$2")
 #action >+Key001A ^&1 old iron key&2=#print ("$1 old iron key ("+$KEYCOL+"GC: rockdoor"+$NORM+")$2")
-#action >+Key001B ^&1 ancient key, wrought from iron&2=#print ("$1 ancient key, wrought from iron ("+$KEYCOL"+$KEYCOL+"GC: rockdoor"+$NORM+")$2")
 #action >+Key002A ^&1 silvery key&2=#print ("$1 silvery key ("+$KEYCOL+"GC: door"+$NORM+")$2")
 #action >+Key002B ^&1A key, made of perhaps tarnished silver, glints here.&2={#print ("$1A key, made of perhaps tarnished silver, glints here. ("+$KEYCOL+"GC: door"+$NORM+")$2")}
 #action >+Key003A ^&1 twisted iron key&2={#print ("$1 twisted iron key ("+$KEYCOL+"BW: irondoor"+$NORM+")$2")}
@@ -38,15 +40,15 @@
 #action >+Key017A ^&1 slimy iron key&2={#print ("$1 slimy iron key ("+$KEYCOL+"Icedoor: vaultdoor"+$NORM+")$2")}
 #action >+Key017B ^&1 key made of iron lies&2={#print ("$1 key made of iron ("+$KEYCOL+"Icedoor: vaultdoor"+$NORM+")$2")}
 #action >+Key018A ^&1 tarnished metal key&2={#print ("$1 tarnished metal key ("+$KEYCOL+"VT-doors"+$NORM+")$2")}
-#action >+Key019A ^&1 black key&2={#print ("$1 black key ("+$KEYCOL+"LB fort??"+$NORM+")$2")}
 #action >+Key020A ^&1 tiny bronze key&2={#print ("$1 tiny bronze key ("+$KEYCOL+"Outcast: marbledoor"+$NORM+")$2")}
 #action >+Key020B ^&1 small key made of bronze&2={#print ("$1 small key made of bronze ("+$KEYCOL+"Outcast: marbledoor"+$NORM+")$2")}
 #action >+Key021A ^&1 black metal key&2={#print ("$1 black metal key ("+$KEYCOL+"ABR-tower + Hiddenoutpost"+$NORM+")$2")}
 #action >+Key021B ^&1 black key made of metal&2={#print ("$1 black key made of metal ("+$KEYCOL+"ABR-tower + Hiddenoutpost"+$NORM+")$2")}
-#action >+Key022A ^a metal key&2={#print ("$1a metal key ("+$KEYCOL+"Necromancer: oakendoor/grating;ChiefofTharbad: door"+$NORM+")$2")}
+#action >+Key019A ^A black key&2={#print ("A black key ("+$KEYCOL+"LB fort"+$NORM+")$2")}
+#action >+Key019B ^a black key&2={#print ("a black key ("+$KEYCOL+"LB fort"+$NORM+")$2")}
+#action >+Key022A ^a metal key&2={#print ("$1a metal key ("+$KEYCOL+"Necromancer: oakendoor/grating"+$NORM+")$2")}
 #action >+Key022B ^A small metal key&2={#print ("$1A small metal key ("+$KEYCOL+"Necromancer: oakendoor/grating"+$NORM+")$2")}
 #action >+Key023A ^&1 small key carved from ebony&2={#print ("$1 small key carved from ebony ("+$KEYCOL+"Necromancer: board"+$NORM+")$2")}
-#action >+Key023B ^&1 black key&2={#print ("$1 black key lies here. ("+$KEYCOL+"Necromancer: board??"+$NORM+")$2")}
 #action >+Key024A ^&1 metal and stone key&2={#print ("$1 metal and stone key ("+$KEYCOL+"Woodhall: cinderblock"+$NORM+")$2")}
 #action >+Key024B ^&1 old looking key made of metal and stone&2={#print ("$1 old looking key made of metal and stone ("+$KEYCOL+"Woodhall: cinderblock"+$NORM+")$2")}
 #action >+Key025A ^a green key&1={#print ("$1a green key ("+$KEYCOL+"Woodhall: halldoor/cellar"+$NORM+")$1")}
@@ -54,7 +56,7 @@
 #action >+Key026A ^&1 old ornate key&2={#print ("$1 old ornate key ("+$KEYCOL+"Dunland Vellum: sarcophagus"+$NORM+")$2")}
 #action >+Key026B ^&1 small key covered with dirt&2={#print ("$1 small key covered with dirt ("+$KEYCOL+"Dunland Vellum: sarcophagus"+$NORM+")$2")}
 #action >+Key027A ^&1 black and silver key&2={#print ("$1 black and silver key ("+$KEYCOL+"Old Wight: slab"+$NORM+")"+$NORM+"$2")}
-#action >+Key028A ^&1 rusted key&2={#print ("$1 rusted key ("+$KEYCOL+"Old Wight: cryptdoor"+$NORM+")$2")}
+#action >+Key028A ^&1 half broken rusted key&2={#print ("$1 half-broken rusted key ("+$KEYCOL+"Old Wight: cryptdoor"+$NORM+")$2")}
 #action >+Key029A ^a large key&2={#print ("a large key ("+$KEYCOL+"Old Wight: wall"+$NORM+")$1")}
 #action >+Key029B ^A large steel key has been left here&2={#print ("A large steel key has been left here. ("+$KEYCOL+"Old Wight: wall"+$NORM+")$1")}
 #action >+Key030A ^&1 heavy steel key&2={#print ("$1 heavy steel key ("+$KEYCOL+"Sage: rockface/stonedoor"+$NORM+")$2")}
@@ -72,9 +74,11 @@
 #action >+Key037A ^&1 darkly stained metal key&2={#print ("$1 darkly stained metal key ("+$KEYCOL+"Guardian: irongate"+$NORM+")$2")}
 #action >+Key037B ^&1 plain metal key, covered with dark stains&2={#print ("$1 plain metal key, covered with dark stains ("+$KEYCOL+"Guardian: irongate"+$NORM+")$2")}
 #action >+Key038A ^&1 Bree town key&2={#print ("$1 Bree town key ("+$KEYCOL+"Bree: gate"+$NORM+")$2")}
-#action >+Key038B ^&1A large key is lying here.&2={#print ("$1A large key is lying here. ("+$KEYCOL+"Bree: gate"+$NORM+")$2")}
+#action >+Key038B ^A large key is lying here.&2={#print ("A large key is lying here. ("+$KEYCOL+"Bree: gate"+$NORM+")$2")}
 #action >+Key039A ^&1 rusted iron key&2={#print ("$1 rusted iron key ("+$KEYCOL+"Orkish Chieftain: metaldoor"+$NORM+")$2")}
 #action >+Key039B ^&1 iron key &2 flaked with orange rust&3={#print ("$1An iron key $2 flaked with orange rust ("+$KEYCOL+"Orkish Chieftain: metaldoor"+$NORM+")$3")}
+#action >+Key039C ^A rusted key&2={#print ("A rusted key ("+$KEYCOL+"Orkish Chieftain: metaldoor"+$NORM+")$2")}
+#action >+Key039D ^a rusted key&2={#print ("a rusted key ("+$KEYCOL+"Orkish Chieftain: metaldoor / OW: cryptdoor"+$NORM+")$2")}
 #action >+Key040A ^&1 skull key&2={#print ("$1 skull key ("+$KEYCOL+"Hillmen: burialtrap"+$NORM+")$2")}
 #action >+Key040B ^&1 key shaped as a skull&2={#print ("$1 key shaped as a skull ("+$KEYCOL+"Hillmen: burialtrap"+$NORM+")$2")}
 #action >+Key041A ^&1 castle key&2={#print ("$1 castle key ("+$KEYCOL+"Malardil: irondoor"+$NORM+")$2")}
@@ -96,12 +100,12 @@
 #action >+Key050B ^&1A glassy key with an ebony handle lies here.&2={#print ("$1A glassy key with an ebony handle lies here. ("+$KEYCOL+"Dead Knight: flagstone"+$NORM+")$2")}
 #action >+Key051A ^&1 crude iron key&2={#print ("$1 crude iron key ("+$KEYCOL+"ZOC: irondoor"+$NORM+")$2")}
 #action >+Key052A ^&1 tinted brass key&2={#print ("$1 tinted brass key ("+$KEYCOL+"Gilded: door"+$NORM+")$2")}
-#action >+Key052B ^&1 brass key tinted with green spots&2={#print ("$1brass key tinted with green spots ("+$KEYCOL+"Gilded: door"+$NORM+")$2")}
+#action >+Key052B ^&1 brass key tinted with green spots&2={#print ("$1 brass key tinted with green spots ("+$KEYCOL+"Gilded: door"+$NORM+")$2")}
 #action >+Key053A ^&1 small brass key&2={#print ("$1 small brass key ("+$KEYCOL+"Dark sword: brassdoor"+$NORM+")$2")}
 #action >+Key054A ^&1an iron key&2={#print ("$1an iron key ("+$KEYCOL+"Warrenstower"+$NORM+")$2")}
 #action >+Key054B ^&1An iron key lies here.&2={#print ("$1An iron key lies here. ("+$KEYCOL+"Warrenstower"+$NORM+")$2")}
-#action >+Key100A ^&1an ancient dwarven key&2={#print ("$1an ancient dwarven key ("+$KEYCOL+"Moria: flagstone"+$NORM+")$2")}
-#action >+Key100B ^&1An ancient key of dwarven manufacture lies here.&2={#print ("$1An ancient key of dwarven manufacture lies here. ("+$KEYCOL+"Moria: flagstone"+$NORM+")$2")}
+#action >+Key055A ^A steel key&1={#print ("A steel key ("+$KEYCOL+"Chief of Tbad: door"+$NORM+")$1")}
+#action >+Key055B ^a steel key&1={#print ("a steel key ("+$KEYCOL+"Chief of Tbad: door"+$NORM+")$1")}
 #action >+Key101A ^&1an intricate steel key&2={#print ("$1an intricate steel key ("+$KEYCOL+"Moria: Umuk chest"+$NORM+")$2")}
 #action >+Key101B ^&1A steel key with a complex set of notches has been left here.&2={#print ("$1A steel key with a complex set of notches has been left here. ("+$KEYCOL+"Moria: Umuk chest"+$NORM+")$2")}
 #action >+Key102A ^&1a small stone key&2={#print ("$1a small stone key ("+$KEYCOL+"Moria: stonelatch"+$NORM+")$2")}
@@ -139,5 +143,19 @@
 #action >+Key120 ^&1 small key &2 strip of silk&3={#print ("$1 small key $2 strip of silk ("+$KEYCOL+"Lorien: Offa dark chest"+$NORM+")$3")}
 #action >+Key121 ^&1 bent brass key&2={#print ("$1 bent brass key$2 ("+$KEYCOL+"Smuggler's burrow NW SSC: boulders"+$NORM+")$3")}
 
+/// in inventory:
+/// a slender, wooden key
+/// on floor:
+/// A slender, wooden key is lying here.
+/// This slender key has been carved from hard, dark wood. It has an ornate, tree-'
+///    Belog tells you 'shaped bow and its surface is smooth and polished. The key looks old, and shows'
+/// it's for trapdoor, tree hideout, south of Tharbad'
 
-#print (" ==== keys.txt loaded ==== ")
+/// a small twisted root
+/// A small twisted root is sticking out of the ground here.
+
+/// Brolg battle standard quest:
+/// A silver key, tarnished with age, has been left here.
+/// a tarnished silver key
+
+#print ($GREEN+" ==== keys.txt loaded ==== "+$NORM)
