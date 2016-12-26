@@ -6,7 +6,7 @@
 #( "======================================================================================================")
 
 
-#alias sx={#var $armour=0;#var $shield=0;#var $shroud=0;#var $bless=0;#var $str=0;#var $pfe=0;#var $sensel=0;#var $detmagic=0; #var $detevil=0; #var $sanc=0; stat}
+#alias sx={#var $armour=0;#var $shield=0;#var $shroud=0;#var $bless=0;#var $str=0;#var $pfe=0;#var $sensel=0;#var $detmagic=0; #var $detevil=0; #var $detinvis=0; #var $sanc=0; stat}
 
 
 #alias mf={cast 'create food'}
@@ -31,20 +31,23 @@
 
 #alias precast=stand
 #alias postcast=rest
-#alias restful={#alias precast=stand; #alias postcast=rest;rest}
+#alias restful={#alias precast=stand; #alias postcast={rest; #if (@afk) { #send ("act "+$afkact) } }; rest}
 #alias sleepy={#alias precast=wa; #alias postcast=sleep;lead;sleep}
 
 #alias bsle={lead;gs2;u1;us1;rem fur;rem cloak;rem mantle;gd blanket;wear blanket;i;sle;act wrapped up cozily in her blanket}
 #alias bwa={act;wake;stand;rem blanket;pd blanket;wear cloak;wear fur;wear mantle;s1;gm}
-#alias aron={as;restful;cha linkdrop 120;#action -hungry2;#action -thirsty2;#action +autofeed;#action +autodrink;#action +void;autorebuffon;#action +autocure;message Away-rest auto spell/drink/water/void: ON}
-#alias ason={as;sleepy;cha linkdrop 120;#action -hungry2;#action -thirsty2;#action +autofeed;#action +autodrink;#action +void;autorebuffon;#action +autocure;message Away-sleep auto spell/drink/water/void: ON}
-#alias asoff={ws;cha linkdrop 120;#action +hungry2;#action +thirsty2;#action -autofeed;#action -autodrink;#action -void;autorebuffoff;#action -autocure;sx;message Away-sleep/rest auto spell/drink/water/void: OFF}
+
+#var @afkcast=0
+#alias _afkcaston={#var @afkcast=1; cha linkdrop 120;#action -hungry2;#action -thirsty2;#action +autofeed;#action +autodrink;#action +void;autorebuffon;#action +autocure;#action +recharmuncharmed; message Away-$1 auto spell/recharm/drink/water/void: ON}
+#alias aron={as;restful;_afkcaston rest}
+#alias ason={as;sleepy;_afkcaston sleep;}
+#alias asoff={ws;#var @afkcast=0; cha linkdrop 120;#action +hungry2;#action +thirsty2;#action -autofeed;#action -autodrink;#action -void;autorebuffoff;#action -autocure;#action -recharmuncharmed; sx;message Away-sleep/rest auto spell/recharm/drink/water/void: OFF}
 #alias aroff=asoff
-#alias blanky={bsle;ason;act , wrapped up cozily in her blanket}
+#alias blanky={bsle;ason}
 #alias unblanky={bwa;asoff}
 
-#alias autorebuffoff={#action -ashield;#action -asanc;#action -aarm;#action -ashroud1;#action -abless;#action -asensel;#action -astr;#action -apfe;#action -adetmagic;#action -adetevil;#action -abob;#action +dshield;#action +dsanc;#action +darm;#action +dshroud1;#action +dbless;#action +dsensel;#action +dstr;#action +dpfe;#action +ddetmagic;#action +ddetevil;#action +dbob}
-#alias autorebuffon={#action +ashield;#action +asanc;#action +aarm;#action +ashroud1;#action +abless;#action +asensel;#action +astr;#action +apfe;#action +adetmagic;#action +adetevil;#action +abob;#action -dshield;#action -dsanc;#action -darm;#action -dshroud1;#action -dbless;#action -dsensel;#action -dstr;#action -dpfe;#action -ddetmagic;#action -ddetevil;#action -dbob}
+#alias autorebuffoff={#action -ashield;#action -asanc;#action -aarm;#action -ashroud1;#action -abless;#action -asensel;#action -astr;#action -apfe;#action -adetmagic;#action -adetevil;#action -adetinvis;#action -abob;#action +dshield;#action +dsanc;#action +darm;#action +dshroud1;#action +dbless;#action +dsensel;#action +dstr;#action +dpfe;#action +ddetmagic;#action +ddetevil;#action +ddetinvis;#action +dbob}
+#alias autorebuffon={#action +ashield;#action +asanc;#action +aarm;#action +ashroud1;#action +abless;#action +asensel;#action +astr;#action +apfe;#action +adetmagic;#action +adetevil;#action +adetinvis;#action +abob;#action -dshield;#action -dsanc;#action -darm;#action -dshroud1;#action -dbless;#action -dsensel;#action -dstr;#action -dpfe;#action -ddetmagic;#action -ddetevil;#action -ddetinvis;#action -dbob}
 
 #action >+mestartcast1 You start to concentrate={#print ($DARK+"$0"+$NORM)}
 #action >+mestartcast2 You muster all of your concentration={#print ($DARK+"$0"+$NORM)}
@@ -65,19 +68,46 @@
 #var $sn_sensel=("sense life")
 #var $sn_detmagic=("detect magic")
 #var $sn_detevil=("detect evil")
+#var $sn_detinvis=("detect invisibility")
+#var $sn_nvis=("night vision")
 #var $sn_bob=("breath of briskness")
 
 #var $sn_ork=("orkisk draught")
 #var $sn_refresh=("refreshment")
 #var $sn_antid=("antidote")
+#var $sn_blind=("blindness")
+#var $sn_seeing=("seeing")
+#var $sn_shadow=("shadow world")
+
+#var $sn_lref=("lightning reflection")
+
+#var $sn_lethargy=("lethargy")
+#var $sn_diso=("disorientation")
+#var $sn_tired=("tiredness")
+#var $sn_hagard=("hagardness")
 
 #alias spelltimer_on={#print (attr "bold blue" + $last_line + noattr)}
 
 #alias spell_up={#(@spelltimer_$1=timer);#print ($last_line+$DARK+" ("+$sn_$1+" "+$NORM+$SPELLUP_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $$1=1}
+#alias malus_up={#(@spelltimer_$1=timer);#print ($last_line+$DARK+" ("+$sn_$1+" "+$NORM+$SPELLDOWN_COL+"UP"+$NORM+$DARK+")"+$NORM);#var $$1=1}
 
-#alias spelltimer={#var $$1=1; #(@spelltimer=@spelltimer_$1);#(@spelltimer_sec=(timer-@spelltimer)/1000%60);#if (@spelltimer_sec < 10) {#var $tmp=(%((timer-@spelltimer)/1000/60)+":0"+%(@spelltimer_sec))}; #else {#var $tmp=(%((timer-@spelltimer)/1000/60)+":"+%(@spelltimer_sec))}; #print ($last_line+$DARK+" ("+$tmp+" / "+$lasttime_$1+")"+$NORM); #var @spelltimer=;#var @spelltimer_sec=}
+/// If lastshortest < 0.5 lastlongest we're likely dealing with a spell such as shroud/armour, therefore use longest not shortest for colouring
+/// " #if (!@spelltimer_$1) #(@spelltimer_$1=timer);" fixes stupidly long spelltimes after a reload -- doesnt work, shortest too short then on first login!
 
-#alias spell_down={#var $$1=0;#(@spelltimer=@spelltimer_$1);#(@spelltimer_sec=(timer-@spelltimer)/1000%60);#if (@spelltimer_sec < 10) {#var $sptime=(%((timer-@spelltimer)/1000/60)+":0"+%(@spelltimer_sec))}; #else {#var $sptime=(%((timer-@spelltimer)/1000/60)+":"+%(@spelltimer_sec))}; #print ($last_line+$DARK+" ("+$sn_$1+" "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+", lasted "+$sptime+", previous "+$lasttime_$1+")"+$NORM)); #var $lasttime_$1=($sptime); #var @spelltimer=;#var @spelltimer_sec=}
+#alias spelltimer={#var $$1=1; #(@spelltimer=@spelltimer_$1); #(@spell_ms=(timer-@spelltimer)); _mstomins @spell_ms; #var $timercol=(""); #if ( @lastlongest_ms_$1 && @spell_ms>(@lastlongest_ms_$1*2/4) && @spell_ms>(@lastshortest_ms_$1*8/10) ) #var $timercol=($YELLOW); #if ( @lastlongest_ms_$1 && @spell_ms>(@lastlongest_ms_$1*3/4) && @spell_ms>(@lastshortest_ms_$1*9/10) ) #var $timercol=($RED); #print ($last_line+$DARK+" ("+$timercol+$mins+$NORM+$DARK+" / "+$lastshortest_$1+"-"+$lastlongest_$1+")"+$NORM); #var @spelltimer=;#var @spell_ms=;#var $timercol=}
+
+/// #alias spelltimer={#var $$1=1; #if (!@spelltimer_$1) #(@spelltimer_$1=timer); #(@spelltimer=@spelltimer_$1); #(@spell_ms=(timer-@spelltimer)); _mstomins @spell_ms; #var $timercol=(""); #if ( @lastshortest_ms_$1>(@lastlongest_ms_$1*2/4) ) #var @lastmax_ms=@lastshortest_ms_$1; #else   #var @lastmax_ms=@lastlongest_ms_$1; #if ( @lastlongest_ms_$1 && @spell_ms>(@lastmax_ms*8/10) ) #var $timercol=($YELLOW); #if ( @lastlongest_ms_$1 && @spell_ms>(@lastmax_ms*9/10) ) #var $timercol=($RED); #print ($last_line+$DARK+" ("+$timercol+$mins+$NORM+$DARK+" / "+$lastshortest_$1+"-"+$lastlongest_$1+")"+$NORM); #var @spelltimer=;#var @spell_ms=;#var $timercol=;#var @lastmax_ms=}
+
+/// To avoid confusion from spells dropping when you first login, only activate after a minute
+#var @ignorespelldown=1
+#in ignorespelldown (60*1000) { #(@ignorespelldown=0) }
+#alias spell_down=#if (@ignorespelldown) {#print ($last_line)}; #else {#var $$1=0;#(@spelltimer=@spelltimer_$1); #(@spell_ms=(timer-@spelltimer)); _mstomins @spell_ms; #print ($last_line+$DARK+" ("+$sn_$1+" "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+", lasted "+$mins+", previous "+$lasttime_$1+")"+$NORM)); #($lasttime_$1=$mins); #if ( !@lastshortest_ms_$1 || (@spell_ms<@lastshortest_ms_$1) ) { #(@lastshortest_ms_$1=@spell_ms); #($lastshortest_$1=$mins) }; #if (!@lastlongest_ms_$1 || (@spell_ms>@lastlongest_ms_$1) ) { #(@lastlongest_ms_$1=@spell_ms) ; #($lastlongest_$1=$mins) }; #var @spelltimer=;#var @spell_ms=}
+
+/// Convert $1 in milliseconds to a string of minutes:seconds ($mins)
+#var $mins=("")
+#alias _mstomins={ #(@secs=$1/1000%60); #if (@secs < 10) {#var $mins=(%($1/1000/60)+":0"+%(@secs))}; #else {#var $mins=(%($1/1000/60)+":"+%(@secs))}; #var @secs=}
+
+#alias malus_down={#var $$1=0;#(@spelltimer=@spelltimer_$1);#(@spelltimer_sec=(timer-@spelltimer)/1000%60);#if (@spelltimer_sec < 10) {#var $sptime=(%((timer-@spelltimer)/1000/60)+":0"+%(@spelltimer_sec))}; #else {#var $sptime=(%((timer-@spelltimer)/1000/60)+":"+%(@spelltimer_sec))}; #print ($last_line+$DARK+" ("+$sn_$1+" "+$NORM+$SPELLUP_COL+"down"+$NORM+$DARK+", lasted "+$sptime+", previous "+$lasttime_$1+")"+$NORM)); #var $lasttime_$1=($sptime); #var @spelltimer=;#var @spelltimer_sec=}
 
 /// #action >+setblesstimer1 You begin to feel the light of Aman shine upon you.={spelltimer_on;blesson}
 /// #action >+setblesstimer2 You feel a renewed light shine upon you.={spelltimer_on;blesson}
@@ -85,6 +115,33 @@
 /// #action >-blessdown The light of Aman fades away from you.={spelltimer_off @spelltimer_bless;blessoff}
 /// #alias blesson={#(@spelltimer_bless=timer);#ac +setblesstimer2;#ac +showblesstimer;#ac +blessdown}
 /// #alias blessoff={#var @spelltimer_bless=;#ac -setblesstimer2;#ac -showblesstimer;#ac -blessdown}
+
+#alias _charmietimer={time; #ex ("message Charmie timer started for $1"); #ex ("#in charmiedespawn$1 (60*60*1000) {warning $1 will de-charm soon (1 hour passed)}")}
+
+#action %+nrecharmsuccess1 ^A [a-zA-Z ,\\-]+ \\((tank[a-z]|parry[a-z]|basher[a-z])\\) starts following you.={#print ($MAGENTA+"$0"+$NORM); group $2; _charmietimer $2}
+#action %+nrecharmsuccess2 Your control on [a-zA-Z ,\\-]+ \\((tank[a-z]|parry[a-z]|basher[a-z])\\) is renewed!={#print ($MAGENTA+"$0"+$NORM); _charmietimer $2}
+
+#action >-recharmfail ^Nothing seems to happen.={#print; #ex ("cht "+$recharming)}
+#action >-recharmsuccess1 ^A &1 (&2) starts following you.={#print ($MAGENTA+"$0"+$NORM); group $2; #3 order $2 sle; _recharmsuccess}
+#action >-recharmsuccess2 Your control on &1 (&2) is renewed!={#print ($MAGENTA+"$0"+$NORM); _recharmsuccess}
+#action >-recharmsuccess3 Nobody here by that name.={#print ($MAGENTA+"$0"+$NORM); _recharmsuccess}
+
+#alias _abc_to_num={#var @abc_to_num=0; #for (\@0=1; \@0<=10; \@0++) { #if ($abc.\@0=="$1") #(@abc_to_num=\@0) } }
+#alias _nextcharm={  #var $recharming=("$1"); #print ("  Charming "+$ULINE+"$1"+$NORM+" next") }
+#alias _calcnextcharm={#if ($recharming.<4=="tank") { _abc_to_num $recharming.5; #if ($abc_to_num>$tanks) $recharming="parrya" }; #else { #ex ("_nextcharm tank+"
+
+#if ($recharming=="parry") { _nextcharm parryb }; #else { _nextcharm tank } } }
+#alias _recharmsuccess={rest; #action -lostcontrol; #action -recharmfail; #action -recharmsuccess1; #action -recharmsuccess2; #action -recharmsuccess3; _calcnextcharm }
+
+#var $recharming=("parrya")
+///  #ex ("vb "+$recharming) - if this fails we get "Nothing seems to happen" which triggers another charm, which can cause loss of control just after we succeeded. Could 
+#alias lostrecharm={#print; #action -lostcontrol; #action +recharmfail; st; #ex ("cht "+$recharming) }
+#action >-lostcontrol ^You lost control on &1 (&2)=lostrecharm
+#action %-recharmuncharmed ^A [a-z ,\\-]+ \\((tank[a-z]|parry[a-z])\\) stops following you.={#print; #action +recharmsuccess1; #action +recharmsuccess2; #action -recharmsuccess3; #var $recharming=("$2"); lostrecharm}
+#var @autorecharm=0
+#alias autocharmon=#var @autorecharm=1
+#alias autocharmoff=#var @autorecharm=0
+#alias recharm=#if (@autorecharm) { #action +lostcontrol; #action +recharmsuccess1; #action +recharmsuccess2; #action +recharmsuccess3; st; #ex ("cht "+$recharming) } 
 
 
 #action >+qarm ^- armour={spelltimer armour}
@@ -97,21 +154,42 @@
 #action >+qsensel ^- sense life={spelltimer sensel}
 #action >+qdetmagic ^- detect magic={spelltimer detmagic}
 #action >+qdetevil ^- detect evil={spelltimer detevil}
+#action >+qdetinvis ^- detect invisibility={spelltimer detinvis}
+#action >+qnvis ^- night vision={spelltimer nvis}
 #action >+qbob ^- breath of briskness={spelltimer bob}
 
-#alias afkcast={#print;precast;as;$1;sx;postcast}
-#action >-aarm You feel less protected={afkcast ba}
-#action >-ashield Your magical shield wears off={afkcast bz}
-#action >-asanc The white aura around your body fades.={afkcast bx}
-#action >-ashroud1 Your misty shroud dissolves={afkcast bh}
-#action >-ashroud2 You feel yourself exposed={afkcast bh}
-#action >-abless The light of Aman fades away from you={afkcast bb}
-#action >-astr You feel weaker={afkcast bst}
-#action >-apfe You feel less righteous={afkcast bpe}
-#action >-asensel You feel less aware={afkcast bsl}
-#action >-adetmagic Your perception of magical auras wears off={afkcast bdm}
-#action >-adetevil You sense the red in your vision disappear.={afkcast bde}
-#action >-abob Your legs feel heavier={afkcast bob}
+#alias afkcast={precast;$1;sx;train all;time;postcast}
+#action >-aarm You feel less protected={#print;afkcast ba}
+/// Use this as the timer to re-cast stuff that might have failed - can't do it as part of afkcast since it can trigger recasting all after recharm fail
+#action >-ashield Your magical shield wears off={#print;as;afkcast bz}
+#action >-asanc The white aura around your body fades.={#print;afkcast bx}
+#action >-ashroud1 Your misty shroud dissolves={#print;afkcast bh}
+#action >-ashroud2 You feel yourself exposed={#print;afkcast bh}
+/// Use bless time (~8 mins) to alternately re-charm
+#action >-abless The light of Aman fades away from you={#print;afkcast bb; recharm}
+#action >-astr You feel weaker={#print;afkcast bst}
+#action >-apfe You feel less righteous={#print;afkcast bpe}
+#action >-asensel You feel less aware={#print;afkcast bsl}
+#action >-adetmagic Your perception of magical auras wears off={#print;afkcast bdm}
+#action >-adetevil You sense the red in your vision disappear.={#print;afkcast bde}
+#action >-adetinvis The detect invisible wears off.={#print;afkcast bdi}
+#action >-anvis Your vision blurs.={#print;afkcast bnv}
+#action >-abob Your legs feel heavier={#print;afkcast bob}
+
+/// Detect invisibility:
+/// Up:      Your eyes tingle.
+/// Refresh: Your eyes tingle.
+/// Down:    The detect invisible wears off.
+
+/// Night vision:
+/// Up:       Your eyes tingle.
+/// Refresh:  Your night vision is refreshed.
+/// Down:     Your vision blurs.
+
+/// Seeing potion:
+/// Up:       The world now appears bathed in a soft glow.
+/// Down:     The glow within your eyes slowly vanishes.
+
 
 #action >+uarm A blue transparent wall slowly appears around you.={spell_up armour}
 #action >+ushield You feel protected.={spell_up shield}
@@ -123,6 +201,9 @@
 #action >+usensel You feel your awareness improve.={spell_up sensel}
 #action >+udetmagic You become sensitive of magical auras.={spell_up detmagic}
 #action >+udetevil You feel aware of all that is foul and evil.={spell_up detevil}
+/// Night vision and detect invis have the same message for when the spell starts. Det invis is rarely used, so disabling that one for now. Also same message when refreshed.
+#action >-udetinvis Your eyes tingle.={spell_up detinvis}
+#action >+unvis Your eyes tingle.={spell_up nvis}
 #action >+ubob An energy begins to flow within your legs as your body becomes lighter.={spell_up bob}
 
 #action >+rarm Your magic armour is revitalised.={spell_up armour}
@@ -135,6 +216,7 @@
 #action >+rsensel Your awareness is refreshed.={spell_up sensel}
 #action >+rdetmagic Your awareness of magical auras is renewed.={spell_up detmagic}
 #action >+rdetevil Your awareness of evil is refreshed.={spell_up detevil}
+#action >+nvis Your night vision is refreshed.={spell_up nvis}
 #action >+rbob The energy in your legs is refreshed.={spell_up bob}
 
 #action >+darm You feel less protected={spell_down armour}
@@ -148,11 +230,29 @@
 #action >+dsensel You feel less aware={spell_down sensel}
 #action >+ddetmagic Your perception of magical auras wears off.={spell_down detmagic}
 #action >+ddetevil You sense the red in your vision disappear.={spell_down detevil}
+#action >+ddetinvis The detect invisible wears off.={spell_down detinvis}
+#action >+dnvis Your vision blurs.={spell_down nvis}
 #action >+dbob Your legs feel heavier={spell_down bob}
 
 #action >+uorkd The draught burns down your throat, and a fiery feeling fills your limbs.={spell_up ork}
 #action >+qorkd ^- Orkish draught={spelltimer @spelltimer_ork}
 #action >+dorkd As the warmth of the draught recedes from your limbs, you feel less energetic.={spell_down ork}
+
+/// Seeing potion  - swap night vision action for the time being
+#action >+useeing The world now appears bathed in a soft glow.={spell_up seeing; #action +qseeing; #action -qnvis}
+#action >-qseeing ^- night vision={spelltimer @spelltimer_seeing}
+#action >+dseeing The glow within your eyes slowly vanishes={spell_down seeing; #action -qseeing; #action +qnvis}
+
+/// Shadows potion
+#action >+ushadow You feel partially drawn into the world of shadows.={spell_up shadow}
+#action >-qshadow ^- shadow world={spelltimer @spelltimer_shadow}
+#action >+dshadow You have completely returned from the realm of shadows.={spell_down shadow}
+
+/// Lightning reflection (fragile scroll)
+#action >+ulref A strange white globe expands from the scroll until it totally encloses you!={spell_up lref}
+/// No status effect
+#action >+lref The globe around you collapses, and the air shakes.={rem staff; wear buckler; wm; spell_down lref}
+
 
 /// refreshment: can be "greater strength"/less healthy or "greater energy"/less focussed or ...
 /// You feel less focused.
@@ -172,10 +272,37 @@
 #action >+qanti ^- antidote={spelltimer antid}
 #action >+danti You feel a strange taste in your mouth.={spell_down antid}
 
+#action >+ublind You have been blinded!={#print ("    "+$ULINE+$RED+$BOLD+"You have been BLINDED!"+$NORM+$DARK+" (blindness "+$NORM+$RED+"UP"+$NORM+$DARK+")"+$NORM);#(@spelltimer_blind=timer);#var $blind=1}
+#action >+qblind ^- blindness={spelltimer blind}
+#action >+dblind You feel a cloak of blindness dissolve.={malus_down blind}
+
+#action >+udiso A haze seems to cloud your eyes, blurring your vision, making it difficult for you to see anything clearly.={malus_up diso}
+#action >+qdiso ^- disorientation={spelltimer diso}
+#action >+ddiso You feel less disoriented.={malus_down diso}
+
+#action >+ulethargy You feel a sudden loss of energy as the power that once mingled with your own vanishes.={malus_up lethargy}
+#action >+qlethargy ^- lethargy={spelltimer lethargy}
+#action >+dlethargy You feel your magic energy coming back to you.={malus_down lethargy}
+
+#action >+utired You feel your muscles relax and your pulse slow as the strength that welled within you subsides.={malus_up tired}
+#action >+qtired ^- tiredness={spelltimer tired}
+#action >+dtired You feel your muscles regain some of their former energy.={malus_down tired}
+
+#action >+uhagard You feel a sudden flash of dizziness causing you to pause before getting your directional bearings back.={malus_up hagard}
+#action >+qhagard ^- hagardness={spelltimer hagard}
+#action >+dhagard You feel steadier now.={malus_down hagard}
+
+/// TODO: Scout ring malus
+///      Avim tells you 'You suddenly feel dizzy and nauseated.' - poison
+
+
+
 /// You feel aware of this place.
 /// [somewhere] Your awareness decreases.
+/// - watch room (somewhere)
 
-#action >+watchroom_drops ^Your awareness decreases={#print ("$0 "+$DARK+" (watch room "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM)}
+#action >+watchroom_drops ^You feel aware of this place.={#print ("$0 "+$DARK+" (watch room "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM)}
+#action >+watchroom_drops ^[&1] Your awareness decreases.={#print ("$0 "+$DARK+" (watch room "+$NORM+$SPELLDOWN_COL+"down"+$NORM+$DARK+")"+$NORM)}
 
 #( "watches for magic keys and writes them down, this saves ALL KEYS SEEN, and gets messy fast" )
 #alias keyclear=#var $mkeys=
@@ -210,20 +337,32 @@
 #alias bz={cast 'shield' $0}
 #alias bh={cast 'shroud' $0}
 #alias bhm={bh mine;bh mineb}
-#alias bdm={cast 'detect magic'}
+#alias bdm=#if ($bdmamulet=="") { cast 'detect magic' }; #else { #send ("use "+$bdmamulet) }
 #alias bde={cast 'detect evil' $0}
+#alias bdi={cast 'detect invisibility' $0}
+#alias bnv={cast 'night vision' $0}
 #alias bld={cast 'block door' $0}
 #alias bldt={cast tho 'block door' $0}
 #alias bob={cast 'breath of briskness'}
+#alias bobme={grm;grf;bob;grm;grf}
 #alias brd={cast 'break door' $0}
 #alias brdc={cast care 'break door' $0}
 #alias brdt={cast tho 'break door' $0}
 
-#action >-callfam A &1 &2 suddenly appears.={#print;parry $2;#action +callfam}
-#alias cf={cast care 'call familiar';#action +callfam}
-#alias ch={cast 'charm' $0}
-#alias chc={cast carefully 'charm' $0}
-#alias cht={cast thoroughly 'charm' $0}
+#in renewfam (-1) {warning Familiar will despawn soon; #if (@afkcast) { st; cast tho 'call familiar'; rest } }
+#action %-callfam A ([a-z, ]+ )?([a-z]+) suddenly appears.={#print;time;label $3 fam; gr $3; #in renewfam (8*60*1000); #action -callfam}
+#action >+famil2 Your control on your familiar is renewed!={#print; time; ; #action -callfam; #in renewfam (8*60*1000)}
+#action >+famil1 Your familiar goes back from whence it once came={#print ($MOBCOL+$ULINE+"$0"+$NORM+"."); time}
+#alias cf={#action +callfam; cast 'call familiar'}
+
+#alias charm={#if ("$2"!="") cast $1 'charm' $2; #else #send ("cast $1 'charm' "+$mtarget) }
+#alias ch={charm norm $1}
+#alias chc={charm carefully $1}
+#alias cht={charm thoroughly $1}
+#alias chq={charm quick $1}
+
+
+#alias cap={sc; #in hpsdel (1000) { #var @pre_hps=(@hps) }; #ex ("$1"); sc; #in capdelay (4000) { #ex ("notify HPs changed by "+%(@hps-@pre_hps) ) } }
 
 #alias cb={cast 'cure blindness' $1}
 #alias cd={cast 'cure disease' $1}
@@ -233,8 +372,6 @@
 #alias crp={cast 'remove poison' $0}
 #alias crc={cast 'remove curse' $0}
 #alias h={cast 'heal' $0}
-#alias hc={cast care 'heal' $0}
-#alias ht={cast thoro 'heal' $0}
 
 # ( " Semi-experimental actions to indicate to group which of 1./2. etc has been blinded - buggy! " )
 
@@ -255,7 +392,6 @@
 #alias normblind={#if ("$2"!="") { cast $1 'blindness' $2; }; #else {  #send ( "cast $1 'blindness' "+$mtarget) } }
 #alias blind=normblind $1 $2
 
-
 #alias vbq=blind quick $1
 #alias vbf=blind fast $1
 #alias vb=blind norm $1
@@ -267,6 +403,9 @@
 #alias bqo=cast quick 'blindness' *orc*
 #alias bfo=cast fast 'blindness' *orc*
 
+/// Quick key to nuke in PK. Should rewrite depending on char
+#alias Q=dispel fast $1
+
 #alias vf={cast 'fear'}
 #alias vff={cast fast 'fear'}
 #alias vfq={cast quick 'fear'}
@@ -274,7 +413,8 @@
 #alias dispel={#if ("$2"!="") cast $1 'dispel evil' $2; #else #send ("cast $1 'dispel evil' "+$mtarget) }
 #alias vd=dispel norm $1
 #alias vdf=dispel fast $1
-#alias vq=dispel quick $1
+#alias vdq=dispel quick $1
+#alias vq=dispel fast $1
 #alias harm={#if ("$2"!="") cast $1 'harm' $2; #else #send ("cast $1 'harm' "+$mtarget) }
 #alias vh=harm norm $1
 #alias vhf=harm fast $1
@@ -290,8 +430,8 @@
 #var $bless2=("")
 #alias bb2=#var $bless2=$1
 
-#var $abless=1; #var $astr=1; #var $apfe=1; #var $asensel=1; #var $adetmagic=1; #var $aarmour=1; #var $ashield=1; #var $adetevil=1; #var $asanc=0; #var $ashroud=0
-#alias as={#if ($sanc=="0" && $asanc=="1") bx; #if ($bless=="0" && $abless=="1") { bb; #if ($bless2!="") #exe ("bb "+$bless2) };#if ($str=="0" && $astr=="1") bst; #if ($pfe=="0" && $apfe=="1") bpe; #if ($sensel=="0" && $asensel=="1") bsl; #if ($detmagic=="0" && $adetmagic=="1") bdm;  #if ($armour=="0" && $aarmour=="1") ba; #if ($shroud=="0" && $ashroud=="1") bh; #if ($shield=="0" && $ashield=="1") bz; #if ($detevil=="0" && $adetevil=="1") bde}
+#var $abless=1; #var $astr=1; #var $apfe=1; #var $asensel=1; #var $adetmagic=1; #var $aarmour=1; #var $ashield=1; #var $adetevil=1; #var $adetinvis=0; #var $asanc=0; #var $ashroud=0
+#alias as={#if ($sanc=="0" && $asanc=="1") bx; #if ($bless=="0" && $abless=="1") { bb; #if ($bless2!="") #exe ("bb "+$bless2) };#if ($str=="0" && $astr=="1") bst; #if ($pfe=="0" && $apfe=="1") bpe; #if ($sensel=="0" && $asensel=="1") bsl; #if ($detmagic=="0" && $adetmagic=="1") bdm;  #if ($armour=="0" && $aarmour=="1") ba; #if ($shroud=="0" && $ashroud=="1") bh; #if ($shield=="0" && $ashield=="1") bz; #if ($detevil=="0" && $adetevil=="1") bde; #if ($detinvis=="0" && $adetinvis=="1") bdi}
 
 #alias asall={#var $adetevil=1; #var $adetmagic=1; #var $asanc=1; #var $ashroud=1; message Auto-cast now in all mode (all spells enabled, including sanc & shroud)} 
 #alias asgen={#var $adetevil=1; #var $adetmagic=1; #var $asanc=0; #var $ashroud=0; message Auto-cast now in general solo/leader mode (most spells enabled)} 
@@ -374,5 +514,52 @@
 #($magical_yzabra = "fear")
 #($magical_zabrahpdjatz = "EARTHQUAKE")
 
+/// Scrolls etc
 
-#print (" ==== magic.txt loaded ==== ")
+#var $SCROLLCOL=($MAGENTA)
+
+#($scroll_azure = "Heal l10")
+#($scroll_black = "Heal, Strength l20")
+#($scroll_blue = "Heal l20")
+#($scroll_purple = "Sanctuary l20")
+#($scroll_vellum = "BOB l25")
+
+#action %+scroll1 .*[a-z]+ (azure|black|blue|purple|vellum) scroll(s)?.*=#print ("$1 "+$DARK+"("+$SCROLLCOL+$scroll_$2+$NORM+$DARK+")"+$NORM)
+#action >+fragparch &1fragile parchment&2=#print ("$0 "+$DARK+"("+$SCROLLCOL+"Lightning resistance"+$NORM +$DARK+")"+$NORM)
+#action >+rockfrag &1twisted rock fragment&2=#print ("$0 "+$DARK+"("+$SCROLLCOL+"Break door"+$NORM +$DARK+")"+$NORM)
+#action >+blackcandle &1black candle&2=#print ("$0 "+$DARK+"("+$SCROLLCOL+"AOE Sleep l14"+$NORM+$DARK+")"+$NORM)
+#action >+greencup &1softly glowing green cup&2=#print ("$0 "+$DARK+"("+$SCROLLCOL+"Max mana & regen boost"+$NORM+$DARK+")"+$NORM)
+#action >+smpouch a small pouch=#print ("$0 "+$DARK+"("+$SCROLLCOL+"AOE Paralyze"+$NORM+$DARK+")"+$NORM)
+
+/// runes in deep ebony ink. A large glowing rune "N" is written on the top
+/// runes in ebony ink. A large glowing rune "N" is written on the top of the
+/// runes in ivory ink. A large glowing rune "E" is written on the top of the
+
+#($scroll_ivory_E = "Heal + 2 others l20")
+#($scroll_ivory_M = "Blindness, protection from evil, strength l20")
+#($scroll_ivory_N = "Call lightning, cure light, and cure blindness l20")
+#($scroll_ivory_O = "Breath of briskness, detect poison, and poison l20")
+#($scroll_ivory_Q = "Silence, create water, and shroud l20")
+#($scroll_ivory_Y = "Sanctuary, divination, and create food l20")
+/// +Clear ivory scroll          25  Magic, Level 20 sanctuary, detect poison, and protection from evil, Nosell
+#($scroll_ebony_E = "Heal, burning hands, and earthquake l20")
+#($scroll_ebony_I = "Magic blast, chill touch, and bless l20")
+#($scroll_ebony_N = "Call lightning, cure serious, and curse l20")
+#($scroll_ebony_M = "Blindness, detect evil, and create water l20")
+#($scroll_ebony_L = "Magic blast, detect poison, and sense life l20")
+#($scroll_ebony_Q = "Silence, detect magic, create water l20")
+#($scroll_ebony_Y = "Sanctuary, chill touch, and earthquake l20")
+#($scroll_deepebony_I = "Magic blast, detect evil, and poison l20")
+#($scroll_deepebony_M = "Blindness, shroud, and poison l20")
+#($scroll_deepebony_N = "Call lightning, curse, and earthquake l20")
+#($scroll_deepebony_Q = "Silence, night vision, and curse l20")
+#($scroll_clearivory_E = "Heal  + 2 others l20")
+
+/// It has level twenty spells of heal, burning hands, and earthquake.
+
+#action %+ivebscroll ^runes in (deep|clear)?( )?(ebony|ivory) ink\. A large glowing rune \"([A-Z])\" is written={#print; #print ("    ("+$SCROLLCOL+$scroll_$2$4_$5+$NORM+")")}
+
+#alias lscrolls=#for (\@0=1; \@0<=9; \@0++) { #ex ("look \@0.scroll") }
+
+
+#print ($GREEN+" ==== magic.txt loaded ==== "+$NORM)
