@@ -5,18 +5,57 @@
 ///  |                                                                                                    |
 ///  ======================================================================================================
 
+/// Do something after a random delay
+#alias randdelay=#ex ("#in (rand) $0")
+
+/// Log in automatically
+/// Type "alog <charname>" and it will do the rest
+#alias alog={#var $loginname=$1; play $1; #action +autologin1; #action +autologin2}
+#action >-autologin1 ^You must wait &1 mins before you can log in this character!={#print; #in waitlogin ($1*60*1000) { #send ("play "+$loginname) } }
+#action >-autologin2 ^You must wait &1 secs before you can log in this character!={#print; #in waitlogin (($1*1000)+5000) { #send ("play "+$loginname) } }
+
+/// Do the right things before renting, and wait for noquite, just type "arent"
+#alias arent={usa;gkey all.key;pkey elven;da key;offer;train all;#action +cantrent;rent}
+#action >-cantrent tells you 'I am sorry, but you can't rent now...'={#print; #in waitnoquit (10000) { rent; #in waitnoquit (10000) } }
+#action >+servclose ^Server closed the connection={#in waitnoquit (-1); #in timestamp (-1) }
 
 /// Lorien gates/doors 
 #action >+greatgates greatgates seem to be closed={#print;knock greatgates}
 #action >+talldoors ^The talldoors seem to be closed.={#print;knock talldoors}
 #alias kwd=knock walldoors
 
+#mark A feeling of peace envelops you as you enter the enchanted forest.=green
+#mark The trees confuse you, making you wander around in circles.=bold white on red
+
+/// Say yes to some quests (for the ADD among us)
+#action >+anarweny Anarwen says 'Would you help me, &1?={#print;say yes; #action +anarwend}
+
+#action >+elrondoie1 Elrond says 'Would you be willing to help me with a dangerous task?'={#print;say yes}
+#action >+elrondoie2 Elrond gives you &1 key={#print;pkey key}
+
+#action >+yerikwave Yerik the Sage says 'Come again!'={#print;gb note; give note sage}
+
+#action >+harleyes The aloof hobbit says 'Maybe you are experienced enough to be the leader on such a perilous={#print;say yes}
+
+/// Beechbone the Ent
+#action >+beechname Ent asks you 'What are you called in the language of Men, little one?'={#print; #send ("say "+$name)}
+#action >+beechyes Ent asks you 'Would you try to get my bowl for me, please?'={#print;say yes}
+
+/// Niuldor the botanist
+#action >+niulberries Niuldor the botanist carefully puts the parchment away.={#print;gb elderberries;give elderberries botanist}
+
+/// Dagnir's ghost says 'Farewell, Eirien!'
+#in delayga (-1) { ga }
+#action >+Dagnir's ghost says 'Farewell, Eirien!'=#in delayga (100)
+#action >+A jade-encrusted key falls on the ground.=#in delayga (150)
+
 /// Auto-board the white ship and then auto-board the ferry when it arrives
 /// Just type 'sail' once Círdan has led you through to the quay
 
 #alias sail={rest;#action +boardwhiteship1; message Waiting to auto-board the white ship West}
-#action >-boardwhiteship1 ^The white ship docks at the pier and a gangway is lowered.={#print; st; w; rest; #action >-boardwhiteship1; #action +leavewhiteship1}
+#action >-boardwhiteship1 ^The white ship docks at the pier and a gangway is lowered.={#print; st; w; rest; #action -boardwhiteship1; #action +leavewhiteship1}
 #action >-leavewhiteship1 ^The ship is now docked at a pier in Avall={#print; st; n; #action -leavewhiteship1; rest; ferry; #action +leaveferry2}
+
 
 /// Greyhavens & Valar ferry - just type 'ferry' and go make a cup of tea. If Valar, also auto-board white ship
 
@@ -32,27 +71,31 @@
 #action >-boardwhiteship2a ^There is an old street-lamp on the border of the street={#print; #action +aboardwhiteship; s; #action -boardwhiteship2a; #action +boardwhiteship2b; message Waiting to auto-board the white ship East}
 #action >-boardwhiteship2b ^The white ship docks at one of the piers.={#print; st; s; #action -boardwhiteship2b}
 #action >-aboardwhiteship Ciryariel={rest; #action -aboardwhiteship; #action -boardwhiteship2b; #action +leavewhiteship2; message Waiting to auto-leave the white ship East}
-#action >-leavewhiteship2 ^Grey Havens. A gangway is lowered onto the quay.={#print; st; e; #action -leavewhiteship2}
+#action >-leavewhiteship2 ^Grey Havens. A gangway is lowered onto the quay.={#print; st; e; e; #action -leavewhiteship2}
 
 
-/// Auto ride/lead/dismount: The group leader needs to be labelled 'leader' for this to work, and your mount to be labelled mine
+/// Auto ride/lead/dismount: The group glead needs to be labelled 'glead' for this to work, and your mount to be labelled mine
 
 #alias rideoff={#action -ride;#print autoride: OFF}
 #alias rideon={#action +ride;#print autoride: ON}
-#action >+lead1 &1 (leader) dismounts from &2 stops riding={#print;#send ("lead mine")}
-#action >+ride &1 (leader) picks up &2 reins &3 starts riding={#print;#send ("ride mine")}
-#action >%lead2 .(horse|warg|pony|wolf|mule) now follows &3 (leader).={#print;lm}
+#action >+lead1 &1 (glead) dismounts from &2 stops riding={#print;#send ("lead mine")}
+#action >+ride &1 (glead) picks up &2 reins &3 starts riding={#print;#send ("ride mine")}
+#action >%lead2 .(horse|warg|pony|wolf|mule) now follows &3 (glead).={#print;lm}
+#action %+stand1 .[(]glead[)]( stops resting, and)? clambers on (his|her|its) feet\.={#print;stand}
 
-
-/// Help any labelled person in your group open stuff
-
-#action >+openhelp1 &1 (&2) puts all &3 weight against the &4, trying to open={#print;open $4}
+/// Standing / mount / riding / storage
+#action >+auto-remount ZBLAM! A $1={#print ($RED+"$0"+$NORM);sr}
+#action >+auto-unrest ^You feel too relaxed={#print;stand}
+#action >+auto-stand1 ^Maybe you should get on your feet first={#print;stand}
+#action >+auto-stand2 ^You can't do this sitting={#print;stand}
+#action >+auto-stand3 ^You can't concentrate enough while resting={#print;stand}
+#action >+auto-stand4 ^Nah... You feel too relaxed to do that.={#print;stand}
 
 
 
 /// Just type 'eagle <destination>' and this will do the rest. You can safely rest while waiting
 
-#action >-rideeagle swoops down from the sky and lands={dism;st;ride eagle;#print;#send ("whisper eagle " + $eagledest);#action -rideeagle}
+#action >-rideeagle swoops down from the sky and lands={st;dism;st;ride eagle;#print;#send ("whisper eagle " + $eagledest);#action -rideeagle}
 #alias eagle={#var $eagledest=$1;#action +rideeagle;call eagle;message Auto-waiting for eagle to \$eagledest}
 
 
@@ -69,8 +112,13 @@
 #alias mdec={w;w;w;w;w;w;s;w;w;w;w;w;s;w;w;w;w;w;s;w;w;w;w;w;w;w;n;w;w;w;w;w;n;w;w;w;n;w;w;w;w;w;n}
 #alias ecgh={w;w;w;n;w;w;w;n;w;w;w;w;n;n;w;w;n;w;w;w;n;w;w;n;w;w;w;s;w;s;w;w;w;w;n;w;w;n;w;w;w;n;w;w;w;n;w;w;n;w}
 
+#alias ghbm={e;n;n;e;n;n;w;n;n;n;n;n;n;n;n;e;n;n;n;n;n;e;n;n;e;n;n;e;n;e;n;e;n;n;e;n;n;w;w;w;s;w;w;s;w;w;n;n;w;w;w;n;n;w;n;n;n;e;n;w;w;lead;w;w;sr;s;d;w;n;w;w;s;s;e;e;s;s;s;w;n;w;w;s;s}
+#alias bmfo={s;s;w;w;s;s;s;s;w;s;s;s;w;s;w;s;s;s;s;s;w;s;w;s;s;e;s;s;e;s;e;s;e;s;e;s;s;s}
+#alias fobm={n;n;n;w;n;w;n;w;n;w;n;n;w;n;n;e;n;e;n;n;n;n;n;e;n;e;n;n;n;e;n;n;n;n;e;e;n;n}
+#alias bmgh={n;n;e;e;s;e;n;n;n;w;w;n;n;e;e;s;e;u;n;lead;e;e;sr;e;e;s;w;s;s;s;e;s;s;e;e;e;s;s;e;e;n;e;e;n;e;e;e;s;s;w;s;s;w;s;w;s;w;s;s;w;s;s;w;s;s;s;s;s;w;s;s;s;s;s;s;s;s;e;s;s;w;s;s;w}
+
 #alias brfo={n;n;n;n;n;n;n;n;e;e;e;n;n;e;n;n;n;n;n;n;n;e;n;n;n;w;n;n;n;n;n;n;n;n;n;n;n;n;e;n;n;n;n;n;n;n;n;e;n;n;n;n;n;n;n;n;n;n;e;n;n}
 #alias fobr={s;s;w;s;s;s;s;s;s;s;s;s;s;w;s;s;s;s;s;s;s;s;w;s;s;s;s;s;s;s;s;s;s;s;s;e;s;s;s;w;s;s;s;s;s;s;s;w;s;s;w;w;w;s;s;s;s;s;s;s;s}
 
 
-#print (" ==== autotravel.txt loaded ==== ")
+#print ($GREEN+" ==== autotravel.txt loaded ==== "+$NORM)
