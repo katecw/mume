@@ -19,6 +19,7 @@
 #mark (red aura)=red
 #mark it glows blue=blue
 #mark it glows red=red
+#mark it glows purple=magenta
 
 #mark (flawless)=green
 #mark (well-maintained)=green
@@ -31,12 +32,171 @@
 #mark (deteriorating)=red
 #mark (worn out)=red
 
+#mark , new)=green
+#mark , fresh)=green
+#mark , seasoned)=green
+#mark , well-seasoned)=yellow
+#mark , aged)=yellow
+#mark , old)=yellow
+#mark , hoary)=red
+#mark , timeworn)=red
+#mark , age-old)=red
+#mark , antiquated)=red
+
+
+/// Special...
+
 #action >+saruman old man, swathed in a great light-coloured cloak={#print ("$0 "+$BKCYAN+$DARK+" (Saruman)"+$NORM)}
 
 #action %+lookaround1 ^You see some (light|smoke) to the ([a-z]+)\.=#print ($BOLD+"You see some $2 to the "+$YELLOW+$CAPDIR_$3+$NORM)
 
-#action >+famil1 Your familiar goes back from whence it once came=#print ($MOBCOL+$ULINE+"$0"+$NORM+".")
 #action >+fcont1 You failed to control&1={#print ("You "+$ULINE+$BOLD+$MOBCOL+"failed to control"+$NORM+"$1")}
+
+#mark You stopped training in this=yellow
+
+#mark You achieved something new!=bold green on magenta
+
+/// Enemies, friends & special mobs
+
+/// Disabled these as were making a mess in prompt etc
+/// #mark *& the &*=bold red
+/// #mark *&Orc*=bold red
+/// #mark *&Troll*=bold red
+/// #mark *&Man*=bold red
+/// #mark *&Woman*=bold red
+/// #mark *&Elf*=bold red
+/// #mark *&Dwarf*=bold red
+/// #mark *&Hobbit*=bold red
+
+#action >+whohere_e1 *&1* is her&2.=#print ($BOLD+$RED+"*$1*"+$NORM+" is her$2.)
+#action >+whohere_e2 *&1*, wielding &2, is her&3.=#print ($BOLD+$RED+"*$1*"+$NORM+", wielding "+$ITEMCOL+"$2"+$NORM+", is her$3.")
+#action >+whohere_e3 *&1* is her&2, riding &3.=#print ($BOLD+$RED+"*$1*"+$NORM+" is her&2, riding "+$BOLD+$MOBCOL+"$3"+$NORM+".")
+#action >+whohere_e4 *&1*, wielding &2, is her&3, riding &4.=#print ($BOLD+$RED+"*$1*"+$NORM+", wielding "+$ITEMCOL+"$2"+$NORM+", +" is her$3, riding "+$BOLD+$MOBCOL+"$4"+$NORM+".")
+
+#action >+whohere_em &1 &2 is &3ere, ridden by *&4*.=#print ("$1 "+$BOLD+$MOBCOL+"$2"+$NORM+" is $3ere, ridden by "+$BOLD+$RED+"*$4*"+$NORM".")
+
+/// brief off:
+/// Vehement the Man, wielding a blackened spear, is here, riding a warhorse (vehm).
+/// Vehement the Man, wielding a blackened spear, is standing here.
+/// Xarfax the Dwarf (leader), wielding the silvery broadsword, is standing here.
+/// Xarfax the Dwarf (leader), wielding the silvery broadsword, is here, riding a dales-pony (xarm).
+
+/// brief on:
+/// Xarfax the Dwarf (leader) is here, riding a dales-pony (xarm).
+/// Vehement the Man (veh) is here, riding a warhorse (vehm).
+/// Taryn the Man (leader) is standing here.
+
+#action %+whohere_pg1 ^([^ ]+) the ([^ ]+) ([(][a-zA-Z]+[)])(\, wielding [a-zA-Z ]+\,)? is( standing)? here(.*)?\.=#print ($BOLD+$LABELCOL+"$2"+$NORM+$LABELCOL+" the $3 $4"+$NORM+"$5 is$6 here$7.")
+#action %+whohere_pn2 ^([^ ]+) the ([^ ]+)(\, wielding [a-zA-Z ]+\,)? is( standing)? here(.*)?\.=#print ($MOBCOL+"$2 the $3"+$NORM+"$4 is$5 here$6.")
+
+#action >-whohere_p2 ^&1 the &2, wielding &3, is standing her&4.=#print ($BOLD+$MOBCOL+"$1"+$NORM+" the $2, wielding "+$ITEMCOL+"$3"+$NORM+", is her$4.")
+#action >-whohere_p4 ^&1 the &2, wielding &3, is her&4, riding &5.=#print ($BOLD+$MOBCOL+"$1"+$NORM+" the $2, wielding "+$ITEMCOL+"$3"+$NORM+", is her$4, riding "+$MOBCOL+"$5"+$NORM+".")
+#action >-whohere_p1 ^&1 the &2 is standing her&3.=#print ($BOLD+$MOBCOL+"$1"+$NORM+" the $2 is her$3.")
+#action >-whohere_p3 ^&1 the &2 is her&3, riding &4.=#print ($BOLD+$MOBCOL+"$1"+$NORM+" the $2 is her$3, riding "+$MOBCOL+"$4"+$NORM+".")
+
+#action %+whohereP1 ^([a-zA-Z]+) is standing here(.*)\.=#print ($MOBCOL+"$2"+$NORM+" is standing here$3.")
+
+/// Enemies
+
+#action %+whohere_e1 ^.{0,9}([[*][^*]+[*])[^ ,]{0,4}(\, wielding [a-zA-Z ]+\,)? is( standing)? here(.*)?\.=#print ($ENEMYCOL+"$2"+$NORM+"$3 is$4 here$5.")
+
+
+
+
+/// Movement
+
+#($CAPDIR_north = "^^^ NORTH ^^^")
+#($CAPDIR_east = ">>> EAST >>>")
+#($CAPDIR_south = "vvv SOUTH vvv")
+#($CAPDIR_west = "<<< WEST <<<")
+#($CAPDIR_up = "ooo UP ooo")
+#($CAPDIR_down = "xxx DOWN xxx")
+
+#($CAPDIR_northwest = "^^^ NORTH WEST <<<")
+#($CAPDIR_northeast = "^^^ NORTH EAST >>>")
+#($CAPDIR_southwest = "vvv SOUTH WEST <<<")
+#($CAPDIR_southeast = "vvv SOUTH EAST >>>")
+
+#($CAPADIR_north = "vvv NORTH vvv")
+#($CAPADIR_east = "<<< EAST <<<")
+#($CAPADIR_south = "^^^ SOUTH ^^^")
+#($CAPADIR_west = ">>> WEST >>>")
+#($CAPADIR_above = "xxx ABOVE xxx")
+#($CAPADIR_below = "ooo BELOW ooo")
+#($GOBACK_down = "u")
+#($GOBACK_east = "w")
+#($GOBACK_north = "s")
+#($GOBACK_south = "n")
+#($GOBACK_up = "d")
+#($GOBACK_west = "e")
+
+#action >+leaves_hiding1 ^&1 &2 leaves &3 hiding place.=#print ("$1 "+$BOLD+$MOBCOL+"$2 "+$NORM+$ULINE+"leaves $3 hiding place."+$NORM)
+#action >+leaves_hiding2 ^&1 &2 suddenly leaves its place&3=#print ("$1 "+$BOLD+$MOBCOL+"$2 "+$NORM+$ULINE+"suddenly leaves its place$3"+$NORM)
+#action >+found_hiding1 ^You found &1 &2!=#print ($NORM+$ULINE+"You found $1 "+$BOLD+$MOBCOL+"$2"+$NORM+"!")
+#action >+leaves_fix1 &1 tree&2 leaves&3=#print
+#action >+leaves_fix2 &1 leaves&2valley=#print
+#action >+leaves_fix3 &1 silvery-green&2leaves&3=#print
+#action >+leaves_fix4 &1 rose &2 leaves&3=#print
+#action >-leaves_fix5 &1 green leaves&3=#print
+
+#action >+earr1 *&1*\033[0m &2 has arrived from the &3 riding &4.={#print ("*$1* "+$BOLD+$RED+"$2"+$NORM+" $2 has arrived from "+$ARRIVESCOL+$CAPADIR_$3+$NORM+" riding "+$BOLD+$MOBCOL+"$4"+$NORM)}
+#action >+earr2 *&1*\033[0m &2 has arrived from the &3.={#print ("*$1* "+$BOLD+$RED+"$2"+$NORM+" $2 has arrived from "+$ARRIVESCOL+$CAPADIR_$3+$NORM)}
+#action >+earr3 *&1*\033[0m has arrived from the &2 riding &3.={#print ($BOLD+$RED+"*$1*"+$NORM+" has arrived from "+$ARRIVESCOL+$CAPADIR_$2+$NORM+" riding "+$BOLD+$MOBCOL+"$3"+$NORM)}
+#action >+earr4 *&1*\033[0m has arrived from the &2.={#print ($BOLD+$RED+"*$1*"+$NORM+" has arrived from "+$ARRIVESCOL+$CAPADIR_$2+$NORM)}
+
+#action >+eleaves1          *&1*\033[0m leaves &2.={#print ($BOLD+$RED+"*$1*"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$2+$NORM)}
+#action >+eleaves_riding    *&1*\033[0m leaves &2 riding &3.={#print ($BOLD+$RED+"*$1*"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$2+$NORM+" riding "+$BOLD +$MOBCOL"$3"+$NORM)}
+#action >+eleaves_sneaking  *&1*\033[0m leaves &2 sneaking.={#print ($BOLD+$RED+"*$1*"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$2+" "+$STATUSCOL+"sneaking"+$NORM+".")}
+#action >+eleaves_ff        *&1*\033[0m &2 leaves &3.={#print ($BOLD+$RED+"*$1*"+$NORM+"$2"+" leaves "+$LEAVESCOL+$CAPDIR_$3+$NORM)}
+#action >+eleaves_riding_ff *&1*\033[0m &2 leaves &3 riding &4.={#print ($BOLD+$RED+"*$1*"+$NORM+" "+"$2"+" leaves  "+$""+$LEAVESCOL+$CAPDIR_$3+" riding "+"$4")}
+
+
+/// Ilmari (ilm) leaves west.
+/// A horse of the Rohirrim (ilmm) leaves west.
+/// A mother eagle (tank) IS TRYING TO ESCAPE!
+/// A mother eagle (tank) leaves west.
+/// A horse of the Rohirrim (mine) has arrived from the south.
+
+#action %+labptryesc ^([A-Z][^ ]+ \\([a-z]+\\)) IS TRYING TO ESCAPE!=#print ($BOLD+$LABELCOL+"$2"+$YELLOW+" IS TRYING TO ESCAPE!"+$NORM)
+#action %+labmtryesc ^(The|A|An) ([a-zA-Z ,\\-]+ \\([a-z]+\\)) IS TRYING TO ESCAPE!=#print ("$2"+$LABELCOL+" $3 "+$YELLOW+$ULINE+"IS TRYING TO ESCAPE!"+$NORM)
+#action %+mobtryesc ^(.+) IS TRYING TO ESCAPE!=#print ($BOLD+$MOBCOL+"$2 "+$YELLOW+$ULINE+"IS TRYING TO ESCAPE!"+$NORM)
+
+/// TODO: Enemy flee 
+
+#action %+labparrives1 ^([A-Z][^ ]+)( the [^ ]+)? ([(][a-z]+[)]) has( suddenly)? arrived( from [a-zA-Z ]+)?\.=#print ($DARK+$BOLD+$LABELCOL+"$2$3 $4"+$NORM+$DARK+" has$5 arrived$6."+$NORM)
+#action %+labmarrives1 ^(The|A|An) ([a-zA-Z ,\\-]+ [(][a-z]+[)]) has( suddenly)? arrived( from [a-zA-Z ]+)?\.=#print ($DARK+$LABELCOL+"$2 $3"+$NORM+$DARK+" has$4 arrived$5."+$NORM)
+
+#action %+labpleaves ^([A-Z][^ ]+ [(][a-z]+[)]) leaves (north|east|south|west|up|down)( sneaking)?\.={#print ($LABELCOL+"$2"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$3+$NORM+"$4.")}
+#action %+labmleaves ^(The|An|A) ([a-zA-Z ,\\-]+ [(][a-z]+[)]) leaves (north|east|south|west|up|down)( sneaking)?\.={#print ("$2 "+$LABELCOL+"$3"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$4+$NORM+"$5.")}
+
+#action %+namleaves ^([a-zA-Z \\'\\-]+) leaves (north|east|south|west|up|down)( sneaking)?\.={#print ($MOBCOL+"$2"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$3+$NORM+"$4.")}
+#action %+namleavesr ^([a-zA-Z \\'\\-]+) leaves (north|east|south|west|up|down)\.={#print ($MOBCOL+"$2"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$3+$NORM+" riding "+$MOBCOL+"$4"+$NORM+".")}
+
+#action %+mobleaves ^(The|An|A) leaves (north|east|south|west|up|down)( sneaking)?\.={#print ("$2 "+$MOBCOL+"$3"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$4+$NORM+"$5.")}
+#action %+mobleavesr ^(The|An|A) leaves (north|east|south|west|up|down)\.={#print ("$2 "+$MOBCOL+"$3"+$NORM+" leaves "+$LEAVESCOL+$CAPDIR_$4+$NORM+" riding "+$MOBCOL+"$5"+$NORM+".")}
+
+
+#action %+mobarrivesr ^(The|An|A) ([a-zA-Z \\'\\-]+) has arrived from( the)? (north|east|south|west|above|below) riding ([a-zA-Z \-]+).={#print ("$2 "+$BOLD+$MOBCOL+"$3"+$NORM+" has arrived from the "+$ARRIVESCOL+$CAPADIR_$5+$NORM+" riding "+$MOBCOL+"$6"+$NORM+".")}
+#action %+mobarrives ^(The|An|A) ([a-zA-Z \\'\\-]+) has arrived from( the)? (north|east|south|west|above|below)\.={#print ("$2 "+$BOLD+$MOBCOL+"$3"+$NORM+" has arrived from the "+$ARRIVESCOL+$CAPADIR_$5+$NORM)}
+
+/// sneaking arrivals??
+
+#action %+namarrivesr ^([^ ]+) has arrived from( the)? (north|east|south|west|above|below) riding ([a-zA-Z -]+)\.={#print ($BOLD+$MOBCOL+"$2"+$NORM+" has arrived from the "+$ARRIVESCOL+$CAPADIR_$4+$NORM+" riding "+$MOBCOL+"$5"+$NORM+"\.")})}
+#action %+namarrives1 ^([^ ]+) has arrived from( the)? (north|east|south|west|above|below)\.={#print ($BOLD+$MOBCOL+"$2"+$NORM+" has arrived from the "+$ARRIVESCOL+$CAPADIR_$4+$NORM)}
+#action %+namarrives2 ^([A-Z].+ the .+) has arrived from( the)? (north|east|south|west|above|below)\.={#print ($BOLD+$MOBCOL+"$2"+$NORM+" has arrived from the "+$ARRIVESCOL+$CAPADIR_$4+$NORM)}
+
+
+#action >+tracksleading - &1 track&2of &3 leading &4 done less than &5 hour&6ago={#var $trackdir=$4;#print ("  - $1 track$2of "+$MOBCOL+"$3"+$NORM+" leading "+$LEAVESCOL+$CAPDIR_$4+$NORM+" less than "+$BOLD+"$5"+$NORM+" hour$6ago")}
+
+#action >+FleeGag You flee head over heels={}
+#action >+flee1 ^You flee &1.={#print ("");#print ($BOLD+"         You fled "+ $CYAN+$CAPDIR_$1+$NORM);#print (""); #alias goback=#send ($GOBACK_$1)}
+
+
+
+
+/// Combat
+
+/// An animated skeleton is here, fighting YOU.
 
 #action >+fightyou1 ^&1 is her&2, fighting YOU.=#print ($BOLD+$MOBCOL+"$1"+$NORM+" is her$2, "+$BOLD+$RED+"FIGHTING "+$BKCYAN+$ULINE+"YOU"+$NORM+".")
 #action >+fightyou2 ^&1 is her&2, riding &3, fighting YOU.=#print ($BOLD+$MOBCOL+"$1"+$NORM+" is her$2, riding "+$MOBCOL+"$3"+$NORM+", "+$BOLD+$RED+"FIGHTING "+$BKCYAN+$ULINE+"YOU"+$NORM+".")
@@ -46,23 +206,24 @@
 
 #action >+fgt2sit &1 is sitting here, trying to fight&2YOU&3=#print ($BOLD+$MOBCOL+"$1"+$NORM+" is "+$STATUSCOL+"SITTING"+$NORM+" here,"+$BOLD+$RED+" trying to FIGHT "+$BKCYAN+$ULINE+"YOU"+$NORM+".") 
 
-#action >+^ACK! &1 didn't follow you, you lost &2.=#print ($BKRED+$BOLD+"ACK! "+$LABELCOL+"$1 "+$NORM+$BKRED+$BOLD+$ULINE+"didn't follow you, you lost $2."+$NORM)
+#action >+didntfol ^ACK! &1 didn't follow you, you lost &2.=#print ($BKRED+$BOLD+"ACK! "+$LABELCOL+"$1 "+$NORM+$BKRED+$BOLD+$ULINE+"didn't follow you, you lost $2."+$NORM)
+#action >+pintercept ^&1 (&2) intercepts &3's blow.=#print ($BKRED+$BOLD+$LABELCOL+"$1 "+$NORM+$BKRED+$BOLD+"intercepts "+$MOBCOL+"$3's"+$NORM+$BOLD+$BKRED+" blow."+$NORM)
 #action >+labelledrest1 &1 (&2) sits down and rests.=#print ($BKRED+$BOLD+$LABELCOL+"$1 ($2) "+$NORM+$BKRED+$ULINE+"sits down and rests"+$NORM+".")
-#action >+labelleda1 &1 (&2) has arrived from &3.=#print ($DARK+$LABELCOL+"$1 ($2)"+$NORM+$DARK+" has arrived from $3."+$NORM)
-#action >+labelleda2 &1 (&2) has suddenly arrived.=#print ($DARK+$LABELCOL+"$1 ($2)"+$NORM+$DARK+" has suddenly arrived."+$NORM)
+
 #action >+labelledh1 &1 (&2) is her&3.=#print ($LABELCOL+"$1 ($2)"+$NORM+" is her$3.")
 #action >+labelledh2 &1 (&2) is standing her&3.=#print ($LABELCOL+"$1 ($2)"+$NORM+" is standing"+$NORM+" her$3.")
 #action >+labelledh3 &1 (&2) is sleeping her&3.=#print ($LABELCOL+"$1 ($2)"+$NORM+" is "+$STATUSCOL+"sleeping"+$NORM+" her$3.")
 
 
-#( " Status / position " )
+
+/// Status / position
 
 #action >+PosF1 ^&1 (&2) is sitting &3=#print ($LABELCOL+"$1 ($2)"+$NORM+" is "+$STATUSCOL+"SITTING"+$NORM+" $3")
 #action >+PosF2 ^&1 (&2) is resting &3=#print ($LABELCOL+"$1 ($2)"+$NORM+" is "+$STATUSCOL+"RESTING"+$NORM+" $3")
-#action >+PosF3 ^&1 (&2) is sleeping &3=#print ($LABELCOL+"$1 ($2)"+$NORM+" is " + $STATUSCOL + "SLEEPING" + $NORM+" $3" )
-#action >+PosF4 ^&1 (&2) is lying here, stunned&3=#print ("$1 ($2) is lying here, " + $BOLD+$STATUSCOL + "STUNNED" + "$3" + $NORM)
-#action >+PosF5 ^&1 (&2) is lying here, incapacitated&3=#print ("$1 ($2) is lying here, " + $BOLD+$STATUSCOL + "INCAPACITATED" + $NORM + "$3")
-#action >+PosF6 ^&1 (&2) is lying here, mortally wounded&3=#print ("$1 ($2) is lying here, " + $BOLD+$STATUSCOL + "MORTALLY WOUNDED" + $NORM + "$3")
+#action >+PosF3 ^&1 (&2) is sleeping &3=#print ($LABELCOL+"$1 ($2) "+$NORM+" is " + $STATUSCOL + "SLEEPING" + $NORM+" $3" )
+#action >+PosF4 ^&1 (&2) is lying here, stunned&3=#print ($LABELCOL+"$1 ($2)"+$NORM+" is lying here, " + $BOLD+$STATUSCOL + "STUNNED" + "$3" + $NORM)
+#action >+PosF5 ^&1 (&2) is lying here, incapacitated&3=#print ($LABELCOL+"$1 ($2)"+$NORM+" is lying here, " + $BOLD+$STATUSCOL + "INCAPACITATED" + $NORM + "$3")
+#action >+PosF6 ^&1 (&2) is lying here, mortally wounded&3=#print ($LABELCOL+"$1 ($2)"+$NORM+" is lying here, " + $BOLD+$STATUSCOL + "MORTALLY WOUNDED" + $NORM + "$3")
 
 #action >+Pos1 ^&1 is sitting &2=#print ($MOBCOL+"$1"+$NORM+" is "+$STATUSCOL+"SITTING"+$NORM+" $2")
 #action >+Pos2 ^&1 is resting &2=#print ($MOBCOL+"$1"+$NORM+" is "+$STATUSCOL+"RESTING"+$NORM+" $2")
@@ -72,25 +233,27 @@
 #action >+Pos6 ^&1 is lying here, mortally wounded&2=#print ("$1 is lying here, " + $BOLD+$STATUSCOL + "MORTALLY WOUNDED" + noattr + "$2" + $NORM)
 
 
-#( " Weather / environmental effects " )
+/// Weather / environmental effects
 
 #action >+thunder1 ^You hear a crackle of thunder in the distance=#print ($WEATHERCOL+"$0"+$NORM)
 #action >+ferrynoise ^Whoosh! Whoosh! You hear the waves lap against the sides of the ferry.=#print ($WEATHERCOL+"$0"+$NORM)
 #action >+windswept1 ^A cold hard wind lashes at your clothes, making it difficult to move.=#print ($WEATHERCOL+"$0"+$NORM)
 
-#action >+weatherhere1 &1 snow on the ground.=#print ($WEATHERCOL+"$0"+$NORM)
+#action %+weatherhere1 ^There is ([a-z ]+) (snow|water) on the ground.=#print ($WEATHERCOL+"$0"+$NORM)
+#action >+weather2 \033[43m&1\033[0m=#print ($WEATHERCOL+"$1"+$NORM)
+
 #action >+whathere_b1 &1 bulletin board, entitled "&2", is &3 here.=#print
 #action >+avalance1 You hear a loud rumbling sound from the &1!=#print ($DARK+$BOLD+$BLUE+$BKWHITE+"You hear a loud rumbling sound from the "+$CAPDIR_$1+$NORM)
 #action >+avalance2 You hear a loud rumbling sound all around you!=#print ($DARK+$BOLD+$BLUE+$BKWHITE+"$0"+$NORM)
 #action >+avalance3 Looking down, you see that the side of the mountain has slipped away.=#print ($DARK+$BOLD+$BLUE+$BKWHITE+"$0"+$NORM)
 
-
+#mark You are trapped by some roots.=bold white on red
 
 #( " Was loading keys.txt at this point - can't remember how important the order is... " )
 
 
 
-#( " Containers " )
+/// Stuff in  Containers
 
 #action %+whathere_in1 ^On the ([a-zA-Z ]+), there (is|are) ([a-zA-Z ,-]+)\.=#print ("On the $2, there $3 "+$ITEMCOL+"$4"+$NORM+".")
 #action >+whathere_inrack ^In the rack &1 &2.=#print ("In the rack is $1 "+$ITEMCOL+"$2"+$NORM+".")
@@ -98,36 +261,61 @@
 #action >+whathere_intree1 ^On &1 branches&2 is &3.=#print ("On $1 branches$2 is "+$ITEMCOL+"$3"+$NORM+".")
 #action >+whathere_intree2 ^On &1 branches&2 are &3.=#print ("On $1 branches$2 are "+$ITEMCOL+"$3"+$NORM+".")
 
-#action %+whathere_inbush1 ^(I|Deep i)nside the (shrub|bush), there (are|is) ([a-zA-Z ,-]+)\.=#print ("$2nside the $3, there $4 "+$ITEMCOL+"$5"+$NORM+".")
+#action %+whathere_inbush1 ^(Scattered in and on|Inside|Deep inside) the (shrub|bush), there (are|is) ([a-zA-Z ,-]+)\.=#print ("$2nside the $3, there $4 "+$ITEMCOL+"$5"+$NORM+".")
 #action %+whathere_inbush2 ^Partly covered by the (shrub|bush)\'s ([a-zA-Z ]+)eaves, there (is|are) ([a-zA-Z ,-]+)\.=#print ("Partly covered by the $2's $3eaves, there $4 "+$ITEMCOL+"$5"+$NORM+".")
 #action >+whathere_inbook1 ^&1bookshelf, there &2 &3.=#print ("$1bookshelf, there $2 "+$ITEMCOL+"$3"+$NORM+".")
 #action >+whathere_incabinet1 ^In &1 cabinet, there &2 &3.=#print ("In $1 cabinet, there $2 "+$ITEMCOL+"$3"+$NORM+".")
 
 
-#( " Miscellaneous fixes for item/mob/other confusion " )
+/// Containers
 
-#var $CONTAINERCOL=($ITEMCOL+$ULINE)
-#action >+lamphere1 ^A finely crafted crystal lamp is here.=#print
-#action >+ferryhere1 ^A ferry in the shape of a great white swan is here.=#print ("A "+$CONTAINERCOL+"ferry"+$NORM+" in the shape of a great white swan is here.")
-#action >+mailboxhere1 ^A mailbox stands here stuffed full of messages.=#print ("A "+$CONTAINERCOL+"mailbox"+$NORM+" stands here stuffed full of messages.")
-
-#action %+containerhere1 ^A ([a-z ]+) chest([a-z ]+)stands ([^.]+)\.=#print ("A "+$CONTAINERCOL+"$2 chest$3"+$NORM+" stands $4.")
-#action >+containerhere3 ^A &1 chest is standing here.=#print ("A "+$CONTAINERCOL+"$1 chest"+$NORM+" is standing here.")
-#action >+containerhere4 ^A &1 sarcophagus lies on the &2.=#print ("A "+$CONTAINERCOL+"$1 sarcophagus"+$NORM+" lies on the $2.")
+#action %+containerhere1 ^(A|An) ([a-z ,]+)?(box|desk|chest|cupboard|alcove)([a-z ,]+) (stands here|stands in|lies on|is standing here|rests on|sits on|sits it)([^\.]+)\.=#print ("$2 "+$CONTAINERCOL+"$3$4"+$NORM+"$5 $6 $7$8.")
+#action >-containerhere3 ^A &1 chest is standing here.=#print ("A "+$CONTAINERCOL+"$1 chest"+$NORM+" is standing here.")
+#action >-containerhere4 ^A &1 sarcophagus lies on the &2.=#print ("A "+$CONTAINERCOL+"$1 sarcophagus"+$NORM+" lies on the $2.")
 #action >+containerhere5 ^A &1 chest is here.=#print ("A "+$CONTAINERCOL+"$1 chest"+$NORM+" is here.")
-#action >+containerhere6 ^A &1 crate &2 sits on the floor.=#print ("A "+$CONTAINERCOL+"$1 crate"+$NORM+" $2 sits on the floor.")
-#action >+containerhere7 ^A &1 desk&2 stands here.=#print ("A "+$CONTAINERCOL+"$1 desk"+$NORM+"$2 stands here.")
-#action >+containerhere8 ^A &1 box&2 rests on the ground.=#print ("A "+$CONTAINERCOL+"$1 box"+$NORM+"$2 rests on the ground.")
+#action >-containerhere6 ^A &1 crate &2 sits on the floor.=#print ("A "+$CONTAINERCOL+"$1 crate"+$NORM+" $2 sits on the floor.")
+#action >-containerhere7 ^A &1 desk&2 stands here.=#print ("A "+$CONTAINERCOL+"$1 desk"+$NORM+"$2 stands here.")
+#action >-containerhere8 ^A &1 box&2 rests on the ground.=#print ("A "+$CONTAINERCOL+"$1 box"+$NORM+"$2 rests on the ground.")
+
+/// A large bookshelf sits against the wall.
+
+/// A hollow tree is growing upright here.
 
 /// A heavy desk, made of solid oak, stands here.
 /// A wooden box, made from rich wood, rests on the ground.
 /// A large stone chest with ebony bands stands here.
+/// A large, engraved sarcophagus sits on a raised dais.
+/// A small oaken table has been set here.
+
+/// An old and rickety wooden chest stands in a forgotten corner.
+/// A wooden cupboard stands here.
+
+/// A large, dusty alcove sits in a wall, smelling of soot. <-- not working
 
 #action >+cabinethere1 ^A &1 cabinet &2s here.=#print ("A "+$CONTAINERCOL+"$1 cabinet"+$NORM+" is here.")
 #action >+rackhere1 ^A weapons rack &1 the wall.=#print ("A "+$CONTAINERCOL+"weapons rack"+$NORM+" $1 the wall.")
 #action >+peghere1 ^A sturdy peg &1 is on the wall. =#print ("A "+$CONTAINERCOL+"$1 chest"+$NORM+" $1 is on the wall.")
 #action %+whathere_bush1 ^(An|A) ([a-zA-Z ,-]+) bush is (growing|blooming) here.=#print ("$2 "+$CONTAINERCOL+"$3 bush"+$NORM+" is $4 here.")
 #action %+whathere_bush2 ^(An|A) ([a-zA-Z ,-]+) has established itself here.=#print ("$2 "+$CONTAINERCOL+"$3"+$NORM+" established itself here.")
+
+
+/// Miscellaneous fixes for item/mob/other confusion
+
+#var $CONTAINERCOL=($ITEMCOL+$ULINE)
+#action >+lamphere1 ^A finely crafted crystal lamp is here.=#print
+#action >+ferryhere1 ^A ferry in the shape of a great white swan is here.=#print ("A "+$CONTAINERCOL+"ferry"+$NORM+" in the shape of a great white swan is here.")
+#action >+mailboxhere1 ^A mailbox stands here stuffed full of messages.=#print ("A "+$CONTAINERCOL+"mailbox"+$NORM+" stands here stuffed full of messages.")
+
+#action %+signhere1 ^A ([a-z]+ )?sign(,| )([a-zA-Z\, ]+)( is| stand)([a-zA-Z\, ]+) here=#print ("A $2"+$ITEMCOL+$BOLD+"sign"+$NORM+"$3$4$5$6$7 here.")
+/// A wooden sign stands next to the path here.
+/// A wooden sign, attached to a strong pole, is standing here.
+/// A sign, reading Building Permit Information, is here
+/// A large bulletin board, entitled "Legendhomes", is mounted here.
+
+/// A large and finely decorated harp of white marble has been built here.
+/// There is an old street-lamp on the border of the street.
+/// A large fountain, made from grey stone, pours water from its centre.
+
 
 #action >+whathere_whofix1 &1 bench is here.=#print
 
@@ -158,19 +346,22 @@
 #action >+whathere16 ^&1 &2 has been left &3the ground&4=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" has been left $3the ground$4")
 #action >+whathere17 ^&1 &2 has been set on the ground&3=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" has been set on the ground$3")
 
+#action >+whathere_rem1 ^The remains of &1 lie here&2.=#print ("The "+$ITEMCOL+"remains of $1"+$NORM+" lie here$2.")
+
 #action >+whathere100 ^&1 &2 is here, spun into a spiralling wheel-shape&3=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" is here, spun into a spiralling wheel-shape$3")
 
-#action >+whathere51 ^You see &1 &2 the ground.=#print ("You see "+$ITEMCOL+"$1 $2"+$NORM+" on the ground.")
+#action >+whathere51 ^You see &1 &2 the ground.=#print ("You see "+$ITEMCOL+"$1 $2"+$NORM+" the ground.")
 #action >+whathere52 ^On the ground, there are &1 &2.=#print ("On the ground, there are "+$ITEMCOL+"$1 $2"+$NORM+".")
 #action >+whathere53 ^There are &1 &2 here.=#print ("There are "+$ITEMCOL+"$1 $2"+$NORM+" here.")
 
 
-#( " Veggies / foods " )
+#( " Veggies / foods / plants " )
 
 #action >+whathere_v1 &1 &2 grows here.=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" grows here.")
 #action >+whathere_v2 &1 &2 is growing here.=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" is growing here.")
 #action >+whathere_v3 &1 are growing here.=#print ($ITEMCOL+"$1"+$NORM+" are growing here.")
 #action >+whathere_v4 &1 &2 grows nearby.=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" grows nearby.")
+#action >+whathere_r1 &1 &2 is blossoming here.=#print ("$1 "+$ITEMCOL+"$2"+$NORM+" is blossoming here.")
 #action >+whathere_vo A &2 onion&3=#print ("A "+$ITEMCOL+"$2 onion"+$NORM+"$3")
 #action >+whathere_vc A &2 cabbage&3=#print ("A "+$ITEMCOL+"$2 cabbage"+$NORM+"$3")
 #action >+whathere_vg A &2 garlic&3=#print ("A "+$ITEMCOL+"$2 garlic"+$NORM+"$3")
@@ -179,29 +370,6 @@
 
 
 
-#( " Enemies & special mobs")
-
-#mark *&Orc*=bold red
-#mark *&Troll*=bold red
-#mark *&Man*=bold red
-#mark *&Woman*=bold red
-#mark *&Elf*=bold red
-#mark *&Dwarf*=bold red
-#mark *&Hobbit*=bold red
-
-#action >+whohere_e1 *&1* is her&2.=#print ($BOLD+$RED+"*$1*"+$NORM+" is her$2.)
-#action >+whohere_e2 *&1*, wielding &2, is her&3.=#print ($BOLD+$RED+"*$1*"+$NORM+", wielding "+$ITEMCOL+"$2"+$NORM+", is her$3.")
-#action >+whohere_e3 *&1* is her&2, riding &3.=#print ($BOLD+$RED+"*$1*"+$NORM+" is her&2, riding "+$BOLD+$MOBCOL+"$3"+$NORM+".")
-#action >+whohere_e4 *&1*, wielding &2, is her&3, riding &4.=#print ($BOLD+$RED+"*$1*"+$NORM+", wielding "+$ITEMCOL+"$2"+$NORM+", +" is her$3, riding "+$BOLD+$MOBCOL+"$4"+$NORM+".")
-
-#action >+whohere_em &1 &2 is &3ere, ridden by *&4*.=#print ("$1 "+$BOLD+$MOBCOL+"$2"+$NORM+" is $3ere, ridden by "+$BOLD+$RED+"*$4*"+$NORM".")
-
-#action >-whohere_n1 ^&1 the &2 is her&3.=#print ($BOLD+$MOBCOL+"$1"+$NORM+" the $2 is her$3.")
-#action >-whohere_n2 ^&1 the &2, wielding &3, is her&4.=#print ($BOLD+$MOBCOL+"$1"+$NORM+" the $2, wielding "+$ITEMCOL+"$3"+$NORM+", is her$4.")
-#action >-whohere_n1 ^&1 the &2 is her&3, riding &4.=#print ($BOLD+$MOBCOL+"$1"+$NORM+" the $2 is her$3, riding "+$MOBCOL+"$4"+$NORM+".")
-#action >-whohere_n2 ^&1 the &2, wielding &3, is her&4, riding &5.=#print ($BOLD+$MOBCOL+"$1"+$NORM+" the $2, wielding "+$ITEMCOL+"$3"+$NORM+", is her$4, riding "+$MOBCOL+"$5"+$NORM+".")
-
-#action %+whohereP1 ^([a-zA-Z]+) is standing here(.*)\.=#print ($MOBCOL+"$2"+$NORM+" is standing here$3.")
 
 
 /// Named mobs
@@ -223,7 +391,7 @@
 
 #action %+whohereG1 ^(The|An|A) ([a-zA-Z ,'-]+) is here(.*)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" is here$4.")
 
-#action %+whohereG2 ^(The|An|A|Some) ([a-zA-Z, '-]+) (lurks|floats|crawls|is standing|paces|stands|bounces|is playing|is walking|walks|is wandering|is running|is strolling|is staggering|is working|is playing|shuffles|is hobbling|flies|is circling|is fluttering|is buzzing|are buzzing|scampers|waddles|is waddling|writhing|is strutting|is slithering|slithers|is digging|scurries) (about|about here|around|here|around here|above)(.*)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" $4 $5$6.")
+#action %+whohereG2 ^(The|An|A|Some) ([a-zA-Z, '-]+) (lurks|floats|crawls|is standing|paces|stands|bounces|is playing|splashes playfully|is walking|walks|is wandering|is running|is strolling|is staggering|is working|is playing|shuffles|is hobbling|flies|is circling|is fluttering|is buzzing|are buzzing|scampers|waddles|is waddling|writhing|is strutting|is slithering|slithers|is digging|scurries) (about|about here|around|here|around here|above)(.*)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" $4 $5$6.")
 
 #action %+whohereG1 ^(The|An|A) ([a-zA-Z ,'-]+) is here(.*)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" is here$4.")
 
@@ -265,7 +433,9 @@
 #action >+whohere12a ^&1 &2 soar&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" soar$3")
 #action >+whohere12b ^&1 &2 is circling above&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is circling above$3")
 #action >+whohere12c ^&1 &2 is flying around&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is flying around$3")
-#action %+whohere13a ^(The|An|A) ([a-zA-Z -]+) flies (high above|by|in the sky|low)(.*).=#print ("$2 "+$MOBCOL+"$3"+$NORM+" flies $4$5.")
+#action >+whohere12d ^&1 &2 is flapping on the ground&2=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is flapping on the ground$3")
+#action %+whohere13a ^(The|An|A) ([a-zA-Z -]+) flies (high above|by|in the sky|low)(.*)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" flies $4$5.")
+#action %+whohere13b ^(The|A|An) ([a-zA-Z -]+) rests near(.+)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" rests near$4")
 
 #action >+whohere15a ^Some &1 lie here&2 ensnare&3=#print ("Some "+$MOBCOL+"$1"+$NORM+" lie here$2 ensnare$3")
 #action >+whohere15b ^&1 shift uneasily all around you.=#print ($MOBCOL+"$1"+$NORM+" shift uneasily all around you.")
@@ -298,15 +468,16 @@
 #action >+whohere37a ^&1 &2 is warily browsing &3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is warily browsing$3")
 #action >+whohere37c ^&1 &2 keeps an eye out for danger&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" keeps an eye out for danger$3")
 #action >+whohere39b ^&1 &2 looks around timidly&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" looks around timidly$3")
+#action >+whohere39c ^&1 &2 clings&3ready to spring&4=#print ("$1 "+$MOBCOL+"$2"+$NORM+" clings$3ready to spring$4")
 #action >+whohere40a ^&1 &2 runs swiftly from place to place&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" runs swiftly from place to place$3")
 #action >+whohere40b ^&1 &2 is jumping from&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is jumping from$3")
-#action >+whohere40c ^&1 &2 moves silently through&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" moves silently through$3")
+#action %+whohere40c ^(The|An|A) ([a-zA-Z ,\\-]+) moves (silently|stealthily) (through|among)(.+)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" moves $4 $5$6.")
 #action >+whohere40d ^&1 &2 sits here, singing&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" sits here, singing$3")
-#action >+whohere40e ^&1 &2 snuffles amongst the undergrowth&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" snuffles amongst the undergrowth$3")
+#action %+whohere40e ^(The|An|A) ([a-zA-Z ,\\-]+) (snuffles amongst|attempts to hide in) the undergrowth(.*)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" $4 the undergrowth$5.")
 
-#action %+whohere40z ^(The|An|A) ([a-zA-Z -]+) (wanders peacefully|romps harmlessly)(.+)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" $4$5.")
+#action %+whohere40z ^(The|An|A) ([a-zA-Z \\-]+) (wanders peacefully|romps harmlessly)(.+)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" $4$5.")
 
-#action %+whohere41 ^(The|An|A) ([a-zA-Z -]+) (is )?stalking (the area|here|its prey)(.*)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" $4stalking $5$6.")
+#action %+whohere41 ^(The|An|A) ([a-zA-Z \\-]+) (is )?stalking (the area|here|its prey)(.*)\.=#print ("$2 "+$MOBCOL+"$3"+$NORM+" $4stalking $5$6.")
 #action >+whohere42 ^&1 &2 is hunting here&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" is hunting here$3")
 #action >+whohere43 ^&1 &2 suddenly turns to life&3=#print ("$1 "+$MOBCOL+"$2"+$NORM+" suddenly turns to life$3")
 
@@ -325,5 +496,15 @@
 #action >+whohere_found ^You have found &1!=#print ("You have found "+$MOBCOL+"$1"+$NORM+"!")
 
 
+/// Lock pick upgrades
 
-#print (" ==== whathere.txt loaded ==== ")
+#action >+picks1 ^Two of the lockpicks have shallow notches on them.=#print ("$0 "+$DARK+"("+$SCROLLCOL+"Assassin Guildmaster"+$NORM +$DARK+")"+$NORM)
+#action >+picks2 ^A couple of lockpicks have a small bump near the tip.=#print ("$0 "+$DARK+"("+$SCROLLCOL+"Master Assassin"+$NORM +$DARK+")"+$NORM)
+#action >+picks3 ^The edges of most picks have been carefully sharpened.=#print ("$0 "+$DARK+"("+$SCROLLCOL+"Andgil"+$NORM +$DARK+")"+$NORM)
+#action >+picks4 ^The lockpicks are extremely well tempered.=#print ("$0 "+$DARK+"("+$SCROLLCOL+"Dwarven Locksmith"+$NORM +$DARK+")"+$NORM)
+#action >+picks5 ^There is a strange lockpick, with a sharp protrusion on one side, in the set.=#print ("$0 "+$DARK+"("+$SCROLLCOL+"Kraksh"+$NORM +$DARK+")"+$NORM)
+#action >+picks6 ^The lockpicks feel oddly light in your hand.=#print ("$0 "+$DARK+"("+$SCROLLCOL+"Grey Cloaked Man"+$NORM +$DARK+")"+$NORM)
+#action >+picks7 ^Several of the picks have long, smooth grooves along their length.=#print ("$0 "+$DARK+"("+$SCROLLCOL+"Half-elven Cut-throat"+$NORM +$DARK+")"+$NORM)
+#action >+picks8 ^A finely shaped lockpick has been engraved with a white hand.=#print ("$0 "+$DARK+"("+$SCROLLCOL+"Saruman"+$NORM +$DARK+")"+$NORM)
+
+#print ($GREEN+" ==== whathere.txt loaded ==== "+$NORM)
